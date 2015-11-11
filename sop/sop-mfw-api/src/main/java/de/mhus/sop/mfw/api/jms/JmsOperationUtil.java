@@ -41,6 +41,8 @@ public class JmsOperationUtil {
 		if (con == null) throw new JMSException("connection is null");
 		ClientJms client = new ClientJms(con.createQueue(queueName));
 		
+		System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES", "de,java,org,com"); //HACK! !!!!
+		
 		boolean needObject = false;
 		for (Entry<String, Object> item : parameters) {
 			Object value = item.getValue();
@@ -56,7 +58,7 @@ public class JmsOperationUtil {
 		} else {
 			msg = con.createMapMessage();
 			for (Entry<String, Object> item : parameters) {
-				String name = item.getKey();
+				//String name = item.getKey();
 				//if (!name.startsWith("_"))
 				((MapMessage)msg).setObject(item.getKey(), item.getValue()); //TODO different types, currently it's only String ?!
 			}
@@ -148,8 +150,8 @@ public class JmsOperationUtil {
 		OperationResult ret = doExecuteOperation(con, queueName, "_list", pa, user, true);
 		if (ret.isSuccessful()) {
 			Object res = ret.getResult();
-			if (res != null && res instanceof Map<?,?>) {
-				String[] list = String.valueOf( ((Map<?,?>)res).get("list") ).split(",");
+			if (res != null && res instanceof MProperties) {
+				String[] list = String.valueOf( ((MProperties)res).getString("list","") ).split(",");
 				LinkedList<String> out = new LinkedList<String>();
 				for (String item : list) out.add(item);
 				return out;

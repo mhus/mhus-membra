@@ -13,45 +13,6 @@
   <build>
   
     <plugins>
-   <!-- 
-    <plugin>
-        <groupId>de.mhus.lib.maven</groupId>
-        <artifactId>constgenerator</artifactId>
-        <version>${project.version}</version>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>ConstGenerator</goal>
-            </goals>
-          </execution>
-         </executions>
-      </plugin>
-    --> 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>jar-no-fork</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      
-      <plugin>
-		  <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-release-plugin</artifactId>
-		  <version>2.2.2</version>
-		  <configuration>
-		    <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-		    
-		  </configuration>
-		</plugin>
 
   		<plugin>
                 <groupId>org.apache.felix</groupId>
@@ -65,76 +26,16 @@
                         <Export-Package>
                             de.mhus.sop.mfw.api*;version=${project.version}
                         </Export-Package>
-                        <Import-Package>
-                            *
-                        </Import-Package>
-                        <!-- 
+                        <Import-Package>*</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
-                         -->
                         <Service-Component>*</Service-Component>
                     </instructions>
                 </configuration>
             </plugin> 
     </plugins>
-    <pluginManagement>
-    	<plugins>
-    		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-    		<!-- 
-    		<plugin>
-    			<groupId>org.eclipse.m2e</groupId>
-    			<artifactId>lifecycle-mapping</artifactId>
-    			<version>1.0.0</version>
-    			<configuration>
-    				<lifecycleMappingMetadata>
-    					<pluginExecutions>
-    						<pluginExecution>
-    							<pluginExecutionFilter>
-    								<groupId>de.mhus.inka</groupId>
-    								<artifactId>
-    									constgenerator
-    								</artifactId>
-    								<versionRange>
-    									[1.0.0-SNAPSHOT,)
-    								</versionRange>
-    								<goals>
-    									<goal>ConstGenerator</goal>
-    								</goals>
-    							</pluginExecutionFilter>
-    							<action>
-    								<ignore />
-    							</action>
-    						</pluginExecution>
-    					</pluginExecutions>
-    				</lifecycleMappingMetadata>
-    			</configuration>
-    		</plugin>
-    		 -->   		 
-    	</plugins>
-    </pluginManagement>
   </build>
   
   <dependencies>
-      <dependency>
-    	<groupId>org.glassfish.external</groupId>
-    	<artifactId>opendmk_jdmkrt_jar</artifactId>
-    	<version>1.0-b01-ea</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.7</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>log4j</groupId>
-    	<artifactId>log4j</artifactId>
-    	<version>1.2.14</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
-    </dependency>
     <dependency>
     	<groupId>de.mhus.lib</groupId>
     	<artifactId>mhu-lib-core</artifactId>

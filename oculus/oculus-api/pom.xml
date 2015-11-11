@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>sop-mfw-impl</artifactId>
+  <artifactId>oculus-api</artifactId>
   <packaging>bundle</packaging>
 
   <parent>
 	  	<groupId>de.mhus.sop</groupId>
-        <artifactId>sop</artifactId>
+        <artifactId>oculus</artifactId>
         <version>0.0.1-SNAPSHOT</version>
   </parent>
   
@@ -23,7 +23,7 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Export-Package>
-                            de.mhus.sop.mfw.impl*;version=${project.version}
+                            de.mhus.sop.oculus.api*;version=${project.version}
                         </Export-Package>
                         <Import-Package>
                             *
@@ -36,7 +36,6 @@
                 </configuration>
             </plugin> 
     </plugins>
-
   </build>
   
   <dependencies>
@@ -56,23 +55,20 @@
     	<version>${mhulib.version}</version>
     </dependency>
     <dependency>
-    	<groupId>de.mhus.sop</groupId>
-    	<artifactId>sop-mfw-api</artifactId>
-    	<version>${project.version}</version>
+    	<groupId>de.mhus.lib</groupId>
+    	<artifactId>mhu-lib-karaf</artifactId>
+    	<version>${mhulib.version}</version>
     </dependency>
     <dependency>
 	    <groupId>org.osgi</groupId>
 	  <artifactId>org.osgi.core</artifactId>
 	  <version>5.0.0</version>
   </dependency>
-
-    	<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-        	<scope>provided</scope>
-		</dependency>
-
+  <dependency>
+  	<groupId>de.mhus.sop</groupId>
+  	<artifactId>sop-mfw-api</artifactId>
+  	<version>${project.version}</version>
+  </dependency>
   </dependencies>
   
   

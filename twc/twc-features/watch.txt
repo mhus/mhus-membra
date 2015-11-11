@@ -1,0 +1,11 @@
+mhu-lib-annotations
+mhu-lib-core
+mhu-lib-forms
+mhu-lib-logging
+mhu-lib-persistence
+mhu-lib-jms
+mhu-lib-karaf
+mailosgi
+mailkaraf
+jms-commands
+mhus-osgi-commands
