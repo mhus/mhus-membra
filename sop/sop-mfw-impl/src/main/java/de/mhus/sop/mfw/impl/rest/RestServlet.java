@@ -28,6 +28,7 @@ import de.mhus.lib.core.logging.TrailLevelMapper;
 import de.mhus.lib.core.util.Base64;
 import de.mhus.lib.core.util.MNls;
 import de.mhus.lib.core.util.Rfc1738;
+import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.logging.FileLogger;
 import de.mhus.sop.mfw.api.Mfw;
 import de.mhus.sop.mfw.api.MfwApi;
@@ -127,7 +128,24 @@ public class RestServlet extends HttpServlet {
 	        RestResult res = null;
 	        
 	        MfwApi access = Mfw.getApi(MfwApi.class);
-	        AaaContext user = access.process(ticket);
+	        AaaContext user = null;
+	        try {
+	        	user = access.process(ticket);
+	        } catch (AccessDeniedException e) {
+//	        	log.d("access denied",ticket,e);
+	            resp.setHeader("WWW-Authenticate", "BASIC realm=\"rest\"");  
+	            sendError(errorResultType, id, resp, HttpServletResponse.SC_UNAUTHORIZED,e.getMessage(), e, null);
+	            return;
+	        } catch (Throwable t) {
+	        	sendError(errorResultType, id, resp, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, t.getMessage(), t, null );
+	        	return;
+	        }
+	        if (user == null) { // paranoia, should throw an exception in 'process()'
+	            resp.setHeader("WWW-Authenticate", "BASIC realm=\"rest\"");  
+	            sendError(errorResultType, id, resp, HttpServletResponse.SC_UNAUTHORIZED,"?", null, null);
+	            return;
+	        }
+	        
 	        try {
 		        Node item = restService.lookup(parts, null, callContext);
 		        

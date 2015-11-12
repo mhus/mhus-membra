@@ -43,9 +43,7 @@
                         <Import-Package>
                             *
                         </Import-Package>
-                        <!-- 
                         <DynamicImport-Package>*</DynamicImport-Package>
-                         -->
                         <Service-Component>*</Service-Component>
                     </instructions>
                 </configuration>
@@ -85,10 +83,20 @@
     	<version>${project.version}</version>
     </dependency>
     <dependency>
+    	<groupId>de.mhus.sop</groupId>
+    	<artifactId>auris-api</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+    <dependency>
 	    <groupId>org.osgi</groupId>
 	  <artifactId>org.osgi.core</artifactId>
 	  <version>5.0.0</version>
   </dependency>
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.metatype</artifactId>
+            <version>${felix.metatype.version}</version>
+        </dependency>
   </dependencies>
   
   

@@ -40,9 +40,7 @@ public class JmsOperationUtil {
 
 		if (con == null) throw new JMSException("connection is null");
 		ClientJms client = new ClientJms(con.createQueue(queueName));
-		
-		System.setProperty("org.apache.activemq.SERIALIZABLE_PACKAGES", "de,java,org,com"); //HACK! !!!!
-		
+				
 		boolean needObject = false;
 		for (Entry<String, Object> item : parameters) {
 			Object value = item.getValue();

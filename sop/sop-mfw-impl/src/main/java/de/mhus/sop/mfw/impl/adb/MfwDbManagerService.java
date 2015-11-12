@@ -52,7 +52,7 @@ public class MfwDbManagerService extends DbManagerServiceImpl {
 
 	@Override
 	public void doInitialize() throws Exception {
-		setDataSourceName("db_mhu");
+		setDataSourceName("db_sop");
 	}
 
 	protected DbPool doCreateDataPool() {

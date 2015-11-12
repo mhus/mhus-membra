@@ -18,12 +18,13 @@ public abstract class DbMetadata extends DbComfortableObject implements UuidIden
 
 	@DbPrimaryKey
 	private UUID id;
+	
 	@DbPersistent
-
 	private Date creationDate;
+	
 	@DbPersistent
-
 	private Date modifyDate;
+	
 	@DbPersistent
 	private long vstamp;
 
