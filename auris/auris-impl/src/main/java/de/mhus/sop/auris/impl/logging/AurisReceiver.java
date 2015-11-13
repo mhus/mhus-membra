@@ -12,7 +12,7 @@ public abstract class AurisReceiver extends MLog {
 	public AurisReceiver(IProperties config, LogProcessor processor) {
 		this.processor = processor;
 		name = config.getString("name",null);
-		port = config.getInt("port", 2030);
+		port = config.getInt("port", 4560);
 	}
 
 	public abstract void close();

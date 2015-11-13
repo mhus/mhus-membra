@@ -7,6 +7,8 @@ import java.net.SocketException;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.core.MThreadDaemon;
 
+// https://systembash.com/a-simple-java-udp-server-and-udp-client/
+
 public abstract class UdpReceiver extends AurisReceiver implements Runnable {
 
 	private DatagramSocket serverSocket;

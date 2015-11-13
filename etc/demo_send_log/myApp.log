@@ -1,0 +1,7 @@
+Nov 12, 2015 10:53:37 PM xtra_send_log.FireMainJavaLogger main
+INFO: Eine Information
+Nov 12, 2015 10:53:37 PM xtra_send_log.FireMainJavaLogger main
+INFO: WAIT
+second line
+Nov 12, 2015 10:53:42 PM xtra_send_log.FireMainJavaLogger main
+INFO: ENDE

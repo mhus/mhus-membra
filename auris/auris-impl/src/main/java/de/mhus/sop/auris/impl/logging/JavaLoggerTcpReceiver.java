@@ -6,6 +6,8 @@ import java.util.HashMap;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.logging.auris.AurisConst;
 
+// https://blogs.oracle.com/CoreJavaTechTips/entry/socket_logging
+
 public class JavaLoggerTcpReceiver extends TcpReceiver {
 
 	public JavaLoggerTcpReceiver(IProperties config, LogProcessor processor) {
