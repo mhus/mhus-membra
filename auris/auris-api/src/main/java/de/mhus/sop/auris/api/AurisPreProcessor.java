@@ -5,20 +5,22 @@ import java.util.Map;
 import de.mhus.lib.core.MLog;
 import de.mhus.lib.core.MProperties;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
-import de.mhus.sop.mfw.api.Mfw;
+import de.mhus.sop.auris.api.model.LogEntry;
+import de.mhus.sop.auris.api.model.LogPreProcessorConf;
 
-public abstract class AurisConnector extends MLog {
-	
-	protected int port;
-	protected String name;
-	protected LogConnectorConf def;
+public abstract class AurisPreProcessor extends MLog {
+
+	protected LogPreProcessorConf def;
 	protected MProperties config;
-	
-	public void doActivateInternal(LogConnectorConf def) {
+	protected String name;
+
+	// return true to discard the message
+	public abstract boolean doPreProcess(Map<String, String> parts, LogEntry entry);
+
+	public void doActivateInternal(LogPreProcessorConf def) {
 		this.def = def;
 		this.config = def.getProperties();
 		name = def.getName();
-		port = config.getInt("port", 4560);
 		doActivate();
 	}
 	
@@ -29,14 +31,8 @@ public abstract class AurisConnector extends MLog {
 	public abstract void doActivate();
 	public abstract void doDeactivate();
 
-	public abstract boolean isActive();
-
-	public LogConnectorConf getConfig() {
+	public LogPreProcessorConf getConfig() {
 		return def;
 	}
-	
-	protected void fireMessage(Map<String,String> msg) {
-		Mfw.getApi(AurisApi.class).fireMessage(msg);
-	}
-	
+
 }

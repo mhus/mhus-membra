@@ -5,7 +5,7 @@ import de.mhus.lib.core.MProperties;
 import de.mhus.lib.errors.MException;
 import de.mhus.sop.mfw.api.model.DbMetadata;
 
-public class LogPreProcessorConf extends DbMetadata {
+public class LogPostProcessorConf extends DbMetadata {
 
 	@DbPersistent
 	private String sourceHost = ".*";

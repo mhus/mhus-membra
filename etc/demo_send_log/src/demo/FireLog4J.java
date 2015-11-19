@@ -1,23 +1,35 @@
 package demo;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class FireLog4J {
 
 	public static void main(String[] args) throws IOException {
 		
-		BasicConfigurator.configure();
+//		BasicConfigurator.configure();
+		PropertyConfigurator.configureAndWatch("log4j.properties");
 		
 		Logger logger = Logger.getLogger(FireLog4J.class);
 
-		for (int i = 0; i < 10; i++)
-		logger.info("Moin moin");
-		logger.error("Moin moin");
+		logger.trace("Trace");
+		logger.debug("Debug");
+		logger.info("Info");
+		logger.warn("Warn");
+		logger.error("Error");
+		logger.fatal("Fatal");
 		
-		System.in.read();
+		try {
+			throw new Exception("The Exception");
+		} catch (Throwable t) {
+			logger.error("Exception Thrown", t);
+		}
+
+		logger.error("E END");
 	}
 	
 }

@@ -11,6 +11,8 @@ import de.mhus.lib.karaf.adb.DbManagerService;
 import de.mhus.lib.karaf.adb.DbManagerServiceImpl;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
 import de.mhus.sop.auris.api.model.LogEntry;
+import de.mhus.sop.auris.api.model.LogPostProcessorConf;
+import de.mhus.sop.auris.api.model.LogPreProcessorConf;
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Deactivate;
@@ -53,6 +55,8 @@ public class AurisDbService extends DbManagerServiceImpl {
 		public void findObjectTypes(List<Class<? extends Persistable>> list) {
 			list.add(LogEntry.class);
 			list.add(LogConnectorConf.class);
+			list.add(LogPreProcessorConf.class);
+			list.add(LogPostProcessorConf.class);
 		}
 
 	}

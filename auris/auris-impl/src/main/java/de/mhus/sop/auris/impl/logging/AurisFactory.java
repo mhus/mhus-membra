@@ -3,6 +3,7 @@ package de.mhus.sop.auris.impl.logging;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.logging.auris.AurisSender;
 import de.mhus.lib.logging.auris.SimpleUdpSender;
+import de.mhus.sop.auris.api.AurisConnector;
 
 public class AurisFactory {
 
@@ -18,21 +19,24 @@ public class AurisFactory {
 		case "udp":
 			return new SimpleUdpSender(config);
 		default:
-			return new SimpleUdpSender(config);
+			return null;
 		}
 	}
 	
-	public AurisReceiver createReceiver(IProperties config, LogProcessor processor) {
+	public AurisConnector createReceiver(IProperties config) {
 		switch(config.getString("type","").toLowerCase()) {
 		
 		case "javaloggertcpreceiver":
 		case "javalogger":
-			return new JavaLoggerTcpReceiver(config, processor);
+			return new JavaLoggerTcpReceiver();
+		case "log4jtcpreceiver":
+		case "log4j":
+			return new Log4JTcpReceiver();
 		case "udp":
 		case"simpleudpreceiver":
-			return new SimpleUdpReceiver(config, processor);
+			return new SimpleUdpReceiver();
 		default:
-			return new SimpleTcpReceiver(config, processor);
+			return null;
 		}
 		
 	}

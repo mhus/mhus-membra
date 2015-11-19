@@ -29,6 +29,8 @@ install -s mvn:de.mhus.osgi/mhus-osgi-commands/1.0.5-SNAPSHOT
 install -s mvn:org.apache.httpcomponents/httpcore-osgi/4.2.1
 install -s mvn:org.apache.httpcomponents/httpclient-osgi/4.2.1
 
+install -s mvn:de.mhus.osgi/mailosgi/1.0.5-SNAPSHOT
+install -s mvn:de.mhus.osgi/mailkaraf/1.0.5-SNAPSHOT
 
 ---
 

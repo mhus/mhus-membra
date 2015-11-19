@@ -22,5 +22,13 @@
             <action class="de.mhus.sop.auris.impl.ConnectorCmd">
             </action>
         </command>
+        <command name="auris/pre">
+            <action class="de.mhus.sop.auris.impl.PreCmd">
+            </action>
+        </command>
+        <command name="auris/post">
+            <action class="de.mhus.sop.auris.impl.PostCmd">
+            </action>
+        </command>
 	</command-bundle>
 </blueprint>

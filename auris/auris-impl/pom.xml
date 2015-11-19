@@ -41,6 +41,8 @@
                             de.mhus.sop.auris.impl*;version=${project.version}
                         </Export-Package>
                         <Import-Package>
+                        	!org.apache.log4j*,
+                        	!org.apache.log4j.or,
                             *
                         </Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
@@ -66,11 +68,23 @@
     	<groupId>de.mhus.lib</groupId>
     	<artifactId>mhu-lib-logging</artifactId>
     	<version>${mhulib.version}</version>
+    	<exclusions>
+    		<exclusion>
+    			<artifactId>log4j</artifactId>
+    			<groupId>log4j</groupId>
+    		</exclusion>
+    	</exclusions>
     </dependency>
     <dependency>
     	<groupId>de.mhus.lib</groupId>
     	<artifactId>mhu-lib-karaf</artifactId>
     	<version>${mhulib.version}</version>
+    	<exclusions>
+    		<exclusion>
+    			<artifactId>log4j</artifactId>
+    			<groupId>log4j</groupId>
+    		</exclusion>
+    	</exclusions>
     </dependency>
     <dependency>
     	<groupId>de.mhus.sop</groupId>
@@ -92,11 +106,17 @@
 	  <artifactId>org.osgi.core</artifactId>
 	  <version>5.0.0</version>
   </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.metatype</artifactId>
-            <version>${felix.metatype.version}</version>
-        </dependency>
+       <dependency>
+           <groupId>org.apache.felix</groupId>
+           <artifactId>org.apache.felix.metatype</artifactId>
+           <version>${felix.metatype.version}</version>
+       </dependency>
+   	<dependency>
+   		<groupId>de.mhus.osgi</groupId>
+   		<artifactId>mailosgi</artifactId>
+   		<version>${osgitools.version}</version>
+   		<type>bundle</type>
+   	</dependency>
   </dependencies>
   
   

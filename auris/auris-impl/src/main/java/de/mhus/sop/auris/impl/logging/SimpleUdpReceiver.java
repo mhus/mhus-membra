@@ -11,10 +11,6 @@ import de.mhus.lib.logging.auris.AurisConst;
 
 public class SimpleUdpReceiver extends UdpReceiver {
 
-	public SimpleUdpReceiver(IProperties config, LogProcessor processor) {
-		super(config, processor);
-	}
-
 	@Override
 	protected void doProcess(DatagramPacket receivePacket) throws Exception {
 			InetAddress ip = receivePacket.getAddress();
@@ -22,7 +18,7 @@ public class SimpleUdpReceiver extends UdpReceiver {
 	        Map<String, String> parts = Rfc1738.explode(msg);
 	        parts.put(AurisConst.CONNECTOR, name);
 	        parts.put(AurisConst.REMOTE, ip.getHostName());
-	        processor.fireMessage(parts);
+	        fireMessage(parts);
 	}
 
 }

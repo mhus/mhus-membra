@@ -6,19 +6,20 @@ import java.net.SocketException;
 
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.core.MThreadDaemon;
+import de.mhus.sop.auris.api.AurisConnector;
 
 // https://systembash.com/a-simple-java-udp-server-and-udp-client/
 
-public abstract class UdpReceiver extends AurisReceiver implements Runnable {
+public abstract class UdpReceiver extends AurisConnector implements Runnable {
 
 	private DatagramSocket serverSocket;
 	private MThreadDaemon thread;
 	private byte[] receiveData;
 	private int bufferSize;
 
-	public UdpReceiver(IProperties config, LogProcessor processor) {
-		super(config, processor);
-
+	
+	public void doActivate() {
+		
 		bufferSize = config.getInt("buffer", 8192);
 		receiveData = new byte[bufferSize];
 		try {
@@ -32,7 +33,7 @@ public abstract class UdpReceiver extends AurisReceiver implements Runnable {
 	}
 
 	@Override
-	public void close() {
+	public void doDeactivate() {
 		if (serverSocket == null) return;
 		thread.stop();
 		serverSocket.close();
@@ -40,6 +41,11 @@ public abstract class UdpReceiver extends AurisReceiver implements Runnable {
 		serverSocket = null;
 	}
 
+	@Override
+	public boolean isActive() {
+		return serverSocket != null;
+	}
+	
 	@Override
 	public void run() {
 		while (true) {

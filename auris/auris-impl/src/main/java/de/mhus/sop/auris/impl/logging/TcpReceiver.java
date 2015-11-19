@@ -18,15 +18,16 @@ import de.mhus.lib.core.MString;
 import de.mhus.lib.core.MThread;
 import de.mhus.lib.core.MThreadDaemon;
 import de.mhus.lib.core.MTimeInterval;
+import de.mhus.sop.auris.api.AurisConnector;
 
-public abstract class TcpReceiver extends AurisReceiver implements Runnable {
+public abstract class TcpReceiver extends AurisConnector implements Runnable {
 
 	private MThreadDaemon thread;
 	private ServerSocket serverSocket;
 	private String charset;
 
-	public TcpReceiver(IProperties config, LogProcessor processor) {
-		super(config, processor);
+	@Override
+	public void doActivate() {
 		ServerSocketFactory serverSocketFactory = ServerSocketFactory.getDefault();
 		charset = config.getString("charset",MString.CHARSET_UTF_8);
 		try {
@@ -37,16 +38,44 @@ public abstract class TcpReceiver extends AurisReceiver implements Runnable {
 		} catch (IOException e) {
 			log().e(name,e);
 		}
+		
+	}
+
+	@Override
+	public void doDeactivate() {
+		if (thread == null) return;
+		thread = null;
+		// no more working t.throwException(new InterruptedIOException("stop listening"));
+		try {
+			if (serverSocket != null)
+				serverSocket.close();
+			long start = System.currentTimeMillis();
+			while (serverSocket != null) {// wait for timeout
+				MThread.sleep(100);
+				if (System.currentTimeMillis() - start > MTimeInterval.SECOUND_IN_MILLISECOUNDS * 30) {
+					log().i("stop timeout", name);
+					break;
+				}
+			}
+			log().d("listener stopped",name);
+		} catch (IOException e) {
+			log().e(name,e);
+		}
+	}
+
+	@Override
+	public boolean isActive() {
+		return thread != null;
 	}
 
 	@Override
 	public void run() {
-		log().d("listen",name,port);
+		log().i("listen",name,port);
 		try {
 			while(true) {
 				if (thread == null) {
 					try {
-						log().d("close listener",name,port);
+						log().i("close listener",name,port);
 						if (serverSocket != null && !serverSocket.isClosed())
 							serverSocket.close();
 					} catch (IOException e) {
@@ -138,25 +167,4 @@ public abstract class TcpReceiver extends AurisReceiver implements Runnable {
 		}
 	}
 
-	@Override
-	public void close() {
-		if (thread == null) return;
-		thread = null;
-		// no more working t.throwException(new InterruptedIOException("stop listening"));
-		try {
-			if (serverSocket != null)
-				serverSocket.close();
-			long start = System.currentTimeMillis();
-			while (serverSocket != null) {// wait for timeout
-				MThread.sleep(100);
-				if (System.currentTimeMillis() - start > MTimeInterval.SECOUND_IN_MILLISECOUNDS * 30) {
-					log().i("stop timeout", name);
-					break;
-				}
-			}
-			log().d("listener stopped",name);
-		} catch (IOException e) {
-			log().e(name,e);
-		}
-	}
 }

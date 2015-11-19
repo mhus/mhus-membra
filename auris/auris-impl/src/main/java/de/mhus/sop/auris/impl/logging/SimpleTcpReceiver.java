@@ -8,10 +8,6 @@ import de.mhus.lib.logging.auris.AurisConst;
 
 public class SimpleTcpReceiver extends TcpReceiver {
 
-	public SimpleTcpReceiver(IProperties config, LogProcessor processor) {
-		super(config, processor);
-	}
-
 	@Override
 	protected void doProcess(TcpConnection con, SocketAddress remote, String line) {
 		HashMap<String,String> parts = new HashMap<>();
@@ -19,7 +15,7 @@ public class SimpleTcpReceiver extends TcpReceiver {
 		parts.put(AurisConst.MSG, line);
 		parts.put(AurisConst.REMOTE, remote.toString());
 		parts.put(AurisConst.CONNECTOR_TYPE, getClass().getSimpleName());
-		processor.fireMessage(parts);
+		fireMessage(parts);
 	}
 
 }

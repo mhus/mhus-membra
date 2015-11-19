@@ -4,7 +4,8 @@ import de.mhus.lib.annotations.adb.DbPersistent;
 import de.mhus.lib.core.MProperties;
 import de.mhus.lib.errors.MException;
 import de.mhus.lib.karaf.MOsgi;
-import de.mhus.sop.auris.api.AurisConnector;
+import de.mhus.sop.auris.api.AurisApi;
+import de.mhus.sop.mfw.api.Mfw;
 import de.mhus.sop.mfw.api.model.DbMetadata;
 
 public class LogConnectorConf extends DbMetadata {
@@ -16,6 +17,9 @@ public class LogConnectorConf extends DbMetadata {
 	@DbPersistent
 	private MProperties properties = new MProperties();
 		
+	@DbPersistent
+	private boolean enabled = true;
+	
 	@Override
 	public DbMetadata findParentObject() throws MException {
 		return null;
@@ -39,10 +43,18 @@ public class LogConnectorConf extends DbMetadata {
 
 	public STATUS getStatus() {
 		try {
-			return MOsgi.getService(AurisConnector.class, MOsgi.filterServiceName(name)).isActive() ? STATUS.ENABLED : STATUS.DISABLED;
+			return Mfw.getApi(AurisApi.class).getConnector(name).isActive() ? STATUS.ENABLED : STATUS.DISABLED;
 		} catch (Throwable t) {
 			return STATUS.UNKNOWN;
 		}
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 	

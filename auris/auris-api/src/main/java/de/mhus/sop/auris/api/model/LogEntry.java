@@ -1,5 +1,6 @@
 package de.mhus.sop.auris.api.model;
 
+import java.util.Date;
 import java.util.UUID;
 
 import de.mhus.lib.adb.DbComfortableObject;
@@ -8,9 +9,13 @@ import de.mhus.lib.annotations.adb.DbPersistent;
 import de.mhus.lib.annotations.adb.DbPrimaryKey;
 import de.mhus.lib.annotations.adb.DbType.TYPE;
 import de.mhus.lib.basics.UuidIdentificable;
+import de.mhus.lib.core.MDate;
+import de.mhus.sop.auris.api.AurisApi;
 
 public class LogEntry extends DbComfortableObject implements UuidIdentificable {
 
+	public enum LEVEL {TRACE, DEBUG, UNKNOWN, INFO, WARN, ERROR, FATAL}
+	
 	@DbPrimaryKey
 	private UUID id;
 	@DbPersistent(size=30,features=AttributeFeatureCut.NAME)
@@ -24,27 +29,27 @@ public class LogEntry extends DbComfortableObject implements UuidIdentificable {
 	private long created;
 
 	@DbPersistent
-	private int logLevel;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	private LEVEL logLevel;
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logMessage0;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logMessage1;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logMessage2;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logMessage3;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logMessage4;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage5;
 	
 	@DbPersistent(size=10,features=AttributeFeatureCut.NAME)
 	private String logTrace;
-	@DbPersistent(size=30,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
 	private String logSource0;
-	@DbPersistent(size=30,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
 	private String logSource1;
-	@DbPersistent(size=30,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
 	private String logSource2;
 
 	@DbPersistent(type=TYPE.BLOB)
@@ -74,11 +79,11 @@ public class LogEntry extends DbComfortableObject implements UuidIdentificable {
 		this.created = created;
 	}
 
-	public int getLogLevel() {
+	public LEVEL getLogLevel() {
 		return logLevel;
 	}
 
-	public void setLogLevel(int logLevel) {
+	public void setLogLevel(LEVEL logLevel) {
 		this.logLevel = logLevel;
 	}
 
@@ -182,5 +187,22 @@ public class LogEntry extends DbComfortableObject implements UuidIdentificable {
 		this.sourceConnectorType = sourceConnectorType;
 	}
 
-	
+	public String getValue(String field) {
+		switch (field) {
+		case AurisApi.MESSAGE0: return getLogMessage0();
+		case AurisApi.MESSAGE1: return getLogMessage1();
+		case AurisApi.MESSAGE2: return getLogMessage2();
+		case AurisApi.MESSAGE3: return getLogMessage3();
+		case AurisApi.MESSAGE4: return getLogMessage4();
+		case AurisApi.MESSAGE5: return getLogMessage5();
+		case AurisApi.SOURCE0: return getLogSource0();
+		case AurisApi.SOURCE1: return getLogSource1();
+		case AurisApi.SOURCE2: return getLogSource2();
+		case AurisApi.TRACE: return getLogTrace();
+		case AurisApi.LEVEL: return String.valueOf( getLogLevel() );
+		case AurisApi.FORMATED_DATE: return MDate.toIso8601(new Date(getCreated()));
+		}
+		return null;
+	}
+
 }
