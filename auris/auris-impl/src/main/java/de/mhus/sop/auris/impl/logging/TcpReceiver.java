@@ -127,13 +127,13 @@ public abstract class TcpReceiver extends AurisConnector implements Runnable {
 
 		@Override
 		public void run() {
-			log().d("new connection", name, remote);
+			log().i("new connection", name, remote);
 			try {
 				InputStream is = socket.getInputStream();
 		        BufferedReader br = new BufferedReader(new InputStreamReader(is, charset));
 				while(true) {
 					if (t == null || thread == null) {
-						log().d("close connection", name, remote);
+						log().i("close connection", name, remote);
 						try {
 							if (!socket.isClosed())
 								socket.close();

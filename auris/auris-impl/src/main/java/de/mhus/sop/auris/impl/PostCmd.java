@@ -3,6 +3,7 @@ package de.mhus.sop.auris.impl;
 import java.io.PrintStream;
 import java.util.Map;
 
+import org.apache.activemq.console.util.SimpleConsole;
 import org.apache.felix.service.command.CommandSession;
 import org.apache.karaf.shell.commands.Action;
 import org.apache.karaf.shell.commands.Argument;
@@ -12,6 +13,9 @@ import de.mhus.lib.adb.DbManager;
 import de.mhus.lib.adb.query.Db;
 import de.mhus.lib.core.MProperties;
 import de.mhus.lib.core.MString;
+import de.mhus.lib.core.console.ANSIConsole;
+import de.mhus.lib.core.console.Console;
+import de.mhus.lib.core.console.Console.COLOR;
 import de.mhus.lib.core.console.ConsoleTable;
 import de.mhus.lib.karaf.MOsgi;
 import de.mhus.lib.karaf.MOsgi.Service;
@@ -98,12 +102,18 @@ public class PostCmd implements Action {
 			api.updatePostProcessors();
 		} else
 		if (cmd.equals("console")) {
-			final PrintStream os = System.out;
+			final MProperties pe = new MProperties(parameters);
+			final Console os = (Console) (pe.getString("console","ansi").equals("ansi") ?
+					new ANSIConsole(System.in, System.out) :
+					new de.mhus.lib.core.console.SimpleConsole(System.in, System.out));
 			
-			api.removePostProcessor("console show");
+			api.removePostProcessor("console show " + session.toString() );
 			
 			if (parameters != null && parameters.length > 0 && parameters[0].equals("on")) {
-				api.addVirtualPostProcessor(new VirtualPostProcessor("console show",new MProperties()) {
+				
+				
+				
+				api.addVirtualPostProcessor(new VirtualPostProcessor("console show " + session.toString(),new MProperties()) {
 					
 					private String[] fields;
 	
@@ -114,7 +124,35 @@ public class PostCmd implements Action {
 						for (String field : fields)
 							out.append(",").append(entry.getValue(field));
 						
+						switch(entry.getLogLevel()) {
+						case ERROR:
+							os.setBold(true);
+							os.setColor(COLOR.RED , COLOR.UNKNOWN);
+							break;
+						case FATAL:
+							os.setBlink(true);
+							os.setColor(COLOR.RED , COLOR.UNKNOWN);
+							break;
+						case WARN:
+							os.setColor(COLOR.RED , COLOR.UNKNOWN);
+							break;
+						case DEBUG:
+							os.setColor(COLOR.YELLOW , COLOR.UNKNOWN);
+							break;
+						case INFO:
+							os.setColor(COLOR.GREEN , COLOR.UNKNOWN);
+							break;
+						case TRACE:
+							os.setColor(COLOR.WHITE , COLOR.UNKNOWN);
+							break;
+						case UNKNOWN:
+							os.setColor(COLOR.WHITE , COLOR.UNKNOWN);
+							break;
+						default:
+							break;
+						}
 						os.println(out.toString());
+						os.cleanup();
 					}
 					
 					@Override
@@ -123,7 +161,11 @@ public class PostCmd implements Action {
 					
 					@Override
 					public void doActivate() {
-						fields = config.getString("fields",AurisApi.FORMATED_DATE + "," + AurisApi.LEVEL + "," + AurisApi.TRACE + "," + AurisApi.MESSAGE0).split(",");
+						fields = pe.getString("fields", 
+								config.getString("fields",AurisApi.FORMATED_DATE + "," + AurisApi.LEVEL + "," + AurisApi.TRACE + "," + AurisApi.MESSAGE0) ).split(",");
+						def.setSourceHost(pe.getString("host",def.getSourceHost()) );
+						def.setSourceConnector(pe.getString("connector",def.getSourceConnector()));
+						def.setSourceConnectorType(pe.getString("connectorType",def.getSourceConnectorType()));
 					}
 				});
 			}

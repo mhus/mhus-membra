@@ -43,6 +43,8 @@ import de.mhus.sop.auris.api.model.LogEntry.LEVEL;
 import de.mhus.sop.auris.api.model.LogPostProcessorConf;
 import de.mhus.sop.auris.api.model.LogPreProcessorConf;
 import de.mhus.sop.auris.api.util.VirtualPostProcessor;
+import de.mhus.sop.auris.impl.cleanup.Diet;
+import de.mhus.sop.auris.impl.cleanup.MaxSizeMonitor;
 
 @Component(immediate=true)
 public class AurisImpl extends MLog implements AurisApi {
@@ -58,6 +60,10 @@ public class AurisImpl extends MLog implements AurisApi {
 
 	private MThreadDaemon postProcessor;
 
+	private long characterCounter = 0;
+
+	private long characterCleanupSize = 1024 * 1024 * 10; // every 10 MB of characters (e.g. 20 MB) check DB health
+	
 
 	@Activate
 	public void doActivate(ComponentContext ctx) {
@@ -124,7 +130,7 @@ public class AurisImpl extends MLog implements AurisApi {
 					}
 					updateConnectors();
 				}
-			}, 1000 * 10);
+			}, 1000 * 5);
 		}
 	}
 	@Override
@@ -155,11 +161,71 @@ public class AurisImpl extends MLog implements AurisApi {
 		
 		try {
 			entry.save();
+			
+			if (characterCounter >= 0) {
+				characterCounter += sizeOf(entry.getLogMessage0())
+					+ sizeOf(entry.getLogMessage1())
+					+ sizeOf(entry.getLogMessage2())
+					+ sizeOf(entry.getLogMessage3())
+					+ sizeOf(entry.getLogMessage4())
+					+ sizeOf(entry.getLogMessage5())
+					
+					+ sizeOf(entry.getLogSource0())
+					+ sizeOf(entry.getLogSource1())
+					+ sizeOf(entry.getLogSource2())
+					
+					+ sizeOf(entry.getFullMessage())
+	
+					+ sizeOf(entry.getLogTrace())
+	
+					+ sizeOf(entry.getSourceConnector() )
+					+ sizeOf(entry.getSourceHost() )
+					+ sizeOf(entry.getSourceConnectorType() );
+			}
 		} catch (MException e) {
 			log().e(e);
 		}
 		
 		doPostProcess(parts, entry);
+		
+		if (characterCounter >= 0 && characterCounter > characterCleanupSize) {
+			new MThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					doCheckDatabaseSize();
+				}
+			}).start();
+		}
+	}
+
+	public synchronized void doCheckDatabaseSize() {
+		
+		characterCounter = -1;
+		
+		log().d("doCheckDatabaseSize");
+		int cnt = 0;
+		while (new MaxSizeMonitor().needSlim()) {
+			cnt ++;
+			if (cnt > 10) {
+				log().w("max doCheckDatabaseSize reached without really cleanup DB");
+				characterCounter = 0;
+				return;
+			}
+			
+			log().i("doCheckDatabaseSize cleanup");
+			
+			new Diet().doCleanup();
+			
+		}
+		
+		characterCounter = 0;
+		
+	}
+
+	private long sizeOf(String string) {
+		if (string == null) return 0;
+		return string.length();
 	}
 
 	private void doPostProcess(Map<String, String> parts, LogEntry entry) {

@@ -23,6 +23,9 @@ public interface AurisApi extends MApi {
 	public static final String TRACE = "t";
 	public static final String FORMATED_DATE = "fd";
 	public static final String LEVEL = "l";
+	public static final String SOURCE_CONNECTOR = "sc";
+	public static final String SOURCE_HOST = "sh";
+	public static final String SOURCE_CONNECTOR_TYPE = "sct";
 
 	void fireMessage(Map<String, String> parts);
 
@@ -45,5 +48,7 @@ public interface AurisApi extends MApi {
 	void addVirtualPostProcessor(VirtualPostProcessor ps) throws MException;
 
 	void removePostProcessor(String string);
+
+	void doCheckDatabaseSize();
 	
 }

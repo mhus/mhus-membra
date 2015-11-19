@@ -169,7 +169,7 @@ public class Log4JTcpReceiver extends AurisConnector implements Runnable {
 
 		@Override
 		public void run() {
-			log().d("new connection", name, remote);
+			log().i("new connection", name, remote);
 //			LoggingEvent le = new LoggingEvent("a", null, Priority.DEBUG, "a", null);
 //			doProcess(this, remote, le);
 			try {
@@ -178,7 +178,7 @@ public class Log4JTcpReceiver extends AurisConnector implements Runnable {
 				ObjectInputStream ois = new MObjectInputStream( new BufferedInputStream( is ), cl );
 				while(true) {
 					if (t == null || thread == null) {
-						log().d("close connection", name, remote);
+						log().i("close connection", name, remote);
 						try {
 							if (!socket.isClosed())
 								socket.close();
@@ -189,13 +189,14 @@ public class Log4JTcpReceiver extends AurisConnector implements Runnable {
 					}
 					
 					LoggingEvent event = (LoggingEvent) ois.readObject();
+					// ois.reset();
 			        if (event != null)
 			        	doProcess(this, remote, event);
 			        else
 			        	MThread.sleep(100);
 				}
 			} catch(java.io.EOFException | java.net.SocketException e) {
-				log().d("Exception will close the connection",e);
+				log().i("Exception will close the connection",e);
 				t = null;
 			} catch (Exception e) {
 				log().e(name,e);

@@ -201,6 +201,26 @@ public class LogEntry extends DbComfortableObject implements UuidIdentificable {
 		case AurisApi.TRACE: return getLogTrace();
 		case AurisApi.LEVEL: return String.valueOf( getLogLevel() );
 		case AurisApi.FORMATED_DATE: return MDate.toIso8601(new Date(getCreated()));
+		case AurisApi.SOURCE_CONNECTOR: return getSourceConnector();
+		case AurisApi.SOURCE_HOST: return getSourceHost();
+		case AurisApi.SOURCE_CONNECTOR_TYPE: return getSourceConnectorType();
+		
+		case "MESSAGE0": return getLogMessage0();
+		case "MESSAGE1": return getLogMessage1();
+		case "MESSAGE2": return getLogMessage2();
+		case "MESSAGE3": return getLogMessage3();
+		case "MESSAGE4": return getLogMessage4();
+		case "MESSAGE5": return getLogMessage5();
+		case "SOURCE0": return getLogSource0();
+		case "SOURCE1": return getLogSource1();
+		case "SOURCE2": return getLogSource2();
+		case "TRACE": return getLogTrace();
+		case "LEVEL": return String.valueOf( getLogLevel() );
+		case "FORMATED_DATE": return MDate.toIso8601(new Date(getCreated()));
+		case "SOURCE_CONNECTOR": return getSourceConnector();
+		case "SOURCE_HOST": return getSourceHost();
+		case "SOURCE_CONNECTOR_TYPE": return getSourceConnectorType();
+		
 		}
 		return null;
 	}

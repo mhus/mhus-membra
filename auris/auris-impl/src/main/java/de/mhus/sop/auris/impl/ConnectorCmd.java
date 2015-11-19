@@ -87,6 +87,9 @@ public class ConnectorCmd implements Action {
 			parts.put(AurisApi.MESSAGE0,parameters[0]);
 
 			api.fireMessage(parts);
+		} else
+		if (cmd.equals("chkdb")) {
+			api.doCheckDatabaseSize();
 		}
 	
 		return null;
