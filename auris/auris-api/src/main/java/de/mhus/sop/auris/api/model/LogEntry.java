@@ -30,26 +30,26 @@ public class LogEntry extends DbComfortableObject implements UuidIdentificable {
 
 	@DbPersistent
 	private LEVEL logLevel;
-	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage0;
-	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage1;
-	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage2;
-	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage3;
-	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage4;
 	@DbPersistent(size=600,features=AttributeFeatureCut.NAME)
 	private String logMessage5;
 	
-	@DbPersistent(size=10,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=100,features=AttributeFeatureCut.NAME)
 	private String logTrace;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logSource0;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logSource1;
-	@DbPersistent(size=50,features=AttributeFeatureCut.NAME)
+	@DbPersistent(size=150,features=AttributeFeatureCut.NAME)
 	private String logSource2;
 
 	@DbPersistent(type=TYPE.BLOB)
