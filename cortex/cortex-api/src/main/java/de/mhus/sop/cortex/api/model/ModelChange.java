@@ -2,7 +2,7 @@ package de.mhus.sop.cortex.api.model;
 
 import de.mhus.lib.core.util.MNls;
 
-public interface PChange {
+public interface ModelChange {
 
 	String getName();
 	MNls getMNls();

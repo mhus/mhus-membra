@@ -2,16 +2,16 @@ package de.mhus.sop.cortex.api.model;
 
 import de.mhus.lib.core.util.MNls;
 
-public interface PType {
+public interface ModelType {
 
 	String getName();
 	String getType();
 	MNls getNls();
 	
-	PAttribute[] getAttributes();
+	ModelAttribute[] getAttributes();
 	
-	PState getState(String name);
-	PForm getForms(String name);
+	ModelState getState(String name);
+	ModelForm getForms(String name);
 	
 	String[] getStateNames();
 	String[] getFormNames();

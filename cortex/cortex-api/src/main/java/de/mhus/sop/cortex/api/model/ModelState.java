@@ -2,11 +2,11 @@ package de.mhus.sop.cortex.api.model;
 
 import de.mhus.lib.core.util.MNls;
 
-public interface PState {
+public interface ModelState {
 
 	String getName();
 	MNls getNls();
 	
-	PChange[] getChanges();
+	ModelChange[] getChanges();
 	
 }

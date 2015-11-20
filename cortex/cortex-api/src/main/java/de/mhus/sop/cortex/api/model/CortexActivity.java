@@ -7,15 +7,19 @@ import de.mhus.lib.annotations.adb.DbPersistent;
 import de.mhus.lib.errors.MException;
 import de.mhus.sop.mfw.api.model.DbMetadata;
 
-public class Ticket extends DbMetadata {
-	
-	@DbIndex("1")
-	@DbPersistent
+public class CortexActivity extends DbMetadata {
+
+	@DbPersistent(ro=true)
+	private UUID space;
+	@DbPersistent(ro=true)
 	private UUID project;
+	@DbIndex("1")
+	@DbPersistent(ro=true)
+	private UUID ticket;
 	
 	@Override
 	public DbMetadata findParentObject() throws MException {
-		return getDbManager().getObject(Project.class, project);
+		return getDbManager().getObject(CortexTicket.class, ticket);
 	}
 
 }
