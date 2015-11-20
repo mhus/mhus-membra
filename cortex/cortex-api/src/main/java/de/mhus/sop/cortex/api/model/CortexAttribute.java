@@ -35,4 +35,8 @@ public class CortexAttribute extends DbMetadata {
 		return getDbManager().getObject(CortexTicket.class, ticket);
 	}
 
+	public String getKey() {
+		return key;
+	}
+
 }
