@@ -2,14 +2,14 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>de.mhus.sop</groupId>
-    <artifactId>twc</artifactId>
+    <artifactId>nimbus</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>twc-theme</artifactId>
+  <artifactId>nimbus-theme</artifactId>
     <packaging>bundle</packaging>
 
-    <name>twc-theme</name>
-    <description>The Watch Center Theme</description>
+    <name>nimbus-theme</name>
+    <description>nimbus Theme</description>
 
     <dependencies>
 
@@ -37,7 +37,7 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Export-Package>de.hfo.sop.twc.theme.*;version=${project.version}</Export-Package>
+                        <Export-Package>de.hfo.sop.nimbus.theme.*;version=${project.version}</Export-Package>
                         <Import-Package>*</Import-Package>
                         <Include-Resource>
                         	VAADIN=${basedir}/target/classes/VAADIN

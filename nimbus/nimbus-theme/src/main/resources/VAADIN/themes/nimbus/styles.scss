@@ -7,7 +7,7 @@ $v-layout-margin: $v-layout-margin-top $v-layout-margin-right $v-layout-margin-b
 // This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
 // The actual styles should be defined in mytheme.scss
 
-.twctheme {
+.nimbus {
   @include addons;
-  @include ngntheme;
+  @include nimbus;
 }

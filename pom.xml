@@ -67,7 +67,7 @@
       <module>oculus</module>
       <module>auris</module>
       <module>cortex</module>
-      <module>twc</module>
+      <module>nimbus</module>
     </modules>
 
   <repositories>

@@ -64,7 +64,7 @@ $desktop-background-image: "img/ocean-331136_1920.jpg" !default;
 @import "../valo/valo.scss";
 
 
-@mixin twctheme {
+@mixin nimbus {
   @include valo;
 
   .desktop-screen {

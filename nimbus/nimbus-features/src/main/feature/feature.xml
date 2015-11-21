@@ -59,12 +59,12 @@
 		<bundle>mvn:de.mhus.osgi/vaadinosgibridge/${osgitools.version}</bundle>
 		<bundle>mvn:de.mhus.osgi/vaadinkarafbridge/${osgitools.version}</bundle>
 
-		<bundle>mvn:de.mhus.sop/twc-theme/${project.version}</bundle>
+		<bundle>mvn:de.mhus.sop/nimbus-theme/${project.version}</bundle>
 		
 	</feature>
 
-	<feature name='cortex' description='cortex' version='${project.version}'>
-		<feature>twc-gui</feature>
+	<feature name='nimbus' description='nimbus' version='${project.version}'>
+		<feature>nimbus-gui</feature>
 	
 	</feature>
 	
