@@ -32,7 +32,7 @@ public class HostMapping extends AurisPreProcessor {
 	public void doActivate() {
 		for (String key : config.keys()) {
 			if (key.startsWith("host_")) {
-				hosts.put( "/" + key.substring(5), config.getString(key, ""));
+				hosts.put( key.substring(5), config.getString(key, ""));
 			}
 		}
 	}

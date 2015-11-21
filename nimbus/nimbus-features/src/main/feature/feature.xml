@@ -47,7 +47,13 @@
 
 	</feature>
 	
-	<feature name='twc-gui' description='twc-gui' version='${project.version}'>
+	<feature name='auris' description='auris' version='${project.version}'>
+		<feature>sop-libs</feature>
+		<bundle>mvn:de.mhus.sop/auris-api/${project.version}</bundle>
+		<bundle>mvn:de.mhus.sop/auris-impl/${project.version}</bundle>
+	</feature>	
+	
+	<feature name='nimbus-gui' description='nimbus-gui' version='${project.version}'>
 		<feature>sop-libs</feature>
 
 		<bundle>mvn:de.mhus.osgi.ports/vaadin-shared-deps/${osgitools.version}</bundle>

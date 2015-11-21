@@ -8,7 +8,7 @@
   <artifactId>nimbus-api</artifactId>
     <packaging>bundle</packaging>
 
-    <name>twc-api</name>
+    <name>nimbus-api</name>
     <description>GUI API</description>
 
     <dependencies>

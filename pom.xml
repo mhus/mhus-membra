@@ -68,6 +68,7 @@
       <module>auris</module>
       <module>cortex</module>
       <module>nimbus</module>
+      <module>tools</module>
     </modules>
 
   <repositories>

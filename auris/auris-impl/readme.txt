@@ -15,11 +15,16 @@ bundle:persistentwatch add auris-api
 bundle:persistentwatch add auris-impl
 
 
-pre set hostmap class=de.mhus.sop.auris.impl.pre.HostMapping host_127.0.0.1=localhost
-pre set ignore class=de.mhus.sop.auris.impl.pre.Ignore "condition=FrameworkEvent.*"
-pre set tracemark class=de.mhus.sop.auris.impl.pre.MhuTraceMark
+auris:connector set simple class=de.mhus.sop.auris.impl.logging.SimpleTcpReceiver
+auris:connector set log4j class=de.mhus.sop.auris.impl.logging.Log4JTcpReceiver port=4561
+auris:connector set jl class=de.mhus.sop.auris.impl.logging.JavaLoggerTcpReceiver port=4562
 
-post set oom class=de.mhus.sop.auris.impl.post.OutOfMemoryMail to=mike@mhus.de subject=OutOfMemory
 
-post console on FORMATED_DATE,SOURCE_HOST,LEVEL,MESSAGE0
+auris:pre set hostmap class=de.mhus.sop.auris.impl.pre.HostMapping host_/127.0.0.1=localhost
+auris:pre set ignore class=de.mhus.sop.auris.impl.pre.Ignore "condition=FrameworkEvent.*"
+auris:pre set tracemark class=de.mhus.sop.auris.impl.pre.MhuTraceMark
+
+auris:post set oom class=de.mhus.sop.auris.impl.post.OutOfMemoryMail to=mike@mhus.de subject=OutOfMemory
+
+auris:post console on FORMATED_DATE,SOURCE_HOST,LEVEL,MESSAGE0
 

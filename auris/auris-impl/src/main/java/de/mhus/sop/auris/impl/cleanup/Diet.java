@@ -14,23 +14,26 @@ public class Diet extends MLog {
 		// simple diet algo ...
 		
 		try {
+			
 			long min = 0;
+			long max = System.currentTimeMillis();
+			
 			DbConnection con = Mfw.getApi(AurisApi.class).getManager().getPool().getConnection();
 			{
 				DbStatement sth = con.createStatement(
-						"select min(created_) AS min FROM sop_LogEntry_");
+						"select min(created_) AS min, max(created_) AS max FROM sop_LogEntry_");
 				DbResult res = sth.executeQuery(null);
 				res.next();
 				min = res.getLong("min");
+				max = res.getLong("max");
 				res.close();
 				sth.close();
 			}
 			
-			long max = System.currentTimeMillis();
 			
-			// remove 1/5 of all messages
+			// remove 1/10 of all messages
 			
-			long maxAge = max - min / 5 + min;
+			long maxAge = max - min / 10 + min;
 			
 			{
 				DbStatement sth = con.createStatement( "DELETE FROM sop_LogEntry_ WHERE created_ < " + maxAge );

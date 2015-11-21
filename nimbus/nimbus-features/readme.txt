@@ -2,14 +2,17 @@
 Basis:
 ------
 
-feature:repo-add activemq
+feature:repo-add activemq 5.12.1
 feature:repo-add cxf 2.7.11
 
 feature:install jdbc
 feature:install openjpa
 feature:install scr
 
-feature:install activemq-client
+feature:install activemq-broker
+
+#  http://localhost:8185/activemqweb
+
 
 install -s mvn:mysql/mysql-connector-java/5.1.18
 
