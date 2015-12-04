@@ -40,7 +40,7 @@ public class CortexProject extends DbMetadata {
 	
 	@Override
 	public DbMetadata findParentObject() throws MException {
-		return Mfw.getApi(CortexApi.class).getSpace(space);
+		return null;
 	}
 
 	public UUID getSpace() {

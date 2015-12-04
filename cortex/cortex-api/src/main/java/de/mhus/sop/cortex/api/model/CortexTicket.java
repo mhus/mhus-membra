@@ -26,7 +26,7 @@ public class CortexTicket extends DbMetadata {
 	
 	@Override
 	public DbMetadata findParentObject() throws MException {
-		return Mfw.getApi(CortexApi.class).getSpace(space).getProject(project);
+		return null;
 	}
 
 	public synchronized List<CortexActivity> getActivities() throws MException {

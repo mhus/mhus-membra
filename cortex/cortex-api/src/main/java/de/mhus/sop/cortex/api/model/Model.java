@@ -1,5 +1,11 @@
 package de.mhus.sop.cortex.api.model;
 
-public interface Model {
+import org.w3c.dom.Element;
+
+public class Model {
+
+	public Model(Element model) {
+		
+	}
 
 }

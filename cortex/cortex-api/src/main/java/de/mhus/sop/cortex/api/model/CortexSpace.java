@@ -1,63 +1,54 @@
 package de.mhus.sop.cortex.api.model;
 
-import java.util.UUID;
+import java.io.IOException;
+import java.io.Serializable;
 
-import de.mhus.lib.annotations.adb.DbPersistent;
-import de.mhus.lib.annotations.adb.DbType.TYPE;
-import de.mhus.lib.core.util.MNls;
-import de.mhus.lib.errors.MException;
-import de.mhus.sop.cortex.api.CortexApi;
-import de.mhus.sop.mfw.api.Mfw;
-import de.mhus.sop.mfw.api.model.DbMetadata;
+import de.mhus.lib.core.MXml;
 
-public class CortexSpace extends DbMetadata {
+public class CortexSpace implements Serializable {
 
-	@DbPersistent(size=10, ro=true)
-	private String shortcut;
-	@DbPersistent
-	private String title;
-	@DbPersistent(type=TYPE.BLOB)
-	private String description;
-	@DbPersistent(type=TYPE.BLOB)
-	private String definition;
-	@DbPersistent(ro=true)
-	private String handler;
-	private Model model;
+	private static final long serialVersionUID = 1L;
+	protected String shortcut;
+	protected String title;
+	protected String description;
+	protected String model;
+	private Model modelModel;
 	
-	public MNls getNls() {
-		return null;
-	}
-	public String getName() {
-		return null;
-	}
 	public String getShortcut() {
-		return null;
-	}
-	public ModelType[] getTypes() {
-		return null;
+		return shortcut;
 	}
 
-	@Override
-	public DbMetadata findParentObject() throws MException {
-		return null;
-	}
-	public String getHandler() {
-		return handler;
+	public synchronized Model getModel() throws Exception {
+		if ( modelModel == null) modelModel = new Model(MXml.loadXml(model).getDocumentElement());
+		return modelModel;
 	}
 
-	public synchronized Model getModel() {
-		if (model == null) {
-			model = Mfw.getApi(CortexApi.class).getCortexSpaceHandler(handler).getModel(this, description);
-		}
-		return model;
+	public String getTitle() {
+		return title;
+	}
+
+	public String getDescription() {
+		return description;
 	}
 	
-	public CortexProject getProject(UUID id) {
-		return null;
+	private void writeObject(java.io.ObjectOutputStream out)
+		     throws IOException {
+		if (shortcut == null) shortcut = "";
+		if (title == null) title = "";
+		if (description == null) description = "";
+		if (model == null) model = "";
+		out.writeUTF(shortcut);
+		out.writeUTF(title);
+		out.writeUTF(description);
+		out.writeUTF(model);
 	}
 	
-	public CortexProject getProject(String shortcut) {
-		return null;
+	private void readObject(java.io.ObjectInputStream in)
+		     throws IOException, ClassNotFoundException {
+		shortcut = in.readUTF();
+		title = in.readUTF();
+		description = in.readUTF();
+		model = in.readUTF();
 	}
 	
 }

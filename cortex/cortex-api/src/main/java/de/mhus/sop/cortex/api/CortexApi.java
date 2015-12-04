@@ -12,7 +12,7 @@ public interface CortexApi extends MApi {
 	
 	CortexProject getProject(String name);
 
-	CortexSpaceHandlerService getCortexSpaceHandler(String handler);
+	CortexService getCortexService(String handler);
 	
 	CortexSpace getSpace(UUID id);
 	

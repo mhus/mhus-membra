@@ -7,10 +7,9 @@ import de.mhus.sop.cortex.api.model.CortexSpace;
 import de.mhus.sop.cortex.api.model.CortexTicket;
 import de.mhus.sop.cortex.api.model.Model;
 
-public interface CortexSpaceHandlerService {
+public interface CortexService {
 
-	
-	Model getModel(CortexSpace space, String description);
+	CortexSpace getSpace();
 	
 	CortexTicket getTicket(String ident);
 	
