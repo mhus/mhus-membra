@@ -10,6 +10,5 @@
   </parent>
 
   <modules>
-  	<module>auris-distribution</module>
   </modules>
 </project>
