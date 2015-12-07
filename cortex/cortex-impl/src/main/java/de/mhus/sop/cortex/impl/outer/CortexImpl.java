@@ -1,12 +1,12 @@
-package de.mhus.sop.cortex.impl;
+package de.mhus.sop.cortex.impl.outer;
 
 import java.util.UUID;
 
 import de.mhus.lib.core.MLog;
-import de.mhus.sop.cortex.api.CortexApi;
-import de.mhus.sop.cortex.api.CortexService;
+import de.mhus.sop.cortex.api.inner.CortexService;
 import de.mhus.sop.cortex.api.model.CortexProject;
 import de.mhus.sop.cortex.api.model.CortexSpace;
+import de.mhus.sop.cortex.api.outer.CortexApi;
 
 public class CortexImpl extends MLog implements CortexApi {
 

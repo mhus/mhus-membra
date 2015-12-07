@@ -1,4 +1,4 @@
-package de.mhus.sop.cortex.impl;
+package de.mhus.sop.cortex.impl.inner;
 
 import java.util.UUID;
 

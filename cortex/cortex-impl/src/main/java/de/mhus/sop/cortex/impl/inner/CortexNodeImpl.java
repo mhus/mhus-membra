@@ -1,4 +1,4 @@
-package de.mhus.sop.cortex.impl;
+package de.mhus.sop.cortex.impl.inner;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,8 +13,8 @@ import aQute.bnd.annotation.component.Deactivate;
 import de.mhus.lib.core.MCollection;
 import de.mhus.lib.karaf.MServiceList;
 import de.mhus.lib.karaf.MServiceTracker;
-import de.mhus.sop.cortex.api.CortexNode;
-import de.mhus.sop.cortex.api.CortexService;
+import de.mhus.sop.cortex.api.inner.CortexNode;
+import de.mhus.sop.cortex.api.inner.CortexService;
 import de.mhus.sop.cortex.api.model.CortexSpace;
 
 @Component(immediate=true)

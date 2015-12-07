@@ -1,4 +1,4 @@
-package de.mhus.sop.cortex.api;
+package de.mhus.sop.cortex.api.inner;
 
 import java.util.List;
 
