@@ -2,7 +2,7 @@ package de.mhus.sop.mfw.api.util;
 
 import java.io.File;
 
-import de.mhus.lib.core.configupdater.ConfigString;
+import de.mhus.lib.core.cfg.CfgString;
 import de.mhus.lib.logging.FileLogger;
 import de.mhus.sop.mfw.api.Mfw;
 import de.mhus.sop.mfw.api.MfwApi;
@@ -11,9 +11,9 @@ import de.mhus.sop.mfw.api.aaa.AaaContext;
 // TODO implement asynchrony logging
 public class MfwFileLogger extends FileLogger {
 
-	private static ConfigString logDir = new ConfigString(MfwFileLogger.class, "logDirectory", null) {
+	private static CfgString logDir = new CfgString(MfwFileLogger.class, "logDirectory", null) {
 		@Override
-		protected void onUpdate(String newValue) {
+		protected void onPreUpdate(String newValue) {
 			if (newValue == null) return;
 					new File(newValue).mkdirs();
 		}
