@@ -13,9 +13,9 @@ import de.mhus.lib.core.MString;
 import de.mhus.lib.core.console.ConsoleTable;
 import de.mhus.lib.karaf.MOsgi;
 import de.mhus.lib.karaf.MOsgi.Service;
-import de.mhus.lib.logging.auris.AurisConst;
 import de.mhus.sop.auris.api.AurisApi;
 import de.mhus.sop.auris.api.AurisConnector;
+import de.mhus.sop.auris.api.AurisConst;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
 import de.mhus.sop.mfw.api.Mfw;
 

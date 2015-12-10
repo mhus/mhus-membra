@@ -13,8 +13,8 @@ import org.xml.sax.SAXException;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.core.MString;
 import de.mhus.lib.core.MXml;
-import de.mhus.lib.logging.auris.AurisConst;
 import de.mhus.sop.auris.api.AurisApi;
+import de.mhus.sop.auris.api.AurisConst;
 
 // https://blogs.oracle.com/CoreJavaTechTips/entry/socket_logging
 

@@ -64,9 +64,10 @@
 
     <modules>
       <module>sop</module>
+      <module>cortex</module>
       <module>oculus</module>
       <module>auris</module>
-      <module>cortex</module>
+      <module>vita</module>
       <module>nimbus</module>
       <module>tools</module>
     </modules>

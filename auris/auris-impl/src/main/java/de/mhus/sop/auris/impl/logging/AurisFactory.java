@@ -1,9 +1,9 @@
 package de.mhus.sop.auris.impl.logging;
 
 import de.mhus.lib.core.IProperties;
-import de.mhus.lib.logging.auris.AurisSender;
-import de.mhus.lib.logging.auris.SimpleUdpSender;
 import de.mhus.sop.auris.api.AurisConnector;
+import de.mhus.sop.auris.impl.AurisSender;
+import de.mhus.sop.auris.impl.SimpleUdpSender;
 
 public class AurisFactory {
 

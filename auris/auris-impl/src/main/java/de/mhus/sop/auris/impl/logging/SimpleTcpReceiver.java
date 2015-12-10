@@ -4,7 +4,7 @@ import java.net.SocketAddress;
 import java.util.HashMap;
 
 import de.mhus.lib.core.IProperties;
-import de.mhus.lib.logging.auris.AurisConst;
+import de.mhus.sop.auris.api.AurisConst;
 
 public class SimpleTcpReceiver extends TcpReceiver {
 

@@ -7,7 +7,7 @@ import java.util.Map;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.core.MString;
 import de.mhus.lib.core.util.Rfc1738;
-import de.mhus.lib.logging.auris.AurisConst;
+import de.mhus.sop.auris.api.AurisConst;
 
 public class SimpleUdpReceiver extends UdpReceiver {
 

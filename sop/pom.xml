@@ -10,7 +10,7 @@
   </parent>
 
   <modules>
-  	<module>sop-mfw-api</module>
-  	<module>sop-mfw-impl</module>
+  	<module>sop-api</module>
+  	<module>sop-impl</module>
   </modules>
 </project>

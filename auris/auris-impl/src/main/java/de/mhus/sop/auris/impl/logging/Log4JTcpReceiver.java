@@ -27,9 +27,9 @@ import de.mhus.lib.core.MThreadDaemon;
 import de.mhus.lib.core.MTimeInterval;
 import de.mhus.lib.core.io.MObjectInputStream;
 import de.mhus.lib.core.util.Rfc1738;
-import de.mhus.lib.logging.auris.AurisConst;
 import de.mhus.sop.auris.api.AurisApi;
 import de.mhus.sop.auris.api.AurisConnector;
+import de.mhus.sop.auris.api.AurisConst;
 
 // Sender:
 // http://www.docjar.com/html/api/org/apache/log4j/net/SocketAppender.java.html
