@@ -48,11 +48,6 @@
     </dependency>
     <dependency>
     	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-logging</artifactId>
-    	<version>${mhulib.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
     	<artifactId>mhu-lib-karaf</artifactId>
     	<version>${mhulib.version}</version>
     </dependency>

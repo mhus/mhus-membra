@@ -28,7 +28,7 @@ import de.mhus.sop.auris.api.model.LogEntry;
 import de.mhus.sop.auris.api.model.LogPostProcessorConf;
 import de.mhus.sop.auris.api.model.LogPreProcessorConf;
 import de.mhus.sop.auris.api.util.VirtualPostProcessor;
-import de.mhus.sop.mfw.api.Mfw;
+import de.mhus.sop.api.Mfw;
 
 @Command(scope = "auris", name = "post", description = "Auris post processor configuration management")
 public class PostCmd implements Action {

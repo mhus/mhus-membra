@@ -3,7 +3,7 @@ package de.mhus.sop.auris.api.model;
 import de.mhus.lib.annotations.adb.DbPersistent;
 import de.mhus.lib.core.MProperties;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.mfw.api.model.DbMetadata;
+import de.mhus.sop.api.model.DbMetadata;
 
 public class LogPostProcessorConf extends DbMetadata {
 

@@ -7,7 +7,7 @@ import de.mhus.lib.adb.DbManager;
 import de.mhus.lib.errors.MException;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
 import de.mhus.sop.auris.api.util.VirtualPostProcessor;
-import de.mhus.sop.mfw.api.MApi;
+import de.mhus.sop.api.MApi;
 
 public interface AurisApi extends MApi {
 

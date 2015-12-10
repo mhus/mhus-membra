@@ -58,22 +58,17 @@
     	<groupId>de.mhus.lib</groupId>
     	<artifactId>mhu-lib-core</artifactId>
     	<version>${mhulib.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-persistence</artifactId>
-    	<version>${mhulib.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-logging</artifactId>
-    	<version>${mhulib.version}</version>
     	<exclusions>
     		<exclusion>
     			<artifactId>log4j</artifactId>
     			<groupId>log4j</groupId>
     		</exclusion>
     	</exclusions>
+    </dependency>
+    <dependency>
+    	<groupId>de.mhus.lib</groupId>
+    	<artifactId>mhu-lib-persistence</artifactId>
+    	<version>${mhulib.version}</version>
     </dependency>
     <dependency>
     	<groupId>de.mhus.lib</groupId>
@@ -93,7 +88,7 @@
     </dependency>
     <dependency>
     	<groupId>de.mhus.sop</groupId>
-    	<artifactId>sop-mfw-api</artifactId>
+    	<artifactId>sop-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>

@@ -17,7 +17,7 @@ import de.mhus.sop.auris.api.AurisApi;
 import de.mhus.sop.auris.api.AurisConnector;
 import de.mhus.sop.auris.api.AurisConst;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
-import de.mhus.sop.mfw.api.Mfw;
+import de.mhus.sop.api.Mfw;
 
 @Command(scope = "auris", name = "connector", description = "Auris connector configuration management")
 public class ConnectorCmd implements Action {

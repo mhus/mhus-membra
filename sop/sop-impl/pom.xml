@@ -51,11 +51,6 @@
     	<version>${mhulib.version}</version>
     </dependency>
     <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-logging</artifactId>
-    	<version>${mhulib.version}</version>
-    </dependency>
-    <dependency>
     	<groupId>de.mhus.sop</groupId>
     	<artifactId>sop-api</artifactId>
     	<version>${project.version}</version>

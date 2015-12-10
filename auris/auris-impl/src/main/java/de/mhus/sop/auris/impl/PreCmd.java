@@ -16,7 +16,7 @@ import de.mhus.sop.auris.api.AurisConnector;
 import de.mhus.sop.auris.api.AurisPreProcessor;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
 import de.mhus.sop.auris.api.model.LogPreProcessorConf;
-import de.mhus.sop.mfw.api.Mfw;
+import de.mhus.sop.api.Mfw;
 
 @Command(scope = "auris", name = "pre", description = "Auris pre processor configuration management")
 public class PreCmd implements Action {

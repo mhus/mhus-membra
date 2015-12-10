@@ -5,7 +5,7 @@ import java.util.Map;
 import de.mhus.lib.core.MLog;
 import de.mhus.lib.core.MProperties;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
-import de.mhus.sop.mfw.api.Mfw;
+import de.mhus.sop.api.Mfw;
 
 public abstract class AurisConnector extends MLog {
 	

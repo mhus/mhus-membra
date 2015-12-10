@@ -5,8 +5,8 @@ import de.mhus.lib.core.MProperties;
 import de.mhus.lib.errors.MException;
 import de.mhus.lib.karaf.MOsgi;
 import de.mhus.sop.auris.api.AurisApi;
-import de.mhus.sop.mfw.api.Mfw;
-import de.mhus.sop.mfw.api.model.DbMetadata;
+import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.model.DbMetadata;
 
 public class LogConnectorConf extends DbMetadata {
 

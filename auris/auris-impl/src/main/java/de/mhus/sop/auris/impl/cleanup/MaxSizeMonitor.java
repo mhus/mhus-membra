@@ -8,7 +8,7 @@ import de.mhus.lib.sql.DbResult;
 import de.mhus.lib.sql.DbStatement;
 import de.mhus.sop.auris.api.AurisApi;
 import de.mhus.sop.auris.impl.AurisImpl;
-import de.mhus.sop.mfw.api.Mfw;
+import de.mhus.sop.api.Mfw;
 
 /*
 

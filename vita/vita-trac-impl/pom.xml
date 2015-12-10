@@ -66,11 +66,6 @@
     </dependency>
     <dependency>
     	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-logging</artifactId>
-    	<version>${mhulib.version}</version>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
     	<artifactId>mhu-lib-karaf</artifactId>
     	<version>${mhulib.version}</version>
     </dependency>
@@ -81,7 +76,7 @@
     </dependency>
     <dependency>
     	<groupId>de.mhus.sop</groupId>
-    	<artifactId>sop-mfw-api</artifactId>
+    	<artifactId>sop-api</artifactId>
     	<version>${project.version}</version>
     </dependency>
     <dependency>

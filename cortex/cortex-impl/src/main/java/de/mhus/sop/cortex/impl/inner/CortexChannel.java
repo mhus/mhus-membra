@@ -6,10 +6,9 @@ import org.osgi.service.component.ComponentContext;
 
 import aQute.bnd.annotation.component.Activate;
 import aQute.bnd.annotation.component.Component;
-import de.mhus.lib.core.MSingleton;
 import de.mhus.lib.core.cfg.CfgString;
 import de.mhus.lib.karaf.jms.JmsDataChannel;
-import de.mhus.sop.mfw.api.jms.AbstractOperationListChannel;
+import de.mhus.sop.api.jms.AbstractOperationListChannel;
 
 @Component(provide=JmsDataChannel.class,immediate=true)
 public class CortexChannel extends AbstractOperationListChannel {

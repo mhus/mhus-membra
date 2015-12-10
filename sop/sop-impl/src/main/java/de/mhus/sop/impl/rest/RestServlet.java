@@ -70,6 +70,8 @@ public class RestServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
     	
+    	resp.setHeader("Access-Control-Allow-Origin", "*");
+
     	boolean isTrailEnabled = false;
     	try {
 	    	String trail = req.getParameter("_trace");
