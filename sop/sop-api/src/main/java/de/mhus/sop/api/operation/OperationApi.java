@@ -28,4 +28,5 @@ public interface OperationApi extends SApi {
 	OperationResult doExecuteOperation(JmsConnection con, String queueName,
 			String operationName, IProperties parameters, AaaContext user,
 			boolean needAnswer) throws Exception;
+	List<String> lookupOperationQueues() throws Exception;
 }

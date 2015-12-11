@@ -24,10 +24,10 @@ import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.operation.OperationApi;
 import de.mhus.sop.api.operation.OperationBpmDefinition;
 
-@Command(scope = "mhus", name = "operation", description = "Operation commands")
+@Command(scope = "sop", name = "operation", description = "Operation commands")
 public class OperationCmd implements Action {
 
-	@Argument(index=0, name="cmd", required=true, description="Command list, bpm, info <path>, execute <path> [key=value]*", multiValued=false)
+	@Argument(index=0, name="cmd", required=true, description="Command list, action, info <path>, execute <path> [key=value]*, search", multiValued=false)
 	String cmd;
 	
 	@Argument(index=1, name="path", required=false, description="Path to Operation", multiValued=false)
@@ -69,7 +69,7 @@ public class OperationCmd implements Action {
 				}
 			}
 		} else
-		if (cmd.equals("bpm")) {
+		if (cmd.equals("action")) {
 			ConsoleTable table = new ConsoleTable();
 			table.setHeaderValues("Name","Register name", "Service Class");
 			for (OperationBpmDefinition def : api.getActionDefinitions()) {
@@ -113,6 +113,13 @@ public class OperationCmd implements Action {
 			System.out.println("Result: "+res);
 			System.out.println("RC: " + res.getReturnCode());
 			System.out.println("Object: " + res.getResult());
+		} else
+		if (cmd.equals("search")) {
+			for (String name : api.lookupOperationQueues())
+				System.out.println("Queue: " + name);
+			System.out.println("OK");
+		} else {
+			System.out.println("Command not found");
 		}
 		return null;
 	}

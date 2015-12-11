@@ -10,6 +10,10 @@ import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Deactivate;
 import aQute.bnd.annotation.component.Reference;
 import de.mhus.lib.core.IProperties;
+import de.mhus.lib.core.MMath;
+import de.mhus.lib.core.MSingleton;
+import de.mhus.lib.core.cfg.CfgString;
+import de.mhus.lib.core.service.ServerIdent;
 import de.mhus.lib.core.strategy.Operation;
 import de.mhus.lib.core.strategy.OperationDescription;
 import de.mhus.lib.core.strategy.OperationResult;
@@ -24,14 +28,21 @@ import de.mhus.sop.api.operation.OperationApi;
 @Component(provide=JmsDataChannel.class,immediate=true)
 public class OperationExecuteChannel extends AbstractOperationExecuteChannel {
 
+	public static CfgString queueName = new CfgString(OperationExecuteChannel.class, "queue", "mhus.operation." + MSingleton.baseLookup(null, ServerIdent.class));
+	public static CfgString connectionName = new CfgString(OperationExecuteChannel.class, "connection", "mhus");
+	static OperationExecuteChannel instance;
+	
 	@Activate
 	public void doActivate(ComponentContext ctx) {
 		super.doActivate(ctx);
-//		getServer().setInterceptorIn(new TicketAccessInterceptor()); // for authentication
+		if (MSingleton.getCfg(OperationExecuteChannel.class).getBoolean("accessControl", true))
+			getServer().setInterceptorIn(new TicketAccessInterceptor());
+		instance = this;
 	}	
 	
 	@Deactivate
 	public void doDeactivate(ComponentContext ctx) {
+		instance = null;
 		super.doDeactivate(ctx);
 	}
 	
@@ -48,12 +59,12 @@ public class OperationExecuteChannel extends AbstractOperationExecuteChannel {
 
 	@Override
 	protected String getQueueName() {
-		return "mhus.operation";
+		return  queueName.value();
 	}
 
 	@Override
 	protected String getJmsConnectionName() {
-		return "mhus"; // TODO from config
+		return connectionName.value(); 
 	}
 
 	@Override

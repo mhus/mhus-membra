@@ -12,7 +12,7 @@ import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.rest.RestNodeService;
 import de.mhus.sop.api.rest.RestService;
 
-@Command(scope = "mhus", name = "rest", description = "REST Call")
+@Command(scope = "sop", name = "rest", description = "REST Call")
 public class RestCmd implements Action {
 
 	@Override

@@ -34,8 +34,10 @@ import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.core.util.VectorMap;
 import de.mhus.lib.jms.ClientJms;
 import de.mhus.lib.jms.JmsConnection;
+import de.mhus.lib.jms.JmsDestination;
 import de.mhus.lib.jms.JmsObject;
 import de.mhus.lib.jms.MJms;
+import de.mhus.lib.karaf.jms.JmsUtil;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
@@ -337,4 +339,18 @@ public class OperationApiImpl extends MLog implements OperationApi {
 		}
 	}
 
+	public List<String> lookupOperationQueues() throws Exception {
+		JmsConnection con = JmsUtil.getConnection(OperationBroadcast.connectionName.value());
+		ClientJms client = new ClientJms(con.createTopic(OperationBroadcast.queueName.value()));
+		client.open();
+		TextMessage msg = client.getSession().createTextMessage();
+		LinkedList<String> out = new LinkedList<String>();
+		for (Message ret : client.sendJmsBroadcast(msg)) {
+			String q = ret.getStringProperty("queue");
+			if (q != null)
+				out.add(q);
+		}
+		return out;
+	}
+	
 }
