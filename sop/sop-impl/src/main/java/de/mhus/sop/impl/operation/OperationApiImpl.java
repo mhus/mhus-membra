@@ -1,8 +1,17 @@
 package de.mhus.sop.impl.operation;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+
+import javax.jms.BytesMessage;
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
+import javax.jms.TextMessage;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -15,16 +24,21 @@ import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Deactivate;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.core.MLog;
+import de.mhus.lib.core.MProperties;
+import de.mhus.lib.core.MTimeInterval;
 import de.mhus.lib.core.strategy.DefaultTaskContext;
 import de.mhus.lib.core.strategy.NotSuccessful;
 import de.mhus.lib.core.strategy.Operation;
 import de.mhus.lib.core.strategy.OperationDescription;
 import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.core.util.VectorMap;
+import de.mhus.lib.jms.ClientJms;
+import de.mhus.lib.jms.JmsConnection;
 import de.mhus.lib.jms.JmsObject;
+import de.mhus.lib.jms.MJms;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
-import de.mhus.sop.api.jms.JmsOperationUtil;
+import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.operation.OperationApi;
 import de.mhus.sop.api.operation.OperationBpmDefinition;
 import de.mhus.sop.api.operation.OperationException;
@@ -161,7 +175,7 @@ public class OperationApiImpl extends MLog implements OperationApi {
 			path = path.substring(p+1);
 			SopApi access = Sop.getApi(SopApi.class);
 			try {
-				OperationResult answer = JmsOperationUtil.doExecuteOperation(Sop.getDefaultJmsConnection(), queue, path, properties, access.getCurrent(), true);
+				OperationResult answer = doExecuteOperation(Sop.getDefaultJmsConnection(), queue, path, properties, access.getCurrent(), true);
 				return answer;
 			} catch (Exception e) {
 				log().w(path,e);
@@ -185,8 +199,128 @@ public class OperationApiImpl extends MLog implements OperationApi {
 		}
 	}
 
+	public OperationResult doExecuteOperation(JmsConnection con, String queueName, String operationName, IProperties parameters, AaaContext user, boolean needAnswer ) throws Exception {
+		SopApi api = Sop.getApi(SopApi.class);
+		String ticket = api.createTrustTicket(user);
+		return doExecuteOperation(con, queueName, operationName, parameters, ticket, MTimeInterval.MINUTE_IN_MILLISECOUNDS / 2, needAnswer);
+	}
+	
+	public OperationResult doExecuteOperation(JmsConnection con, String queueName, String operationName, IProperties parameters, String ticket, long timeout, boolean needAnswer ) throws Exception {
+
+		if (con == null) throw new JMSException("connection is null");
+		ClientJms client = new ClientJms(con.createQueue(queueName));
+				
+		boolean needObject = false;
+		for (Entry<String, Object> item : parameters) {
+			Object value = item.getValue();
+			if (! (value == null || value.getClass().isPrimitive() || value instanceof String ) ) {
+				needObject = true;
+				break;
+			}
+		}
+		
+		Message msg = null;
+		if (needObject) {
+			msg = con.createObjectMessage((MProperties)parameters);
+		} else {
+			msg = con.createMapMessage();
+			for (Entry<String, Object> item : parameters) {
+				//String name = item.getKey();
+				//if (!name.startsWith("_"))
+				((MapMessage)msg).setObject(item.getKey(), item.getValue()); //TODO different types, currently it's only String ?!
+			}
+			((MapMessage)msg).getMapNames();
+		}
+		
+		msg.setStringProperty(Sop.PARAM_OPERATION_PATH, operationName);
+
+
+		msg.setStringProperty(Sop.PARAM_AAA_TICKET, ticket );
+		client.setTimeout(timeout);
+    	// Send Request
+    	
+    	log().d(operationName,"sending Message", queueName, msg, needAnswer);
+    	
+    	if (!needAnswer) {
+    		client.sendJmsOneWay(msg);
+    		return null;
+    	}
+    	
+    	Message answer = client.sendJms(msg);
+
+    	// Process Answer
+    	
+    	OperationResult out = new OperationResult();
+    	out.setOperationPath(operationName);
+		if (answer == null) {
+			log().d(queueName,operationName,"answer is null");
+			out.setSuccessful(false);
+			out.setMsg("answer is null");
+			out.setReturnCode(OperationResult.INTERNAL_ERROR);
+		} else {
+			boolean successful = answer.getBooleanProperty(Sop.PARAM_SUCCESSFUL);
+			out.setSuccessful(successful);
+			
+			if (!successful)
+				out.setMsg(answer.getStringProperty(Sop.PARAM_MSG));
+			out.setReturnCode(answer.getLongProperty(Sop.PARAM_RC));
+			
+			if (successful) {
+				
+				if (answer instanceof MapMessage) {
+					MapMessage mapMsg = (MapMessage)answer;
+					out.setResult(MJms.getMapProperties(mapMsg));
+				} else
+				if (answer instanceof TextMessage) {
+					out.setMsg(((TextMessage)answer).getText());
+					out.setResult(out.getMsg());
+				} else
+				if (answer instanceof BytesMessage) {
+					long len = ((BytesMessage)answer).getBodyLength();
+					if (len > Sop.MAX_MSG_BYTES) {
+						out.setMsg("answer bytes too long " + len);
+						out.setSuccessful(false);
+						out.setReturnCode(OperationResult.INTERNAL_ERROR);
+					} else {
+						byte[] bytes = new byte[(int) len];
+						((BytesMessage)answer).readBytes(bytes);
+						out.setResult(bytes);
+					}
+				} else
+				if (answer instanceof ObjectMessage) {
+					Serializable obj = ((ObjectMessage)answer).getObject();
+					if (obj == null) {
+						out.setResult(null);
+					} else {
+						out.setResult(obj);
+					}
+				}
+			}	
+		}
+		
+		
+		client.close();
+		
+		return out;
+	}
+		
+	public List<String>	doGetOperationList(JmsConnection con, String queueName, AaaContext user) throws Exception {
+		IProperties pa = new MProperties();
+		OperationResult ret = doExecuteOperation(con, queueName, "_list", pa, user, true);
+		if (ret.isSuccessful()) {
+			Object res = ret.getResult();
+			if (res != null && res instanceof MProperties) {
+				String[] list = String.valueOf( ((MProperties)res).getString("list","") ).split(",");
+				LinkedList<String> out = new LinkedList<String>();
+				for (String item : list) out.add(item);
+				return out;
+			}
+		}
+		return null;
+	}
+	
 	@Override
-	public OperationBpmDefinition getBpmDefinition(String prozess) {
+	public OperationBpmDefinition getActionDefinition(String prozess) {
 		synchronized (register) {
 			OperationService o = bpmRegister.get(prozess);
 			return o == null ? null : o.getBpmDefinition();
@@ -194,7 +328,7 @@ public class OperationApiImpl extends MLog implements OperationApi {
 	}
 
 	@Override
-	public List<OperationBpmDefinition> getBpmDefinitions() {
+	public List<OperationBpmDefinition> getActionDefinitions() {
 		synchronized (register) {
 			LinkedList<OperationBpmDefinition> out = new LinkedList<OperationBpmDefinition>();
 			for (OperationService service : bpmRegister.values())

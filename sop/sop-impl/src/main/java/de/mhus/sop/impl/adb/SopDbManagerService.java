@@ -21,7 +21,7 @@ import de.mhus.lib.sql.PseudoDbPool;
 import de.mhus.sop.api.adb.DbSchemaService;
 
 @Component(provide=DbManagerService.class,immediate=true)
-public class MfwDbManagerService extends DbManagerServiceImpl {
+public class SopDbManagerService extends DbManagerServiceImpl {
 	
 	private ServiceTracker<DbSchemaService,DbSchemaService> tracker;
 	private TreeMap<String,DbSchemaService> schemaList = new TreeMap<>();
@@ -66,7 +66,7 @@ public class MfwDbManagerService extends DbManagerServiceImpl {
 
 			DbSchemaService service = context.getService(reference);
 			String name = service.getClass().getCanonicalName();
-			service.doInitialize(MfwDbManagerService.this);
+			service.doInitialize(SopDbManagerService.this);
 
 			synchronized (schemaList) {
 				schemaList.put(name, service);

@@ -19,13 +19,13 @@ import de.mhus.sop.api.model.DbMetadata;
 
 public class SopDbSchema extends AbstractDbSchema {
 
-	private MfwDbManagerService admin;
+	private SopDbManagerService admin;
 	private DbAccessManager accessManager;
 	
 	public SopDbSchema() {
 	}
 	
-	public SopDbSchema(MfwDbManagerService admin) {
+	public SopDbSchema(SopDbManagerService admin) {
 		this.admin = admin;
 	}
 	

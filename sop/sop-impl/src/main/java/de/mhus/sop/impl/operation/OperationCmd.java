@@ -21,7 +21,6 @@ import de.mhus.lib.karaf.jms.JmsUtil;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
-import de.mhus.sop.api.jms.JmsOperationUtil;
 import de.mhus.sop.api.operation.OperationApi;
 import de.mhus.sop.api.operation.OperationBpmDefinition;
 
@@ -60,7 +59,7 @@ public class OperationCmd implements Action {
 				}
 			} else {
 				if (MString.isSet(path)) queueName = path;
-				List<String> list = JmsOperationUtil.doGetOperationList(con, queueName, acc);
+				List<String> list = api.doGetOperationList(con, queueName, acc);
 				if (list != null) {
 					for (String item : list)
 						System.out.println(item);
@@ -73,7 +72,7 @@ public class OperationCmd implements Action {
 		if (cmd.equals("bpm")) {
 			ConsoleTable table = new ConsoleTable();
 			table.setHeaderValues("Name","Register name", "Service Class");
-			for (OperationBpmDefinition def : api.getBpmDefinitions()) {
+			for (OperationBpmDefinition def : api.getActionDefinitions()) {
 				table.addRowValues(def.getName(), def.getRegisterName(), def.getServiceClass());
 			}
 			table.print(System.out);
@@ -93,7 +92,7 @@ public class OperationCmd implements Action {
 			} else {
 				IProperties pa = new MProperties();
 				pa.setString("id", path);
-				OperationResult ret = JmsOperationUtil.doExecuteOperation(con, queueName, "_get", pa, acc, true);
+				OperationResult ret = api.doExecuteOperation(con, queueName, "_get", pa, acc, true);
 				if (ret.isSuccessful()) {
 					Object res = ret.getResult();
 					if (res != null && res instanceof Map<?,?>) {
