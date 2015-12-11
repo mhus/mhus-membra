@@ -5,7 +5,7 @@ import de.mhus.lib.core.logging.Log;
 import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.core.strategy.TaskContext;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.action.BpmCase.STATUS;
 
 public class BpmUtil {
@@ -91,12 +91,12 @@ public class BpmUtil {
 
 		{
 			String caseId = context.getParameters().getString("_mfw_caseId",null);
-			caze = Mfw.getApi(BpmApi.class).getCase(caseId);
+			caze = Sop.getApi(BpmApi.class).getCase(caseId);
 		}
 		
 		if (caze == null) {
 			String caseId = context.getParameters().getString("_bpm_caseId",null);
-			caze = Mfw.getApi(BpmApi.class).getCase(caseId);
+			caze = Sop.getApi(BpmApi.class).getCase(caseId);
 		}
 		
 		if (caze == null)

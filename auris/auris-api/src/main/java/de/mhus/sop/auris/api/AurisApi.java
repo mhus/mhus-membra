@@ -7,9 +7,9 @@ import de.mhus.lib.adb.DbManager;
 import de.mhus.lib.errors.MException;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
 import de.mhus.sop.auris.api.util.VirtualPostProcessor;
-import de.mhus.sop.api.MApi;
+import de.mhus.sop.api.SApi;
 
-public interface AurisApi extends MApi {
+public interface AurisApi extends SApi {
 
 	public static final String SOURCE0 = "s0";
 	public static final String SOURCE1 = "s1";

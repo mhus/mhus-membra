@@ -11,8 +11,8 @@ import de.mhus.lib.core.pojo.MPojo;
 import de.mhus.lib.core.pojo.PojoModelFactory;
 import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 
 public abstract class AbstractObjectListNode<T> extends JsonNode<T> {
 
@@ -42,7 +42,7 @@ public abstract class AbstractObjectListNode<T> extends JsonNode<T> {
 	}
 
 	protected PojoModelFactory getPojoModelFactory() {
-		DbManager manager = Mfw.getApi(MfwApi.class).getDbManager();
+		DbManager manager = Sop.getApi(SopApi.class).getDbManager();
 		DbSchema schema = manager.getSchema();
 		return schema;
 //		return MPojo.getDefaultModelFactory();

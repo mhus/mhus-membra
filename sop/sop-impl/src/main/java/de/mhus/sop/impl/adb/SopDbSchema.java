@@ -11,21 +11,21 @@ import de.mhus.lib.adb.transaction.DbLockObject;
 import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.sql.DbConnection;
 import de.mhus.lib.sql.DbResult;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.adb.AbstractDbSchema;
 import de.mhus.sop.api.adb.DbSchemaService;
 import de.mhus.sop.api.model.DbMetadata;
 
-public class MfwDbSchema extends AbstractDbSchema {
+public class SopDbSchema extends AbstractDbSchema {
 
 	private MfwDbManagerService admin;
 	private DbAccessManager accessManager;
 	
-	public MfwDbSchema() {
+	public SopDbSchema() {
 	}
 	
-	public MfwDbSchema(MfwDbManagerService admin) {
+	public SopDbSchema(MfwDbManagerService admin) {
 		this.admin = admin;
 	}
 	
@@ -64,7 +64,7 @@ public class MfwDbSchema extends AbstractDbSchema {
 			if (object instanceof DbMetadata) {
 				DbMetadata obj = (DbMetadata)object;
 				try {
-					MfwApi aa = Mfw.getApi(MfwApi.class);
+					SopApi aa = Sop.getApi(SopApi.class);
 					switch(right) {
 					case CREATE:
 						if (!aa.canCreate(obj))

@@ -7,8 +7,8 @@ import de.mhus.lib.core.MLog;
 import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.errors.MRuntimeException;
 import de.mhus.lib.jms.JmsInterceptor;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 
 public class TicketAccessInterceptor extends MLog implements JmsInterceptor {
 
@@ -24,7 +24,7 @@ public class TicketAccessInterceptor extends MLog implements JmsInterceptor {
 		}
 		try {
 			if (ticket == null) throw new AccessDeniedException("call service without ticket");
-			Mfw.getApi(MfwApi.class).process(ticket);
+			Sop.getApi(SopApi.class).process(ticket);
 		} catch (Throwable t) {
 			log().i("Incoming Access Denied",message);
 			throw t;
@@ -40,7 +40,7 @@ public class TicketAccessInterceptor extends MLog implements JmsInterceptor {
 			throw new MRuntimeException(e);
 		}
 		if (ticket == null) throw new AccessDeniedException("call service without ticket");
-		Mfw.getApi(MfwApi.class).release(ticket);
+		Sop.getApi(SopApi.class).release(ticket);
 	}
 
 	@Override

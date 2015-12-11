@@ -9,8 +9,8 @@ import de.mhus.lib.adb.Persistable;
 import de.mhus.lib.core.MLog;
 import de.mhus.lib.errors.MException;
 import de.mhus.lib.karaf.adb.DbManagerService;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.Reference;
@@ -22,12 +22,12 @@ import de.mhus.sop.api.model.DbMetadata;
 import de.mhus.sop.api.model.ObjectParameter;
 
 @Component(provide=DbSchemaService.class,immediate=true)
-public class MfwDbImpl extends MLog implements DbSchemaService {
+public class SopDbImpl extends MLog implements DbSchemaService {
 
 	private DbManagerService service;
-	private static MfwDbImpl instance;
+	private static SopDbImpl instance;
 
-	public static MfwDbImpl instance() {
+	public static SopDbImpl instance() {
 		return instance;
 	}
 	
@@ -67,7 +67,7 @@ public class MfwDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Mfw.getApi(MfwApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 			if (ace == null) return false;
 
 			return ace.canRead();
@@ -87,7 +87,7 @@ public class MfwDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Mfw.getApi(MfwApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 			if (ace == null) return false;
 
 			return ace.canUpdate();
@@ -106,7 +106,7 @@ public class MfwDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Mfw.getApi(MfwApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 			if (ace == null) return false;
 
 			return ace.canDelete();
@@ -129,7 +129,7 @@ public class MfwDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Mfw.getApi(MfwApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 			if (ace == null) return false;
 
 			return ace.canCreate();
@@ -147,9 +147,9 @@ public class MfwDbImpl extends MLog implements DbSchemaService {
 	@Override
 	public DbMetadata getObject(String type, UUID id) throws MException {
 		if (type.equals(ObjectParameter.class.getCanonicalName()))
-			return MfwDbImpl.getManager().getObject(ObjectParameter.class, id);
+			return SopDbImpl.getManager().getObject(ObjectParameter.class, id);
 		if (type.equals(ActionTask.class.getCanonicalName()))
-			return MfwDbImpl.getManager().getObject(ActionTask.class, id);
+			return SopDbImpl.getManager().getObject(ActionTask.class, id);
 		throw new MException("unknown type",type);
 	}
 
@@ -163,7 +163,7 @@ public class MfwDbImpl extends MLog implements DbSchemaService {
 			ReferenceCollector collector) {
 		if (object == null) return;
 		try {
-			for (ObjectParameter p : Mfw.getApi(MfwApi.class).getParameters(object.getClass(), object.getId())) {
+			for (ObjectParameter p : Sop.getApi(SopApi.class).getParameters(object.getClass(), object.getId())) {
 				collector.foundReference(new Reference<DbMetadata>(p,TYPE.CHILD));
 			}
 		} catch (MException e) {

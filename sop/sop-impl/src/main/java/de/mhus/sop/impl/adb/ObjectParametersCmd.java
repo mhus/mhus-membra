@@ -12,8 +12,8 @@ import de.mhus.lib.adb.query.Db;
 import de.mhus.lib.core.MConstants;
 import de.mhus.lib.core.MString;
 import de.mhus.lib.core.console.ConsoleTable;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.model.DbMetadata;
 import de.mhus.sop.api.model.ObjectParameter;
 import de.mhus.sop.api.util.ObjectUtil;
@@ -36,7 +36,7 @@ public class ObjectParametersCmd implements Action {
 	@Override
 	public Object execute(CommandSession session) throws Exception {
 
-		DbManager manager = Mfw.getApi(MfwApi.class).getDbManager();
+		DbManager manager = Sop.getApi(SopApi.class).getDbManager();
 				
 		if (type.equals("parameter")) {
 			
@@ -58,7 +58,7 @@ public class ObjectParametersCmd implements Action {
 		Class<?> cType = null;
 		UUID rId = MConstants.EMPTY_UUID;
 		if (!"-".equals(id)) {
-			DbMetadata obj = Mfw.getApi(MfwApi.class).getObject(type, id);
+			DbMetadata obj = Sop.getApi(SopApi.class).getObject(type, id);
 			if (obj == null) {
 				System.out.println("Object not found");
 				return null;
@@ -74,7 +74,7 @@ public class ObjectParametersCmd implements Action {
 			ConsoleTable table = new ConsoleTable();
 			table.setHeaderValues("KEY","VALUE");
 
-			for (ObjectParameter param : Mfw.getApi(MfwApi.class).getParameters(cType, rId)) {
+			for (ObjectParameter param : Sop.getApi(SopApi.class).getParameters(cType, rId)) {
 				table.addRowValues(param.getKey(),param.getValue());
 			}
 			table.print(System.out);
@@ -89,7 +89,7 @@ public class ObjectParametersCmd implements Action {
 		} break;
 		case "remove": {
 			for (String p : params) {
-				ObjectParameter pp = Mfw.getApi(MfwApi.class).getParameter(cType, rId, p);
+				ObjectParameter pp = Sop.getApi(SopApi.class).getParameter(cType, rId, p);
 				if (pp != null)
 					pp.delete();
 				else
@@ -98,18 +98,18 @@ public class ObjectParametersCmd implements Action {
 			System.out.println("OK");
 		} break;
 		case "clean": {
-			for (ObjectParameter param : Mfw.getApi(MfwApi.class).getParameters(cType, rId)) {
+			for (ObjectParameter param : Sop.getApi(SopApi.class).getParameters(cType, rId)) {
 				param.delete();
 			}
 			System.out.println("OK");
 		} break;
 		case "get": {
-			ObjectParameter p = Mfw.getApi(MfwApi.class).getParameter(cType, rId, params[0]);
+			ObjectParameter p = Sop.getApi(SopApi.class).getParameter(cType, rId, params[0]);
 			if (p != null)
 				System.out.println(p.getValue());
 		} break;
 		case "recursive": {
-			ObjectParameter p = Mfw.getApi(MfwApi.class).getParameter(cType, rId, params[0]);
+			ObjectParameter p = Sop.getApi(SopApi.class).getParameter(cType, rId, params[0]);
 			if (p != null)
 				System.out.println(p.getValue());
 		} break;

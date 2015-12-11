@@ -31,7 +31,7 @@ import de.mhus.lib.jms.JmsDestination;
 import de.mhus.lib.jms.MJms;
 import de.mhus.lib.jms.ServerJms;
 import de.mhus.lib.karaf.jms.JmsDataChannelImpl;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 
 /**
  * The class implement the protocol to provide a 'operation' connection via JMS. It's the
@@ -66,7 +66,7 @@ public abstract class AbstractOperationExecuteChannel extends JmsDataChannelImpl
 	
 	protected Message received(Message msg) throws JMSException {
 		
-		String path = msg.getStringProperty(Mfw.PARAM_OPERATION_PATH);
+		String path = msg.getStringProperty(Sop.PARAM_OPERATION_PATH);
 		if (path == null) return null;
 		IProperties properties = null;
 		if (msg instanceof MapMessage) {
@@ -89,20 +89,20 @@ public abstract class AbstractOperationExecuteChannel extends JmsDataChannelImpl
 			properties = new MProperties(); // empty
 		
 		OperationResult res = null;
-		if (path.equals(Mfw.OPERATION_LIST)) {
+		if (path.equals(Sop.OPERATION_LIST)) {
 			String list = MString.join(getPublicOperations().iterator(), ",");
-			res = new Successful(Mfw.OPERATION_LIST, "list",OperationResult.OK,"list",list);
+			res = new Successful(Sop.OPERATION_LIST, "list",OperationResult.OK,"list",list);
 		} else
-		if (path.equals(Mfw.OPERATION_INFO)) {
-			String id = properties.getString(Mfw.PARAM_OPERATION_ID, null);
+		if (path.equals(Sop.OPERATION_INFO)) {
+			String id = properties.getString(Sop.PARAM_OPERATION_ID, null);
 			if (id == null) 
-				res = new NotSuccessful(Mfw.OPERATION_INFO, "not found", OperationResult.NOT_FOUND);
+				res = new NotSuccessful(Sop.OPERATION_INFO, "not found", OperationResult.NOT_FOUND);
 			else {
 				OperationDescription des = getOperationDescription(id);
 				if (des == null)
-					res = new NotSuccessful(Mfw.OPERATION_INFO, "not found", OperationResult.NOT_FOUND);
+					res = new NotSuccessful(Sop.OPERATION_INFO, "not found", OperationResult.NOT_FOUND);
 				else {
-					res = new Successful(Mfw.OPERATION_INFO, "list",OperationResult.OK,
+					res = new Successful(Sop.OPERATION_INFO, "list",OperationResult.OK,
 							"group",des.getGroup(),
 							"id",des.getId(),
 							"form",des.getForm(),

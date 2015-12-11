@@ -8,7 +8,7 @@ import org.apache.karaf.shell.commands.Action;
 import org.apache.karaf.shell.commands.Command;
 
 import de.mhus.lib.core.console.ConsoleTable;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.rest.RestNodeService;
 import de.mhus.sop.api.rest.RestService;
 
@@ -18,7 +18,7 @@ public class RestCmd implements Action {
 	@Override
 	public Object execute(CommandSession session) throws Exception {
 
-        RestService restService = Mfw.getApi(RestService.class);
+        RestService restService = Sop.getApi(RestService.class);
 
         ConsoleTable table = new ConsoleTable();
         table.setHeaderValues("Registered","Node Id","Parents","Class");

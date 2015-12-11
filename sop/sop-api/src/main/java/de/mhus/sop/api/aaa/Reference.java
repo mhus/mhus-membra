@@ -2,8 +2,8 @@ package de.mhus.sop.api.aaa;
 
 import de.mhus.lib.core.MLog;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.model.DbMetadata;
 
 public class Reference<T extends DbMetadata> extends MLog {
@@ -27,7 +27,7 @@ public class Reference<T extends DbMetadata> extends MLog {
 	
 	public void doDelete() throws MException {
 		log().d("start delete",object,type);
-		Mfw.getApi(MfwApi.class).onDelete(object);
+		Sop.getApi(SopApi.class).onDelete(object);
 		log().d("delete",object,type);
 		object.delete();
 	}

@@ -12,8 +12,8 @@ import de.mhus.lib.core.MSingleton;
 import de.mhus.lib.core.logging.LevelMapper;
 import de.mhus.lib.core.logging.Log;
 import de.mhus.lib.core.logging.TrailLevelMapper;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 
 public class JsonResult implements RestResult {
@@ -39,7 +39,7 @@ public class JsonResult implements RestResult {
     		((ObjectNode)json).put("_timestamp", System.currentTimeMillis());
     		((ObjectNode)json).put("_sequence", id);
 
-    		AaaContext user = Mfw.getApi(MfwApi.class).getCurrent();
+    		AaaContext user = Sop.getApi(SopApi.class).getCurrent();
     		((ObjectNode)json).put("_user", user.getAccountId());
     		if (user.isAdminMode())
         		((ObjectNode)json).put("_admin", true);

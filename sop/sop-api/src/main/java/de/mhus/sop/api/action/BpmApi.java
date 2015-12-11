@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.action.BpmCase.STATUS;
 
-public interface BpmApi extends MfwApi {
+public interface BpmApi extends SopApi {
 
 	BpmCase getCase(String id) throws MException;
 	

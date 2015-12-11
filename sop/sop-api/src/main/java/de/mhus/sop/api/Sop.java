@@ -14,7 +14,7 @@ import de.mhus.lib.jms.JmsConnection;
 import de.mhus.lib.jms.MJms;
 import de.mhus.lib.karaf.jms.JmsUtil;
 
-public class Mfw {
+public class Sop {
 
 	public static final String PARAMETERS = "parameter.";
 
@@ -38,7 +38,7 @@ public class Mfw {
 	private static HashMap<String, Container> apiCache = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
-	public synchronized static <T extends MApi> T getApi(Class<? extends T> ifc) {
+	public synchronized static <T extends SApi> T getApi(Class<? extends T> ifc) {
 		Container cached = apiCache.get(ifc.getCanonicalName());
 		if (cached != null) {
 			if (cached.bundle.getState() != Bundle.ACTIVE || cached.modified != cached.bundle.getLastModified()) {
@@ -48,7 +48,7 @@ public class Mfw {
 		}
 		
 		if (cached == null) {
-			BundleContext context = FrameworkUtil.getBundle(Mfw.class).getBundleContext();
+			BundleContext context = FrameworkUtil.getBundle(Sop.class).getBundleContext();
 			ServiceReference<? extends T> ref = context.getServiceReference(ifc);
 			if (ref == null) throw new NotFoundException("api reference not found",ifc);
 			T obj = context.getService(ref);
@@ -66,8 +66,8 @@ public class Mfw {
 	private static class Container {
 
 		public long modified;
-		public Class<? extends MApi> ifc;
-		public MApi api;
+		public Class<? extends SApi> ifc;
+		public SApi api;
 		public Bundle bundle;
 		
 	}

@@ -21,8 +21,8 @@ import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.jms.ClientJms;
 import de.mhus.lib.jms.JmsConnection;
 import de.mhus.lib.jms.MJms;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.util.TicketUtil;
 
@@ -31,7 +31,7 @@ public class JmsOperationUtil {
 	private static Log log = Log.getLog(JmsOperationUtil.class);
 	
 	public static OperationResult doExecuteOperation(JmsConnection con, String queueName, String operationName, IProperties parameters, AaaContext user, boolean needAnswer ) throws Exception {
-		MfwApi api = Mfw.getApi(MfwApi.class);
+		SopApi api = Sop.getApi(SopApi.class);
 		String ticket = api.createTrustTicket(user);
 		return doExecuteOperation(con, queueName, operationName, parameters, ticket, MTimeInterval.MINUTE_IN_MILLISECOUNDS / 2, needAnswer);
 	}
@@ -63,10 +63,10 @@ public class JmsOperationUtil {
 			((MapMessage)msg).getMapNames();
 		}
 		
-		msg.setStringProperty(Mfw.PARAM_OPERATION_PATH, operationName);
+		msg.setStringProperty(Sop.PARAM_OPERATION_PATH, operationName);
 
 
-		msg.setStringProperty(Mfw.PARAM_AAA_TICKET, ticket );
+		msg.setStringProperty(Sop.PARAM_AAA_TICKET, ticket );
 		client.setTimeout(timeout);
     	// Send Request
     	
@@ -89,12 +89,12 @@ public class JmsOperationUtil {
 			out.setMsg("answer is null");
 			out.setReturnCode(OperationResult.INTERNAL_ERROR);
 		} else {
-			boolean successful = answer.getBooleanProperty(Mfw.PARAM_SUCCESSFUL);
+			boolean successful = answer.getBooleanProperty(Sop.PARAM_SUCCESSFUL);
 			out.setSuccessful(successful);
 			
 			if (!successful)
-				out.setMsg(answer.getStringProperty(Mfw.PARAM_MSG));
-			out.setReturnCode(answer.getLongProperty(Mfw.PARAM_RC));
+				out.setMsg(answer.getStringProperty(Sop.PARAM_MSG));
+			out.setReturnCode(answer.getLongProperty(Sop.PARAM_RC));
 			
 			if (successful) {
 				
@@ -108,7 +108,7 @@ public class JmsOperationUtil {
 				} else
 				if (answer instanceof BytesMessage) {
 					long len = ((BytesMessage)answer).getBodyLength();
-					if (len > Mfw.MAX_MSG_BYTES) {
+					if (len > Sop.MAX_MSG_BYTES) {
 						out.setMsg("answer bytes too long " + len);
 						out.setSuccessful(false);
 						out.setReturnCode(OperationResult.INTERNAL_ERROR);

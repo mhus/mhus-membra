@@ -5,7 +5,7 @@ import java.util.Map;
 import de.mhus.lib.core.MLog;
 import de.mhus.lib.core.MProperties;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 
 public abstract class AurisConnector extends MLog {
 	
@@ -36,7 +36,7 @@ public abstract class AurisConnector extends MLog {
 	}
 	
 	protected void fireMessage(Map<String,String> msg) {
-		Mfw.getApi(AurisApi.class).fireMessage(msg);
+		Sop.getApi(AurisApi.class).fireMessage(msg);
 	}
 	
 }

@@ -5,8 +5,8 @@ import java.util.Map.Entry;
 
 import de.mhus.lib.core.util.SoftHashMap;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Ace;
@@ -25,7 +25,7 @@ public class AaaContextImpl implements AaaContext {
 	public AaaContextImpl(Account account, boolean admin) throws MException {
 		this.account = account;
 		if (admin) {
-			MfwApi aa = Mfw.getApi(MfwApi.class);
+			SopApi aa = Sop.getApi(SopApi.class);
 			Ace ace = aa.findGlobalAce(account.getAccount(), Ace.GENERAL_ADMIN);
 			if (ace != null && ace.canRead())
 				adminMode = true;

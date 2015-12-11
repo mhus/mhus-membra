@@ -5,7 +5,7 @@ import de.mhus.lib.core.MProperties;
 import de.mhus.lib.errors.MException;
 import de.mhus.lib.karaf.MOsgi;
 import de.mhus.sop.auris.api.AurisApi;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.model.DbMetadata;
 
 public class LogConnectorConf extends DbMetadata {
@@ -43,7 +43,7 @@ public class LogConnectorConf extends DbMetadata {
 
 	public STATUS getStatus() {
 		try {
-			return Mfw.getApi(AurisApi.class).getConnector(name).isActive() ? STATUS.ENABLED : STATUS.DISABLED;
+			return Sop.getApi(AurisApi.class).getConnector(name).isActive() ? STATUS.ENABLED : STATUS.DISABLED;
 		} catch (Throwable t) {
 			return STATUS.UNKNOWN;
 		}

@@ -12,7 +12,7 @@ import de.mhus.lib.annotations.adb.DbType.TYPE;
 import de.mhus.lib.core.util.MNls;
 import de.mhus.lib.errors.MException;
 import de.mhus.sop.cortex.api.outer.CortexApi;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.model.DbMetadata;
 
 public class CortexProject extends DbMetadata {

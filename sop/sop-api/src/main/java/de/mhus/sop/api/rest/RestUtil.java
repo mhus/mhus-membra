@@ -11,8 +11,8 @@ import de.mhus.lib.core.logging.Log;
 import de.mhus.lib.core.pojo.PojoAttribute;
 import de.mhus.lib.core.pojo.PojoModel;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.model.DbMetadata;
 import de.mhus.sop.api.operation.OperationBpmDefinition;
 import de.mhus.sop.api.operation.OperationService;
@@ -22,7 +22,7 @@ public class RestUtil {
 	private static Log log = Log.getLog(RestUtil.class);
 
 	public static void updateObject(CallContext callContext, Object obj, boolean publicOnly) throws IOException {
-		DbManager manager = Mfw.getApi(MfwApi.class).getDbManager();
+		DbManager manager = Sop.getApi(SopApi.class).getDbManager();
 		DbSchema schema = manager.getSchema();
 
 		PojoModel model = schema.createPojoModel(obj.getClass());
@@ -40,7 +40,7 @@ public class RestUtil {
 	}
 
 	public static void updateObject(IProperties props, Object obj, boolean publicOnly) throws IOException {
-		DbManager manager = Mfw.getApi(MfwApi.class).getDbManager();
+		DbManager manager = Sop.getApi(SopApi.class).getDbManager();
 		DbSchema schema = manager.getSchema();
 
 		PojoModel model = schema.createPojoModel(obj.getClass());
@@ -70,11 +70,11 @@ public class RestUtil {
 	}
 
 	public static RestResult doExecuteBpm(Class<? extends OperationService> oper, CallContext callContext, String source) throws MException {
-		return Mfw.getApi(MfwApi.class).doExecuteRestAction(callContext, getOperationName(oper), source );
+		return Sop.getApi(SopApi.class).doExecuteRestAction(callContext, getOperationName(oper), source );
 	}
 	
 	public static RestResult doExecuteBpm(String name, CallContext callContext, String source) throws MException {
-		return Mfw.getApi(MfwApi.class).doExecuteRestAction(callContext, name, source );
+		return Sop.getApi(SopApi.class).doExecuteRestAction(callContext, name, source );
 	}
 
 	public static String getOperationName(Class<? extends OperationService> oper) throws MException {

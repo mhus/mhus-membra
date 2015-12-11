@@ -17,7 +17,7 @@ import de.mhus.sop.auris.api.AurisApi;
 import de.mhus.sop.auris.api.AurisConnector;
 import de.mhus.sop.auris.api.AurisConst;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 
 @Command(scope = "auris", name = "connector", description = "Auris connector configuration management")
 public class ConnectorCmd implements Action {
@@ -30,7 +30,7 @@ public class ConnectorCmd implements Action {
 
 	@Override
 	public Object execute(CommandSession session) throws Exception {
-		AurisApi api = Mfw.getApi(AurisApi.class);
+		AurisApi api = Sop.getApi(AurisApi.class);
 		if (cmd.equals("list")) {
 			for (String configName : api.getConnectorNames()) {
 				

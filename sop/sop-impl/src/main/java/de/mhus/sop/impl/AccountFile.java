@@ -17,8 +17,8 @@ import de.mhus.lib.core.MCast;
 import de.mhus.lib.core.MLog;
 import de.mhus.lib.core.MString;
 import de.mhus.lib.core.MXml;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Ace;
 
@@ -98,7 +98,7 @@ public class AccountFile extends MLog implements Account {
 						return true;
 					}
 				}
-				isPasswordValidated = Mfw.getApi(MfwApi.class).validatePassword(this, password);
+				isPasswordValidated = Sop.getApi(SopApi.class).validatePassword(this, password);
 			} catch (Throwable t) {
 				log().w("validatePassword",account,t);
 			}

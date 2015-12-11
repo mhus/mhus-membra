@@ -18,8 +18,8 @@ import de.mhus.lib.core.strategy.OperationDescription;
 import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.jms.JmsConnection;
 import de.mhus.lib.karaf.jms.JmsUtil;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.jms.JmsOperationUtil;
 import de.mhus.sop.api.operation.OperationApi;
@@ -46,13 +46,13 @@ public class OperationCmd implements Action {
 	@Override
 	public Object execute(CommandSession session) throws Exception {
 
-		JmsConnection con = Mfw.getDefaultJmsConnection();
+		JmsConnection con = Sop.getDefaultJmsConnection();
 		if (conName != null)
 			con = JmsUtil.getConnection(conName);
 		
-		AaaContext acc = Mfw.getApi(MfwApi.class).getCurrent();
+		AaaContext acc = Sop.getApi(SopApi.class).getCurrent();
 		
-		OperationApi api = Mfw.getApi(OperationApi.class);
+		OperationApi api = Sop.getApi(OperationApi.class);
 		if (cmd.equals("list")) {
 			if (MString.isEmpty(path) && MString.isEmpty(queueName)) {
 				for (String path : api.getOperations()) {

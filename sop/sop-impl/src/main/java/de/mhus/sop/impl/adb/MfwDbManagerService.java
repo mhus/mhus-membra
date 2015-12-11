@@ -47,7 +47,7 @@ public class MfwDbManagerService extends DbManagerServiceImpl {
 
 	@Override
 	protected DbSchema doCreateSchema() {
-		return new MfwDbSchema(this);
+		return new SopDbSchema(this);
 	}
 
 	@Override

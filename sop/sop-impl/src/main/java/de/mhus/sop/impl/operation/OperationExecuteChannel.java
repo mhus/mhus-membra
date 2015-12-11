@@ -16,7 +16,7 @@ import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.jms.ServerJms;
 import de.mhus.lib.karaf.jms.JmsDataChannel;
 import de.mhus.lib.karaf.jms.JmsManagerService;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.jms.AbstractOperationExecuteChannel;
 import de.mhus.sop.api.jms.TicketAccessInterceptor;
 import de.mhus.sop.api.operation.OperationApi;
@@ -61,7 +61,7 @@ public class OperationExecuteChannel extends AbstractOperationExecuteChannel {
 
 		log().d("execute operation",path,properties);
 		
-		OperationApi admin = Mfw.getApi(OperationApi.class);
+		OperationApi admin = Sop.getApi(OperationApi.class);
 		OperationResult res = admin.doExecute(path, properties);
 		
 		log().d("operation result",path,res, res == null ? "" : res.getResult());
@@ -70,7 +70,7 @@ public class OperationExecuteChannel extends AbstractOperationExecuteChannel {
 
 	@Override
 	protected List<String> getPublicOperations() {
-		OperationApi admin = Mfw.getApi(OperationApi.class);
+		OperationApi admin = Sop.getApi(OperationApi.class);
 		LinkedList<String> out = new LinkedList<String>();
 		for (String path : admin.getOperations()) {
 			try {
@@ -87,7 +87,7 @@ public class OperationExecuteChannel extends AbstractOperationExecuteChannel {
 
 	@Override
 	protected OperationDescription getOperationDescription(String path) {
-		OperationApi admin = Mfw.getApi(OperationApi.class);
+		OperationApi admin = Sop.getApi(OperationApi.class);
 		Operation oper = admin.getOperation(path);
 		if (!oper.hasAccess()) return null;
 		return oper.getDescription();

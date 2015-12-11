@@ -21,7 +21,7 @@ import de.mhus.sop.api.model.ObjectParameter;
 import de.mhus.sop.api.rest.CallContext;
 import de.mhus.sop.api.rest.RestResult;
 
-public interface MfwApi extends MApi {
+public interface SopApi extends SApi {
 
 	int PAGE_SIZE = 100;
 

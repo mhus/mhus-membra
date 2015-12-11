@@ -6,7 +6,7 @@ import de.mhus.lib.sql.DbConnection;
 import de.mhus.lib.sql.DbResult;
 import de.mhus.lib.sql.DbStatement;
 import de.mhus.sop.auris.api.AurisApi;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 
 public class Diet extends MLog {
 
@@ -18,7 +18,7 @@ public class Diet extends MLog {
 			long min = 0;
 			long max = System.currentTimeMillis();
 			
-			DbConnection con = Mfw.getApi(AurisApi.class).getManager().getPool().getConnection();
+			DbConnection con = Sop.getApi(AurisApi.class).getManager().getPool().getConnection();
 			{
 				DbStatement sth = con.createStatement(
 						"select min(created_) AS min, max(created_) AS max FROM sop_LogEntry_");

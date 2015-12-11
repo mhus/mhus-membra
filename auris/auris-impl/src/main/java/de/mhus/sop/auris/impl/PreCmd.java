@@ -16,7 +16,7 @@ import de.mhus.sop.auris.api.AurisConnector;
 import de.mhus.sop.auris.api.AurisPreProcessor;
 import de.mhus.sop.auris.api.model.LogConnectorConf;
 import de.mhus.sop.auris.api.model.LogPreProcessorConf;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 
 @Command(scope = "auris", name = "pre", description = "Auris pre processor configuration management")
 public class PreCmd implements Action {
@@ -29,7 +29,7 @@ public class PreCmd implements Action {
 
 	@Override
 	public Object execute(CommandSession session) throws Exception {
-		AurisApi api = Mfw.getApi(AurisApi.class);
+		AurisApi api = Sop.getApi(AurisApi.class);
 		if (cmd.equals("list")) {
 			for (AurisPreProcessor pre : api.getPreProcessors()) {
 				

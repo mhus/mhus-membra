@@ -22,8 +22,8 @@ import de.mhus.lib.core.strategy.OperationDescription;
 import de.mhus.lib.core.strategy.OperationResult;
 import de.mhus.lib.core.util.VectorMap;
 import de.mhus.lib.jms.JmsObject;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.jms.JmsOperationUtil;
 import de.mhus.sop.api.operation.OperationApi;
 import de.mhus.sop.api.operation.OperationBpmDefinition;
@@ -159,9 +159,9 @@ public class OperationApiImpl extends MLog implements OperationApi {
 		if (p >= 0) {
 			String queue = path.substring(0,p);
 			path = path.substring(p+1);
-			MfwApi access = Mfw.getApi(MfwApi.class);
+			SopApi access = Sop.getApi(SopApi.class);
 			try {
-				OperationResult answer = JmsOperationUtil.doExecuteOperation(Mfw.getDefaultJmsConnection(), queue, path, properties, access.getCurrent(), true);
+				OperationResult answer = JmsOperationUtil.doExecuteOperation(Sop.getDefaultJmsConnection(), queue, path, properties, access.getCurrent(), true);
 				return answer;
 			} catch (Exception e) {
 				log().w(path,e);

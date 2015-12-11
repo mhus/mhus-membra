@@ -40,8 +40,8 @@ import de.mhus.lib.core.io.FileWatch;
 import de.mhus.lib.core.pojo.MPojo;
 import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.AaaSource;
 import de.mhus.sop.api.aaa.Account;
@@ -63,13 +63,12 @@ import de.mhus.sop.api.rest.JsonResult;
 import de.mhus.sop.api.rest.RestResult;
 import de.mhus.sop.api.rest.RestUtil;
 import de.mhus.sop.api.util.TicketUtil;
-import de.mhus.sop.impl.adb.MfwDbImpl;
+import de.mhus.sop.impl.adb.SopDbImpl;
 
 @Component(immediate=true)
-public class MfwApiImpl extends MLog implements MfwApi {
+public class SopApiImpl extends MLog implements SopApi {
 	
 	private MProperties mainConfiguration = new MProperties();
-	@SuppressWarnings("unused")
 	private FileWatch mainConfigurationWatch;
 
 	private static AaaContextImpl ROOT_CONTEXT = new RootContext();
@@ -191,7 +190,7 @@ public class MfwApiImpl extends MLog implements MfwApi {
 		if (out == null) {
 			DbManager manager = getDbManager();
 			if (key == null) return;
-			out = manager.injectObject(new ObjectParameter());
+			out = manager.inject(new ObjectParameter());
 			out.setObjectType(type);
 			out.setObjectId(id);
 			out.setKey(key);
@@ -294,7 +293,7 @@ public class MfwApiImpl extends MLog implements MfwApi {
 
 	
 	public DbManager getDbManager() {
-		return MfwDbImpl.getManager();
+		return SopDbImpl.getManager();
 	}
 
 	@Override
@@ -307,7 +306,7 @@ public class MfwApiImpl extends MLog implements MfwApi {
 	public List<ObjectParameter> getParameters(Class<?> type, String key,
 			String value) throws MException {
 		LinkedList<ObjectParameter> out = new LinkedList<>();
-		DbManager manager = MfwDbImpl.getManager();
+		DbManager manager = SopDbImpl.getManager();
 		for ( ObjectParameter p : manager.getByQualification(
 				Db.query(ObjectParameter.class)
 				.eq(Db.attr("objecttype"), Db.value(type.getCanonicalName()))
@@ -323,7 +322,7 @@ public class MfwApiImpl extends MLog implements MfwApi {
 	public <T> LinkedList<T> collectResults(AQuery<T> query, int page) throws MException {
 		LinkedList<T> list = new LinkedList<T>();
 		DbCollection<T> res = getDbManager().getByQualification(query);
-		if (!res.skip(page * MfwApi.PAGE_SIZE)) return list;
+		if (!res.skip(page * SopApi.PAGE_SIZE)) return list;
 		while (res.hasNext()) {
 			list.add(res.next());
 			if (list.size() >= PAGE_SIZE) break;
@@ -342,7 +341,7 @@ public class MfwApiImpl extends MLog implements MfwApi {
 	@Override
 	public RestResult doExecuteRestAction(CallContext callContext, String action, String source) throws MException {
 
-		BpmApi bpm = Mfw.getApi(BpmApi.class);
+		BpmApi bpm = Sop.getApi(BpmApi.class);
 		
 		long timeout = MTimeInterval.MINUTE_IN_MILLISECOUNDS * 10;
 		
@@ -368,7 +367,7 @@ public class MfwApiImpl extends MLog implements MfwApi {
 		if (action == null) action = callContext.getAction();
 		BpmCase res = bpm.createCase(null, action, parameters, true, timeout);
 		
-		DbManager manager = Mfw.getApi(MfwApi.class).getDbManager();
+		DbManager manager = Sop.getApi(SopApi.class).getDbManager();
 		DbSchema schema = manager.getSchema();
 		JsonResult result = new JsonResult();
 		ObjectNode jRoot = result.createObjectNode();

@@ -3,8 +3,8 @@ package de.mhus.sop.api.adb;
 import java.util.UUID;
 
 import de.mhus.lib.errors.MException;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.model.DbMetadata;
@@ -48,7 +48,7 @@ public abstract class AbstractDbSchemaService implements DbSchemaService {
 		try {
 			Class<?> clazz = Class.forName(type, true, this.getClass().getClassLoader());
 			if (clazz != null) {
-				return (DbMetadata)Mfw.getApi(MfwApi.class).getDbManager().getObject(clazz, id);
+				return (DbMetadata)Sop.getApi(SopApi.class).getDbManager().getObject(clazz, id);
 			}
 		} catch (Throwable t) {
 			throw new MException("type error",type,t);

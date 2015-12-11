@@ -28,7 +28,7 @@ import de.mhus.sop.auris.api.model.LogEntry;
 import de.mhus.sop.auris.api.model.LogPostProcessorConf;
 import de.mhus.sop.auris.api.model.LogPreProcessorConf;
 import de.mhus.sop.auris.api.util.VirtualPostProcessor;
-import de.mhus.sop.api.Mfw;
+import de.mhus.sop.api.Sop;
 
 @Command(scope = "auris", name = "post", description = "Auris post processor configuration management")
 public class PostCmd implements Action {
@@ -41,7 +41,7 @@ public class PostCmd implements Action {
 
 	@Override
 	public Object execute(CommandSession session) throws Exception {
-		AurisApi api = Mfw.getApi(AurisApi.class);
+		AurisApi api = Sop.getApi(AurisApi.class);
 		if (cmd.equals("list")) {
 			for (AurisPostProcessor post : api.getPostProcessors()) {
 				

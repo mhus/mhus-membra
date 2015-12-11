@@ -5,9 +5,9 @@ import java.util.List;
 import de.mhus.lib.core.IProperties;
 import de.mhus.lib.core.strategy.Operation;
 import de.mhus.lib.core.strategy.OperationResult;
-import de.mhus.sop.api.MApi;
+import de.mhus.sop.api.SApi;
 
-public interface OperationApi extends MApi {
+public interface OperationApi extends SApi {
 
 	String[] getGroups();
 	String[] getOperations();

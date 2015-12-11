@@ -30,21 +30,21 @@ import de.mhus.lib.core.util.MNls;
 import de.mhus.lib.core.util.Rfc1738;
 import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.logging.FileLogger;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.rest.CallContext;
 import de.mhus.sop.api.rest.HttpRequest;
 import de.mhus.sop.api.rest.Node;
 import de.mhus.sop.api.rest.RestResult;
 import de.mhus.sop.api.rest.RestService;
-import de.mhus.sop.api.util.MfwFileLogger;
+import de.mhus.sop.api.util.SopFileLogger;
 import de.mhus.sop.api.util.TicketUtil;
 
 @Component(immediate=true,name="RestServlet",provide=Servlet.class,properties="alias=/rest/*")
 public class RestServlet extends HttpServlet {
 
-	static Log trace = new MfwFileLogger("rest", "rest_trace");
+	static Log trace = new SopFileLogger("rest", "rest_trace");
 
     private static final String METHOD_DELETE = "DELETE";
 //    private static final String METHOD_HEAD = "HEAD";
@@ -125,11 +125,11 @@ public class RestServlet extends HttpServlet {
 	        @SuppressWarnings("unchecked")
 			CallContext callContext = new CallContext(new HttpRequest(req.getParameterMap()), method, context);
 	        
-	        RestService restService = Mfw.getApi(RestService.class);
+	        RestService restService = Sop.getApi(RestService.class);
 	        
 	        RestResult res = null;
 	        
-	        MfwApi access = Mfw.getApi(MfwApi.class);
+	        SopApi access = Sop.getApi(SopApi.class);
 	        AaaContext user = null;
 	        try {
 	        	user = access.process(ticket);

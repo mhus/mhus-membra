@@ -9,13 +9,13 @@ import de.mhus.lib.core.MTimeInterval;
 import de.mhus.lib.core.logging.Log;
 import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.sql.DbConnection;
-import de.mhus.sop.api.Mfw;
-import de.mhus.sop.api.MfwApi;
-import de.mhus.sop.api.util.MfwFileLogger;
+import de.mhus.sop.api.Sop;
+import de.mhus.sop.api.SopApi;
+import de.mhus.sop.api.util.SopFileLogger;
 
 public abstract class AbstractDbSchema extends DbSchema {
 
-	private Log trace = new MfwFileLogger("db", getClass().getCanonicalName());
+	private Log trace = new SopFileLogger("db", getClass().getCanonicalName());
 
 	public AbstractDbSchema() {
 		trace.i("start");
@@ -25,14 +25,14 @@ public abstract class AbstractDbSchema extends DbSchema {
 	
 	@Override
 	public void authorizeSaveForceAllowed(DbConnection con, Table table, Object object, boolean raw) throws AccessDeniedException {
-		if (!Mfw.getApi(MfwApi.class).getCurrent().isAdminMode())
+		if (!Sop.getApi(SopApi.class).getCurrent().isAdminMode())
 			throw new AccessDeniedException();
 	}
 
 	@Override
 	public void authorizeUpdateAttributes(DbConnection con, Table table,
 			Object object, boolean raw, String ... attributeNames) throws AccessDeniedException {
-		if (!Mfw.getApi(MfwApi.class).getCurrent().isAdminMode())
+		if (!Sop.getApi(SopApi.class).getCurrent().isAdminMode())
 			throw new AccessDeniedException();
 	}
 
