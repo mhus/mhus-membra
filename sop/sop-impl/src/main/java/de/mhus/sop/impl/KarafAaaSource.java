@@ -2,7 +2,6 @@ package de.mhus.sop.impl;
 
 import java.util.List;
 
-import javax.security.auth.Subject;
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
@@ -14,7 +13,6 @@ import org.apache.karaf.jaas.modules.BackingEngine;
 import org.apache.karaf.jaas.modules.BackingEngineFactory;
 
 import de.mhus.lib.core.security.LoginCallbackHandler;
-import de.mhus.lib.core.security.SimplePrincipal;
 import de.mhus.lib.karaf.MOsgi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.AaaSource;
@@ -25,6 +23,7 @@ public class KarafAaaSource implements AaaSource {
 
 	private String realm = "karaf";
 	BackingEngine engine = null;
+	private String moduleName;
 
 	@Override
 	public Account findAccount(String account) {
@@ -41,9 +40,11 @@ public class KarafAaaSource implements AaaSource {
 				AppConfigurationEntry[] entries = realmObj.getEntries();
 				if (entries != null) {
                     for (AppConfigurationEntry e : entries) {
-                        engine = getBackingEngine(e);
-                        if (engine != null)
-                            break;
+                    	if (moduleName == null || e.getLoginModuleName().equals(moduleName)) {
+	                        engine = getBackingEngine(e);
+	                        if (engine != null)
+	                            break;
+                    	}
                     }
                }
 			}
@@ -92,6 +93,14 @@ public class KarafAaaSource implements AaaSource {
 	public void setRealm(String realm) {
 		this.realm = realm;
 		engine = null;
+	}
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 
 	private class KarafAccount implements Account {
