@@ -6,8 +6,6 @@ public interface AaaSource {
 
 	Trust findTrust(String trust);
 
-	boolean validatePassword(Account account, String password);
-
 	String createTrustTicket(AaaContext user);
 
 }

@@ -461,7 +461,8 @@ public class SopApiImpl extends MLog implements SopApi {
 		boolean admin = false;
 		String account = null;
 		Account info = null;
-
+		Trust trustInfo = null;
+		
 		String[] parts = ticket.split(TicketUtil.SEP);
 		if (parts.length > 0 && parts[0].equals(TicketUtil.ACCOUNT)) {
 			
@@ -507,7 +508,7 @@ public class SopApiImpl extends MLog implements SopApi {
 			if (parts.length > 4)
 				admin = parts[4].equals(TicketUtil.ADMIN);
 
-			Trust trustInfo = getTrust(trust);
+			trustInfo = getTrust(trust);
 			if (trustInfo == null)
 				throw new AccessDeniedException("null",account);
 			if (!trustInfo.validatePassword(MPassword.decode(secret)))
@@ -528,13 +529,13 @@ public class SopApiImpl extends MLog implements SopApi {
 		} else
 			throw new AccessDeniedException("unknown ticket type",parts[0]);
 				
-		return process(info,admin);
+		return process(info, trustInfo, admin);
 	}
 	
-	public AaaContextImpl process(Account info, boolean admin) {
+	public AaaContextImpl process(Account info, Trust trust, boolean admin) {
 		AaaContextImpl c = null;
 		try {
-			c = new AaaContextImpl(info,admin);
+			c = new AaaContextImpl(info,trust,admin);
 		} catch (MException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -570,7 +571,7 @@ public class SopApiImpl extends MLog implements SopApi {
 		if (out != null)
 			return out;
 
-		throw new AccessDeniedException("not found",trust);
+		throw new AccessDeniedException("trust not found",trust);
 
 	}
 	
@@ -606,7 +607,7 @@ public class SopApiImpl extends MLog implements SopApi {
 		if (out != null)
 			return out;
 		
-		throw new AccessDeniedException("not found",account);
+		throw new AccessDeniedException("account not found",account);
 	}
 
 	@Override
@@ -884,7 +885,7 @@ public class SopApiImpl extends MLog implements SopApi {
 	@Override
 	public boolean validatePassword(Account account, String password) {
 		if (aaaSource == null) return false;
-		return aaaSource.validatePassword(account, password);
+		return account.validatePassword(password);
 	}
 	@Override
 	public boolean canRead(DbMetadata obj) throws MException {
@@ -932,5 +933,9 @@ public class SopApiImpl extends MLog implements SopApi {
 		return aaaSource.createTrustTicket(user);
 	}
 
+	@aQute.bnd.annotation.component.Reference
+	public void setAaaSource(AaaSource source) {
+		this.aaaSource = source;
+	}
 	
 }

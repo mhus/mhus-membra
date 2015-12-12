@@ -14,6 +14,7 @@ import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.ReferenceCollector;
+import de.mhus.sop.api.aaa.Trust;
 import de.mhus.sop.api.adb.DbSchemaService;
 import de.mhus.sop.api.model.ActionTask;
 import de.mhus.sop.api.model.DbMetadata;
@@ -85,7 +86,7 @@ public interface SopApi extends SApi {
 	
 	AaaContext process(String ticket);
 	AaaContext release(String ticket);
-	AaaContext process(Account ac, boolean admin);
+	AaaContext process(Account ac, Trust trust, boolean admin);
 	AaaContext release(Account ac);
 	AaaContext release(AaaContext context);
 	void resetContext();

@@ -11,6 +11,7 @@ import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.ContextCachedItem;
+import de.mhus.sop.api.aaa.Trust;
 
 public class AaaContextImpl implements AaaContext {
 
@@ -18,12 +19,14 @@ public class AaaContextImpl implements AaaContext {
 	private Account account;
 	protected boolean adminMode = false;
 	protected SoftHashMap<String, ContextCachedItem> cache = new SoftHashMap<String, ContextCachedItem>();
+	private Trust trust;
 
 	public AaaContextImpl(Account account) {
 		this.account = account;
 	}
-	public AaaContextImpl(Account account, boolean admin) throws MException {
+	public AaaContextImpl(Account account, Trust trust, boolean admin) throws MException {
 		this.account = account;
+		this.trust = trust;
 		if (admin) {
 			SopApi aa = Sop.getApi(SopApi.class);
 			Ace ace = aa.findGlobalAce(account.getAccount(), Ace.GENERAL_ADMIN);
@@ -98,6 +101,10 @@ public class AaaContextImpl implements AaaContext {
 	
 	public int cacheSize() {
 		return cache.size();
+	}
+	@Override
+	public Trust getTrust() {
+		return trust;
 	}
 	
 }

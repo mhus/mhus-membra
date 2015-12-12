@@ -1,0 +1,142 @@
+package de.mhus.sop.impl;
+
+import java.util.List;
+
+import javax.security.auth.Subject;
+import javax.security.auth.login.AppConfigurationEntry;
+import javax.security.auth.login.LoginContext;
+import javax.security.auth.login.LoginException;
+
+import org.apache.karaf.jaas.boot.ProxyLoginModule;
+import org.apache.karaf.jaas.boot.principal.UserPrincipal;
+import org.apache.karaf.jaas.config.JaasRealm;
+import org.apache.karaf.jaas.modules.BackingEngine;
+import org.apache.karaf.jaas.modules.BackingEngineFactory;
+
+import de.mhus.lib.core.security.LoginCallbackHandler;
+import de.mhus.lib.core.security.SimplePrincipal;
+import de.mhus.lib.karaf.MOsgi;
+import de.mhus.sop.api.aaa.AaaContext;
+import de.mhus.sop.api.aaa.AaaSource;
+import de.mhus.sop.api.aaa.Account;
+import de.mhus.sop.api.aaa.Trust;
+
+public class KarafAaaSource implements AaaSource {
+
+	private String realm = "karaf";
+	BackingEngine engine = null;
+
+	@Override
+	public Account findAccount(String account) {
+		
+		try {
+			
+			if (engine == null) {
+				JaasRealm realmObj = null;
+				for (JaasRealm r : MOsgi.getServices(JaasRealm.class, null))
+					if (r.getName().equals(realm)) {
+						realmObj = r;
+						break;
+					}
+				AppConfigurationEntry[] entries = realmObj.getEntries();
+				if (entries != null) {
+                    for (AppConfigurationEntry e : entries) {
+                        engine = getBackingEngine(e);
+                        if (engine != null)
+                            break;
+                    }
+               }
+			}
+				
+			if (engine == null) {
+				return null;
+			}
+			
+			List<UserPrincipal> users = engine.listUsers();
+			for (UserPrincipal user : users) {
+				if (user.getName().equals(account)) {
+					return new KarafAccount(engine,user);
+				}
+			}
+		} catch (Throwable t ) {
+			t.printStackTrace();
+		}
+		return null;
+	}
+
+	public BackingEngine getBackingEngine(AppConfigurationEntry entry) {
+        List<BackingEngineFactory> engineFactories = MOsgi.getServices(BackingEngineFactory.class, null);
+        for (BackingEngineFactory factory : engineFactories) {
+            String loginModuleClass = (String) entry.getOptions().get(ProxyLoginModule.PROPERTY_MODULE);
+            if (factory.getModuleClass().equals(loginModuleClass)) {
+                return factory.build(entry.getOptions());
+            }
+        }
+        return null;
+	}
+	
+	@Override
+	public Trust findTrust(String trust) {
+		return null;
+	}
+
+	@Override
+	public String createTrustTicket(AaaContext user) {
+		return null;
+	}
+
+	public String getRealm() {
+		return realm;
+	}
+
+	public void setRealm(String realm) {
+		this.realm = realm;
+		engine = null;
+	}
+
+	private class KarafAccount implements Account {
+
+		private BackingEngine engine;
+		private UserPrincipal user;
+
+		public KarafAccount(BackingEngine engine, UserPrincipal user) {
+			this.engine = engine;
+			this.user = user;
+		}
+
+		@Override
+		public String getAccount() {
+			return user.getName();
+		}
+
+		@Override
+		public boolean isValide() {
+			return true;
+		}
+
+		@Override
+		public boolean validatePassword(String password) {
+
+			try {
+				LoginCallbackHandler handler = new LoginCallbackHandler(user.getName(), password);
+				LoginContext c = new LoginContext(realm, handler);
+				c.login();
+			} catch (LoginException e) {
+				return false;
+			}
+			return true;
+		}
+
+		@Override
+		public boolean isSyntetic() {
+			return false;
+		}
+
+		@Override
+		public String getDisplayName() {
+			return getAccount();
+		}
+		
+	}
+	
+}
