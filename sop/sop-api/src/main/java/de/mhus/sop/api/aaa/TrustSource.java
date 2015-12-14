@@ -1,8 +1,6 @@
 package de.mhus.sop.api.aaa;
 
-public interface AaaSource {
-
-	Account findAccount(String account);
+public interface TrustSource {
 
 	Trust findTrust(String trust);
 

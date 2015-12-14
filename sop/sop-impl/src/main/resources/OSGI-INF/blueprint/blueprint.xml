@@ -26,5 +26,9 @@
             <action class="de.mhus.sop.impl.rest.RestCmd">
             </action>
         </command>
+        <command name="sop/access">
+            <action class="de.mhus.sop.impl.AccessCmd">
+            </action>
+        </command>
 	</command-bundle>
 </blueprint>

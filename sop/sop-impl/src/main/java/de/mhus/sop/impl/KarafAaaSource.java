@@ -15,11 +15,11 @@ import org.apache.karaf.jaas.modules.BackingEngineFactory;
 import de.mhus.lib.core.security.LoginCallbackHandler;
 import de.mhus.lib.karaf.MOsgi;
 import de.mhus.sop.api.aaa.AaaContext;
-import de.mhus.sop.api.aaa.AaaSource;
+import de.mhus.sop.api.aaa.AccountSource;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Trust;
 
-public class KarafAaaSource implements AaaSource {
+public class KarafAaaSource implements AccountSource {
 
 	private String realm = "karaf";
 	BackingEngine engine = null;
@@ -40,7 +40,8 @@ public class KarafAaaSource implements AaaSource {
 				AppConfigurationEntry[] entries = realmObj.getEntries();
 				if (entries != null) {
                     for (AppConfigurationEntry e : entries) {
-                    	if (moduleName == null || e.getLoginModuleName().equals(moduleName)) {
+                    	 String moduleClass = (String) e.getOptions().get(ProxyLoginModule.PROPERTY_MODULE);
+                    	 if (moduleName == null || e.getLoginModuleName().equals(moduleName) || moduleName.equals(moduleClass)) {
 	                        engine = getBackingEngine(e);
 	                        if (engine != null)
 	                            break;
@@ -76,16 +77,6 @@ public class KarafAaaSource implements AaaSource {
         return null;
 	}
 	
-	@Override
-	public Trust findTrust(String trust) {
-		return null;
-	}
-
-	@Override
-	public String createTrustTicket(AaaContext user) {
-		return null;
-	}
-
 	public String getRealm() {
 		return realm;
 	}

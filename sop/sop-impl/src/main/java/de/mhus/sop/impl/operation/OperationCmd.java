@@ -23,8 +23,10 @@ import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.operation.OperationApi;
 import de.mhus.sop.api.operation.OperationBpmDefinition;
+//import org.apache.karaf.shell.api.action.lifecycle.Service;
 
 @Command(scope = "sop", name = "operation", description = "Operation commands")
+//@Service
 public class OperationCmd implements Action {
 
 	@Argument(index=0, name="cmd", required=true, description="Command list, action, info <path>, execute <path> [key=value]*, search", multiValued=false)

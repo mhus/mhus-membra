@@ -28,9 +28,7 @@
                         <Import-Package>
                             *
                         </Import-Package>
-                        <!-- 
                         <DynamicImport-Package>*</DynamicImport-Package>
-                         -->
                         <Service-Component>*</Service-Component>
                     </instructions>
                 </configuration>
@@ -67,7 +65,13 @@
 			<version>2.5</version>
         	<scope>provided</scope>
 		</dependency>
-
+		<!-- 
+		<dependency>
+            <groupId>org.apache.karaf.shell</groupId>
+            <artifactId>org.apache.karaf.shell.core</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+		 -->
   </dependencies>
   
   

@@ -43,7 +43,7 @@ import de.mhus.lib.errors.MException;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
-import de.mhus.sop.api.aaa.AaaSource;
+import de.mhus.sop.api.aaa.AccountSource;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.ContextCachedItem;
@@ -51,6 +51,7 @@ import de.mhus.sop.api.aaa.Reference;
 import de.mhus.sop.api.aaa.ReferenceCollector;
 import de.mhus.sop.api.aaa.Trust;
 import de.mhus.sop.api.aaa.Reference.TYPE;
+import de.mhus.sop.api.aaa.TrustSource;
 import de.mhus.sop.api.action.BpmApi;
 import de.mhus.sop.api.action.BpmCase;
 import de.mhus.sop.api.adb.DbSchemaService;
@@ -65,7 +66,7 @@ import de.mhus.sop.api.rest.RestUtil;
 import de.mhus.sop.api.util.TicketUtil;
 import de.mhus.sop.impl.adb.SopDbImpl;
 
-@Component(immediate=true)
+@Component(immediate=true,provide=SopApi.class,name="SopApi")
 public class SopApiImpl extends MLog implements SopApi {
 	
 	private MProperties mainConfiguration = new MProperties();
@@ -79,7 +80,8 @@ public class SopApiImpl extends MLog implements SopApi {
 	private ServiceTracker<DbSchemaService,DbSchemaService> accessTracker;
 	private HashMap<String, DbSchemaService> controllers = new HashMap<String, DbSchemaService>();
 	
-	private AaaSource aaaSource;
+	private AccountSource accountSource;
+	private TrustSource trustSource;
 	
 	@Activate
 	public void doActivate(ComponentContext ctx) {
@@ -560,8 +562,8 @@ public class SopApiImpl extends MLog implements SopApi {
 			if ( out.isChanged() ) out = null;
 		}
 
-		if (out == null && aaaSource != null) {
-			out = aaaSource.findTrust(trust);
+		if (out == null && trustSource != null) {
+			out = trustSource.findTrust(trust);
 			if (out != null) {
 				trustCache.put(trust, out);
 			} else {
@@ -601,8 +603,8 @@ public class SopApiImpl extends MLog implements SopApi {
 					accountCache.remove(account);
 				}
 		}
-		if (out == null && aaaSource != null) {
-			out = aaaSource.findAccount(account);
+		if (out == null && accountSource != null) {
+			out = accountSource.findAccount(account);
 		}
 		if (out != null)
 			return out;
@@ -884,7 +886,7 @@ public class SopApiImpl extends MLog implements SopApi {
 
 	@Override
 	public boolean validatePassword(Account account, String password) {
-		if (aaaSource == null) return false;
+		if (accountSource == null) return false;
 		return account.validatePassword(password);
 	}
 	@Override
@@ -929,13 +931,18 @@ public class SopApiImpl extends MLog implements SopApi {
 
 	@Override
 	public String createTrustTicket(AaaContext user) {
-		if (aaaSource == null) return null;
-		return aaaSource.createTrustTicket(user);
+		if (trustSource == null) return null;
+		return trustSource.createTrustTicket(user);
 	}
 
 	@aQute.bnd.annotation.component.Reference
-	public void setAaaSource(AaaSource source) {
-		this.aaaSource = source;
+	public void setAccountSource(AccountSource source) {
+		this.accountSource = source;
+	}
+	
+	@aQute.bnd.annotation.component.Reference
+	public void setTrustSource(TrustSource source) {
+		this.trustSource = source;
 	}
 	
 }
