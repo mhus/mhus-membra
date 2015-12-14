@@ -7,7 +7,6 @@ import de.mhus.lib.adb.Persistable;
 import de.mhus.lib.errors.MException;
 import de.mhus.lib.karaf.adb.DbManagerService;
 import de.mhus.sop.api.aaa.AaaContext;
-import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.ReferenceCollector;
 import de.mhus.sop.api.model.DbMetadata;
 
@@ -23,8 +22,6 @@ public interface DbSchemaService {
 	boolean canUpdate(AaaContext context, DbMetadata obj) throws MException;
 	boolean canDelete(AaaContext context, DbMetadata obj) throws MException;
 	boolean canCreate(AaaContext context, DbMetadata obj) throws MException;
-
-	Ace getAce(AaaContext context, DbMetadata obj) throws MException;
 
 	DbMetadata getObject(String type, UUID id) throws MException;
 	DbMetadata getObject(String type, String id) throws MException;

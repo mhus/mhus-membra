@@ -33,4 +33,9 @@ public class AccountRoot implements Account {
 		return "Root";
 	}
 
+	@Override
+	public boolean hasGroup(String group) {
+		return true;
+	}
+
 }

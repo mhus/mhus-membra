@@ -15,7 +15,6 @@ import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Account;
-import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.adb.DbSchemaService;
 import de.mhus.sop.api.model.DbMetadata;
 import de.mhus.sop.api.util.ObjectUtil;
@@ -25,12 +24,12 @@ public class AccessCmd implements Action {
 
 	@Argument(index=0, name="cmd", required=true, description=
 			"Command login <account>,"
-			+ " logout, id, info, acl,"
-			+ " ace <type> <uuid>,"
+			+ " logout, id, info,"
 			+ " cache, cache.clear, local.cache.clear, local.cache.cleanup,"
 			+ " synchronize <account>,"
 			+ " validate <account> <password>,"
 			+ " synchronizer <type>,"
+			+ " access <account> <name> [<action>]"
 			+ " reloadconfig", multiValued=false)
 	String cmd;
 	
@@ -72,22 +71,19 @@ public class AccessCmd implements Action {
 			AaaContext cur = api.getCurrent();
 			System.out.println(cur);
 		} else
+		if (cmd.equals("access")) {
+			Account ac = api.getAccount(parameters[0]);
+			if (parameters.length > 3)
+				return api.isGroupMapping(ac, parameters[1], parameters[2], parameters[3]);
+			else
+			if (parameters.length > 2)
+				return api.isGroupMapping(ac, parameters[1], null, parameters[2]);
+			else
+				return api.isGroupMapping(ac, parameters[1], null, null);
+		} else
 		if (cmd.equals("info")) {
 			Account ac = api.getAccount(parameters[0]);
 			System.out.println(ac);
-		} else
-		if (cmd.equals("acl")) {
-			AaaContext cur = api.getCurrent();
-			ConsoleTable table = new ConsoleTable();
-			table.setHeaderValues("Type","Taget","Key","Rights");
-//			for (Ace ace : aa.findGlobalAcesForAccount(cur.getAccountId(), null)) {
-//				table.addRowValues(ace.getOrganization(),ace.getType(),ace.getTarget(),ace.getKey(),ace.getRights());
-//			}
-//			table.addRowValues("---","---","---","---","---");
-			for (Ace ace : api.findAcesForAccount(cur.getAccountId(), null)) {
-				table.addRowValues(ace.getType(),ace.getTarget(),ace.getKey(),ace.getRights());
-			}
-			table.print(System.out);
 		} else
 		if(cmd.equals("controllers")) {
 			ConsoleTable table = new ConsoleTable();
@@ -97,10 +93,6 @@ public class AccessCmd implements Action {
 				table.addRowValues(entry.getKey(), entry.getValue().getClass(), bundle.getSymbolicName() );
 			}
 			table.print(System.out);
-		} else
-		if (cmd.equals("ace")) {
-			DbMetadata obj = api.getObject( parameters[0], parameters[1] );
-			System.out.println(api.getAce( obj ) );
 		} else
 		if (cmd.equals("cache")) {
 			AaaContextImpl context = (AaaContextImpl) api.getCurrent();

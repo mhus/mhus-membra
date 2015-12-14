@@ -6,7 +6,7 @@ import de.mhus.lib.errors.MException;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
-import de.mhus.sop.api.aaa.Ace;
+import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.model.DbMetadata;
 
 public abstract class AbstractDbSchemaService implements DbSchemaService {
@@ -14,33 +14,25 @@ public abstract class AbstractDbSchemaService implements DbSchemaService {
 	@Override
 	public boolean canRead(AaaContext account, DbMetadata obj)
 			throws MException {
-		Ace ace = getAce(account, obj);
-		if (ace == null) return false;
-		return ace.canRead();
+		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_READ);
 	}
 
 	@Override
 	public boolean canUpdate(AaaContext account, DbMetadata obj)
 			throws MException {
-		Ace ace = getAce(account, obj);
-		if (ace == null) return false;
-		return ace.canUpdate();
+		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_UPDATE);
 	}
 
 	@Override
 	public boolean canDelete(AaaContext account, DbMetadata obj)
 			throws MException {
-		Ace ace = getAce(account, obj);
-		if (ace == null) return false;
-		return ace.canDelete();
+		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_DELETE);
 	}
 
 	@Override
 	public boolean canCreate(AaaContext account, DbMetadata obj)
 			throws MException {
-		Ace ace = getAce(account, obj);
-		if (ace == null) return false;
-		return ace.canCreate();
+		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_CREATE);
 	}
 
 	@Override

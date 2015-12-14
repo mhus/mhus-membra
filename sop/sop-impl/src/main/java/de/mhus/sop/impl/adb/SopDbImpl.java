@@ -12,7 +12,7 @@ import de.mhus.lib.karaf.adb.DbManagerService;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
-import de.mhus.sop.api.aaa.Ace;
+import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.Reference;
 import de.mhus.sop.api.aaa.ReferenceCollector;
 import de.mhus.sop.api.aaa.Reference.TYPE;
@@ -67,10 +67,12 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
-			if (ace == null) return false;
-
-			return ace.canRead();
+			
+//			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+//			if (ace == null) return false;
+//			return ace.canRead();
+			
+			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_READ);
 		}
 		
 		return false;
@@ -87,10 +89,11 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
-			if (ace == null) return false;
+//			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+//			if (ace == null) return false;
+//			return ace.canUpdate();
+			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_UPDATE);
 
-			return ace.canUpdate();
 		}
 		return false;
 	}
@@ -106,10 +109,10 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
-			if (ace == null) return false;
-
-			return ace.canDelete();
+//			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+//			if (ace == null) return false;
+//			return ace.canDelete();
+			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_DELETE);
 		}
 		return false;
 	}
@@ -129,19 +132,13 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 			if (type == null) return false;
 			if (type.equals(ObjectParameter.class.getCanonicalName())) return true;
 			
-			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
-			if (ace == null) return false;
-
-			return ace.canCreate();
+//			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
+//			if (ace == null) return false;
+//			return ace.canCreate();
+			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_CREATE);
 		}
 		
 		return false;
-	}
-
-	@Override
-	public Ace getAce(AaaContext account, DbMetadata id)
-			throws MException {
-		return Ace.ACE_NONE;
 	}
 
 	@Override

@@ -12,7 +12,6 @@ import de.mhus.lib.core.IProperties;
 import de.mhus.lib.errors.MException;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Account;
-import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.ReferenceCollector;
 import de.mhus.sop.api.aaa.Trust;
 import de.mhus.sop.api.adb.DbSchemaService;
@@ -94,10 +93,6 @@ public interface SopApi extends SApi {
 	AaaContext getCurrent();
 	
 	Account getCurrenAccount() throws MException;
-	Ace findGlobalAce(String account, String key) throws MException;
-	Ace findAce(String account, String type, UUID id) throws MException;
-	List<Ace> findGlobalAcesForAccount(String account, String key) throws MException;
-	List<Ace> findAcesForAccount(String account, String type) throws MException;
 
 	boolean canRead(DbMetadata obj) throws MException;
 	boolean canUpdate(DbMetadata obj) throws MException;
@@ -106,8 +101,6 @@ public interface SopApi extends SApi {
 //	boolean canCreate(Object parent, Class<?> newType) throws MException;
 	boolean canCreate(DbMetadata obj) throws MException;
 	
-	Ace getAce(DbMetadata id) throws MException;
-	Ace getAce(AaaContext account, DbMetadata id) throws MException;
 	Account getAccount(String account) throws MException;
 	
 	<T extends DbMetadata> T getObject(Class<T> type, UUID id) throws MException;
@@ -122,5 +115,7 @@ public interface SopApi extends SApi {
 	boolean validatePassword(Account account, String password);
 
 	String createTrustTicket(AaaContext user);
+
+	boolean isGroupMapping(Account account, String mappingName, String id, String action);
 
 }

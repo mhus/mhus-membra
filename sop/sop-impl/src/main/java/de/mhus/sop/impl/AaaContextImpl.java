@@ -9,7 +9,6 @@ import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.Account;
-import de.mhus.sop.api.aaa.Ace;
 import de.mhus.sop.api.aaa.ContextCachedItem;
 import de.mhus.sop.api.aaa.Trust;
 
@@ -29,8 +28,7 @@ public class AaaContextImpl implements AaaContext {
 		this.trust = trust;
 		if (admin) {
 			SopApi aa = Sop.getApi(SopApi.class);
-			Ace ace = aa.findGlobalAce(account.getAccount(), Ace.GENERAL_ADMIN);
-			if (ace != null && ace.canRead())
+			if (aa.isGroupMapping(account, Account.MAP_ADMIN, null, null))
 				adminMode = true;
 		}
 	}

@@ -1,6 +1,7 @@
 package de.mhus.sop.impl;
 
 import java.io.File;
+import java.util.HashSet;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -20,7 +21,6 @@ import de.mhus.lib.core.MXml;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.Account;
-import de.mhus.sop.api.aaa.Ace;
 
 public class AccountFile extends MLog implements Account {
 
@@ -33,10 +33,10 @@ public class AccountFile extends MLog implements Account {
 	private long modified;
 	private String name;
 	
-	private LinkedList<Ace> acl = new LinkedList<Ace>();
 	private String password = null;
 	private long timeout;
 	private Boolean isPasswordValidated = null;
+	private HashSet<String> groups = new HashSet<>();
 	
 	public AccountFile(File f, String account) throws ParserConfigurationException, SAXException, IOException {
 		FileInputStream is = new FileInputStream(f);
@@ -56,16 +56,9 @@ public class AccountFile extends MLog implements Account {
 		timeout = MCast.tolong( doc.getDocumentElement().getAttribute("timeout"), 0);
 		
 		
-		Element xmlAcl = MXml.getElementByPath(doc.getDocumentElement(), "acl");
-		for (Element xmlAce : MXml.getLocalElementIterator(xmlAcl,"ace")) {
-			Ace ace = new Ace(
-					account, 
-					xmlAce.getAttribute("type"),
-					toUUID(xmlAce.getAttribute("target")),
-					xmlAce.getAttribute("key"),
-					xmlAce.getAttribute("rights")
-					);
-			acl.add(ace);
+		Element xmlAcl = MXml.getElementByPath(doc.getDocumentElement(), "groups");
+		for (Element xmlAce : MXml.getLocalElementIterator(xmlAcl,"group")) {
+			groups.add(xmlAce.getAttribute("name"));
 		}
 	}
 
@@ -110,35 +103,6 @@ public class AccountFile extends MLog implements Account {
 		return !file.exists() || modified != file.lastModified();
 	}
 
-	public Ace findGlobalAce(String key) {
-		for (Ace ace :acl)
-			if ( key.equals(ace.getKey()))
-				return ace;
-		return null;
-	}
-
-	public Ace findAce(String type, UUID id) {
-		for (Ace ace :acl)
-			if (type.equals(ace.getType()) && id.equals(ace.getTarget()))
-				return ace;
-		return null;
-	}
-
-	public List<Ace> findGlobalAcesForAccount(String key) {
-		LinkedList<Ace> out = new LinkedList<Ace>();
-		for (Ace ace :acl)
-			if (key == null || key.equals(ace.getKey()))
-				out.add(ace);
-		return out;
-	}
-
-	public List<Ace> findAcesForAccount(String type) {
-		LinkedList<Ace> out = new LinkedList<Ace>();
-		for (Ace ace :acl)
-			if (type == null || type.equals(ace.getType()))
-				out.add(ace);
-		return out;
-	}
 
 	public String toString() {
 		return account + " " + name;
@@ -160,6 +124,11 @@ public class AccountFile extends MLog implements Account {
 
 	public boolean validatePasswordInternal(String password) {
 		return this.password.equals(password);
+	}
+
+	@Override
+	public boolean hasGroup(String group) {
+		return groups.contains(group);
 	}
 
 }

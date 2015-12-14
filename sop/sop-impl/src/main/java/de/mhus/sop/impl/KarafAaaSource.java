@@ -1,12 +1,14 @@
 package de.mhus.sop.impl;
 
 import java.util.List;
+import java.util.HashSet;
 
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.LoginContext;
 import javax.security.auth.login.LoginException;
 
 import org.apache.karaf.jaas.boot.ProxyLoginModule;
+import org.apache.karaf.jaas.boot.principal.GroupPrincipal;
 import org.apache.karaf.jaas.boot.principal.UserPrincipal;
 import org.apache.karaf.jaas.config.JaasRealm;
 import org.apache.karaf.jaas.modules.BackingEngine;
@@ -98,10 +100,14 @@ public class KarafAaaSource implements AccountSource {
 
 		private BackingEngine engine;
 		private UserPrincipal user;
+		private HashSet<String> groups = new HashSet<>();
 
 		public KarafAccount(BackingEngine engine, UserPrincipal user) {
 			this.engine = engine;
 			this.user = user;
+			for (GroupPrincipal grp : engine.listGroups(user))
+				groups.add(grp.getName());
+			
 		}
 
 		@Override
@@ -135,6 +141,15 @@ public class KarafAaaSource implements AccountSource {
 		@Override
 		public String getDisplayName() {
 			return getAccount();
+		}
+		
+		public String toString() {
+			return getAccount() + "@" + realm;
+		}
+
+		@Override
+		public boolean hasGroup(String group) {
+			return groups.contains(group);
 		}
 		
 	}
