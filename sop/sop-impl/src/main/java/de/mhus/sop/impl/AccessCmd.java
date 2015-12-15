@@ -71,6 +71,10 @@ public class AccessCmd implements Action {
 			AaaContext cur = api.getCurrent();
 			System.out.println(cur);
 		} else
+		if (cmd.equals("group")) {
+			Account ac = api.getAccount(parameters[0]);
+			return ac.hasGroup(parameters[1]);
+		} else
 		if (cmd.equals("access")) {
 			Account ac = api.getAccount(parameters[0]);
 			if (parameters.length > 3)
