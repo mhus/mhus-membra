@@ -118,4 +118,8 @@ public interface SopApi extends SApi {
 
 	boolean isGroupMapping(Account account, String mappingName, String id, String action);
 
+	boolean hasGroupAccess(Account account, List<String> mapDef);
+
+	boolean hasGroupAccess(Account account, String mapDef);
+
 }

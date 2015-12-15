@@ -40,6 +40,7 @@ import de.mhus.lib.core.io.FileWatch;
 import de.mhus.lib.core.pojo.MPojo;
 import de.mhus.lib.errors.AccessDeniedException;
 import de.mhus.lib.errors.MException;
+import de.mhus.lib.core.MCollection;
 import de.mhus.sop.api.Sop;
 import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.AaaContext;
@@ -908,7 +909,38 @@ public class SopApiImpl extends MLog implements SopApi {
 	@Override
 	public boolean isGroupMapping(Account account, String mappingName, String id, String action) {
 		if (account == null || mappingSource == null || mappingName == null ) return false;
-		return mappingSource.isGroupMapping(account,mappingName, id, action);
+		
+		Boolean res = mappingSource.isGroupMapping(this, account,mappingName, id, action);
+		if (res != null) return res;
+		
+		// action mapping
+		if (action == null) return false;
+		if (action.equals(Account.ACT_READ)) {
+			res = mappingSource.isGroupMapping(this, account,mappingName, id, Account.ACT_MODIFY);
+			if (res != null) return res;
+		}
+		
+		return false;
+	}
+	
+	@Override
+	public boolean hasGroupAccess(Account account, String mapDef) {
+		return hasGroupAccess(account, MCollection.toList( mapDef.split(",") ) );
+	}
+	
+	@Override
+	public boolean hasGroupAccess(Account account, List<String> mapDef) {
+		for (String def : mapDef) {
+			if (MString.isSet(def)) {
+				def = def.trim().toLowerCase();
+				if (def.equals("*")) return true;
+				if (def.startsWith("user:") && def.substring(5).equals(account.getAccount().toLowerCase())) return true;
+				if (def.startsWith("notuser:") && def.substring(8).equals(account.getAccount().toLowerCase())) return false;
+				if (def.startsWith("not:") && account.hasGroup(def.substring(4))) return false;
+				if (account.hasGroup(def)) return true;
+			}
+		}
+		return false;
 	}
 	
 }

@@ -106,7 +106,7 @@ public class KarafAaaSource implements AccountSource {
 			this.engine = engine;
 			this.user = user;
 			for (GroupPrincipal grp : engine.listGroups(user))
-				groups.add(grp.getName());
+				groups.add(grp.getName().trim().toLowerCase());
 			
 		}
 

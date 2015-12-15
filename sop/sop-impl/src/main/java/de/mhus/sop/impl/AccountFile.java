@@ -58,7 +58,7 @@ public class AccountFile extends MLog implements Account {
 		
 		Element xmlAcl = MXml.getElementByPath(doc.getDocumentElement(), "groups");
 		for (Element xmlAce : MXml.getLocalElementIterator(xmlAcl,"group")) {
-			groups.add(xmlAce.getAttribute("name"));
+			groups.add(xmlAce.getAttribute("name").trim().toLowerCase());
 		}
 	}
 
