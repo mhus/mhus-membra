@@ -2,7 +2,7 @@ package de.mhus.sop.api.aaa;
 
 import de.mhus.sop.api.SopApi;
 
-public interface GroupMappingSource {
+public interface AuthorizationSource {
 	
 	/**
 	 * Return null if the mapping was not found, true or false if there is a concrete result.
@@ -13,5 +13,5 @@ public interface GroupMappingSource {
 	 * @param action
 	 * @return
 	 */
-	Boolean isGroupMapping(SopApi api, Account account, String mappingName, String id, String action);
+	Boolean hasResourceAccess(SopApi api, Account account, String mappingName, String id, String action);
 }

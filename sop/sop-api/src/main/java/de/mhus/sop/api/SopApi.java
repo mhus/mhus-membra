@@ -116,10 +116,38 @@ public interface SopApi extends SApi {
 
 	String createTrustTicket(AaaContext user);
 
-	boolean isGroupMapping(Account account, String mappingName, String id, String action);
+	/**
+	 * Check if a resource access is granted to the account
+	 * 
+	 * @param account
+	 * @param resourceName Name of the resource
+	 * @param resourceId The id of the resource or null for general access
+	 * @param action The action to do or null for general access
+	 * @return
+	 */
+	boolean hasResourceAccess(Account account, String resourceName, String resourceId, String action);
 
+	/**
+	 * Check if the account has access. The list is the rule set.
+	 * Rules:
+	 * - '*'access to all
+	 * - 'user:' prefix to allow user
+	 * - 'notuser:' prefix to deny user
+	 * - 'notgrout:' prefix to deny group
+	 * - group name to allow group
+	 * @param account
+	 * @param mapDef
+	 * @return
+	 */
 	boolean hasGroupAccess(Account account, List<String> mapDef);
 
+	/**
+	 * Check if the account has access. Comma separated list of rules.
+	 * 
+	 * @param account
+	 * @param mapDef
+	 * @return
+	 */
 	boolean hasGroupAccess(Account account, String mapDef);
 
 }

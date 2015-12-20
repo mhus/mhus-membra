@@ -78,12 +78,12 @@ public class AccessCmd implements Action {
 		if (cmd.equals("access")) {
 			Account ac = api.getAccount(parameters[0]);
 			if (parameters.length > 3)
-				return api.isGroupMapping(ac, parameters[1], parameters[2], parameters[3]);
+				return api.hasResourceAccess(ac, parameters[1], parameters[2], parameters[3]);
 			else
 			if (parameters.length > 2)
-				return api.isGroupMapping(ac, parameters[1], null, parameters[2]);
+				return api.hasResourceAccess(ac, parameters[1], null, parameters[2]);
 			else
-				return api.isGroupMapping(ac, parameters[1], null, null);
+				return api.hasResourceAccess(ac, parameters[1], null, null);
 		} else
 		if (cmd.equals("info")) {
 			Account ac = api.getAccount(parameters[0]);

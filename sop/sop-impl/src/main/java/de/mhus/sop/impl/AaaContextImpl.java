@@ -28,7 +28,7 @@ public class AaaContextImpl implements AaaContext {
 		this.trust = trust;
 		if (admin) {
 			SopApi aa = Sop.getApi(SopApi.class);
-			if (aa.isGroupMapping(account, Account.MAP_ADMIN, null, null))
+			if (aa.hasResourceAccess(account, Account.MAP_ADMIN, null, null))
 				adminMode = true;
 		}
 	}

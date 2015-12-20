@@ -14,25 +14,25 @@ public abstract class AbstractDbSchemaService implements DbSchemaService {
 	@Override
 	public boolean canRead(AaaContext account, DbMetadata obj)
 			throws MException {
-		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_READ);
+		return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_READ);
 	}
 
 	@Override
 	public boolean canUpdate(AaaContext account, DbMetadata obj)
 			throws MException {
-		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_UPDATE);
+		return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_UPDATE);
 	}
 
 	@Override
 	public boolean canDelete(AaaContext account, DbMetadata obj)
 			throws MException {
-		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_DELETE);
+		return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_DELETE);
 	}
 
 	@Override
 	public boolean canCreate(AaaContext account, DbMetadata obj)
 			throws MException {
-		return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_CREATE);
+		return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(),obj.getClass().getName(), String.valueOf(obj.getId()), Account.ACT_CREATE);
 	}
 
 	@Override

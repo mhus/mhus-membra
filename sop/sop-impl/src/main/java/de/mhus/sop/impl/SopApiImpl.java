@@ -47,7 +47,7 @@ import de.mhus.sop.api.aaa.AaaContext;
 import de.mhus.sop.api.aaa.AccountSource;
 import de.mhus.sop.api.aaa.Account;
 import de.mhus.sop.api.aaa.ContextCachedItem;
-import de.mhus.sop.api.aaa.GroupMappingSource;
+import de.mhus.sop.api.aaa.AuthorizationSource;
 import de.mhus.sop.api.aaa.Reference;
 import de.mhus.sop.api.aaa.ReferenceCollector;
 import de.mhus.sop.api.aaa.Trust;
@@ -83,7 +83,7 @@ public class SopApiImpl extends MLog implements SopApi {
 	
 	private AccountSource accountSource;
 	private TrustSource trustSource;
-	private GroupMappingSource mappingSource;
+	private AuthorizationSource authorizationSource;
 	
 	@Activate
 	public void doActivate(ComponentContext ctx) {
@@ -898,25 +898,25 @@ public class SopApiImpl extends MLog implements SopApi {
 	}
 
 	@aQute.bnd.annotation.component.Reference(optional=true,dynamic=true)
-	public void setMappingSource(GroupMappingSource source) {
-		this.mappingSource = source;
+	public void setAuthorizationSource(AuthorizationSource source) {
+		this.authorizationSource = source;
 	}
 	
-	public void unsetMappingSource(GroupMappingSource source) {
-		this.mappingSource = null;
+	public void unsetAuthorizationSource(AuthorizationSource source) {
+		this.authorizationSource = null;
 	}
 
 	@Override
-	public boolean isGroupMapping(Account account, String mappingName, String id, String action) {
-		if (account == null || mappingSource == null || mappingName == null ) return false;
+	public boolean hasResourceAccess(Account account, String mappingName, String id, String action) {
+		if (account == null || authorizationSource == null || mappingName == null ) return false;
 		
-		Boolean res = mappingSource.isGroupMapping(this, account,mappingName, id, action);
+		Boolean res = authorizationSource.hasResourceAccess(this, account,mappingName, id, action);
 		if (res != null) return res;
 		
 		// action mapping
 		if (action == null) return false;
 		if (action.equals(Account.ACT_READ)) {
-			res = mappingSource.isGroupMapping(this, account,mappingName, id, Account.ACT_MODIFY);
+			res = authorizationSource.hasResourceAccess(this, account,mappingName, id, Account.ACT_MODIFY);
 			if (res != null) return res;
 		}
 		

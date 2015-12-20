@@ -72,7 +72,7 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 //			if (ace == null) return false;
 //			return ace.canRead();
 			
-			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_READ);
+			return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_READ);
 		}
 		
 		return false;
@@ -92,7 +92,7 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 //			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 //			if (ace == null) return false;
 //			return ace.canUpdate();
-			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_UPDATE);
+			return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_UPDATE);
 
 		}
 		return false;
@@ -112,7 +112,7 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 //			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 //			if (ace == null) return false;
 //			return ace.canDelete();
-			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_DELETE);
+			return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_DELETE);
 		}
 		return false;
 	}
@@ -135,7 +135,7 @@ public class SopDbImpl extends MLog implements DbSchemaService {
 //			Ace ace = Sop.getApi(SopApi.class).findAce(account.getAccountId(), type, o.getObjectId() );
 //			if (ace == null) return false;
 //			return ace.canCreate();
-			return Sop.getApi(SopApi.class).isGroupMapping(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_CREATE);
+			return Sop.getApi(SopApi.class).hasResourceAccess(account.getAccount(), type, String.valueOf(o.getObjectId()), Account.ACT_CREATE);
 		}
 		
 		return false;
