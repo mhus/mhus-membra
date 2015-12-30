@@ -23,8 +23,6 @@ import de.mhus.sop.api.SopApi;
 import de.mhus.sop.api.aaa.Account;
 
 public class AccountFile extends MLog implements Account {
-
-	// TODO Optimize performance finding ACEs, use indexes !!!!
 	
 	private Document doc;
 	private String account;
