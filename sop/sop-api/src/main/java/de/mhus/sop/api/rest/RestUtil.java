@@ -51,7 +51,7 @@ public class RestUtil {
 				Public p = attr.getAnnotation(Public.class);
 				if (!publicOnly || p != null && p.readable() && p.writeable()) {
 					// set
-					attr.set(obj, props.getProperty(name));
+					attr.set(obj, props.get(name));
 				}
 			}
 		}

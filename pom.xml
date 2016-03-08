@@ -33,10 +33,10 @@
     <properties>
         <scr.packages>*</scr.packages>
         <felix.scr.version>1.6.0</felix.scr.version>
-        <karaf.version>3.0.1</karaf.version>
+        <karaf.version>4.0.4</karaf.version>
         <bndlib.version>1.50.0</bndlib.version>
         <felix.metatype.version>1.0.10</felix.metatype.version>
-		<compileSource>1.7</compileSource>
+		<compileSource>1.8</compileSource>
 		<osgi.version>5.0.0</osgi.version>
 		<activemq.version>5.7.0</activemq.version>
 		<bundle.plugin.version>2.5.3</bundle.plugin.version>
@@ -44,6 +44,9 @@
 	    <vaadin.plugin.version>${vaadin.version}</vaadin.plugin.version>
 	    <mhulib.version>3.3.0-SNAPSHOT</mhulib.version>
 	    <osgitools.version>1.3.0-SNAPSHOT</osgitools.version>
+	    
+	    <felix.plugin.version>3.0.1</felix.plugin.version>
+        <maven.version>2.0.9</maven.version>
 	    
       </properties>
 
@@ -60,6 +63,25 @@
 		  </configuration>
 		</plugin>		
     </plugins>
+    
+   	<pluginManagement>
+			<plugins>
+                <plugin>
+                    <groupId>org.apache.karaf.tooling</groupId>
+                    <artifactId>karaf-services-maven-plugin</artifactId>
+                    <version>${karaf.version}</version>
+                    <executions>
+                        <execution>
+                            <id>service-metadata-generate</id>
+                            <phase>process-classes</phase>
+                            <goals>
+                                <goal>service-metadata-generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+			</plugins>    	
+    	</pluginManagement>
   </build>
 
     <modules>
@@ -67,7 +89,6 @@
       <module>cortex</module>
       <module>oculus</module>
       <module>auris</module>
-      <module>vita</module>
       <module>nimbus</module>
       <module>tools</module>
     </modules>
@@ -78,5 +99,20 @@
 	   <url>http://maven.vaadin.com/vaadin-addons</url>
 	</repository>  
   </repositories>
+
+	<dependencyManagement>
+		<dependencies>
+            <dependency>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>${felix.plugin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-plugin-api</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>

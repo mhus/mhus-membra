@@ -172,7 +172,7 @@ public class BpmCase extends DbMetadata {
 	public void clearComments() {
 		if (comments == null) return;
 		comments.clear();
-		setDbManager(null);
+		setDbHandler(null);
 	}
 
 }

@@ -19,7 +19,8 @@ public class CortexActivity extends DbMetadata {
 	
 	@Override
 	public DbMetadata findParentObject() throws MException {
-		return getDbManager().getObject(CortexTicket.class, ticket);
+	//	return getDbManager().getObject(CortexTicket.class, ticket);
+		return null;
 	}
 
 }

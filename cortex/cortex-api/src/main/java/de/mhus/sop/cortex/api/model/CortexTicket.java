@@ -35,7 +35,7 @@ public class CortexTicket extends DbMetadata {
 	}
 	
 	protected void loadActivities() throws MException {
-		activities = getDbManager().getByQualification(Db.query(CortexActivity.class).eq("ticket", getId()).asc("creationdate") ).toCacheAndClose();
+	//	activities = getDbManager().getByQualification(Db.query(CortexActivity.class).eq("ticket", getId()).asc("creationdate") ).toCacheAndClose();
 	}
 
 	public synchronized List<CortexAttribute> getAttributes() throws MException {
@@ -44,7 +44,7 @@ public class CortexTicket extends DbMetadata {
 	}
 
 	protected void loadAttributes() throws MException {
-		attributes = getDbManager().getByQualification(Db.query(CortexAttribute.class).eq("ticket", getId())).toCacheAndClose();
+		// attributes = getDbManager().getByQualification(Db.query(CortexAttribute.class).eq("ticket", getId())).toCacheAndClose();
 		attributeIndex = new HashMap<>();
 		for (CortexAttribute a :attributes)
 			attributeIndex.put(a.getKey(), a);

@@ -108,7 +108,7 @@
        </dependency>
    	<dependency>
    		<groupId>de.mhus.osgi</groupId>
-   		<artifactId>mailosgi</artifactId>
+   		<artifactId>mhu-osgi-mailosgi</artifactId>
    		<version>${osgitools.version}</version>
    		<type>bundle</type>
    	</dependency>
