@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.2.0">
+    <feature>
+        <feature>activemq-client</feature>
+        <feature>auris-libs</feature>
+        <feature>http</feature>
+        <feature>http-whiteboard</feature>
+        <feature>jdbc</feature>
+        <feature>jndi</feature>
+        <feature>openjpa</feature>
+        <feature>scr</feature>
+        <feature>webconsole</feature>
+    </feature>
+</features>
