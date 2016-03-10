@@ -33,6 +33,19 @@ public abstract class UdpReceiver extends AurisConnector implements Runnable {
 	}
 
 	@Override
+	public void doUpdate(boolean portChanged) {
+		if (portChanged) {
+			try {
+				serverSocket.close();
+				serverSocket = new DatagramSocket(port);
+			} catch (SocketException e) {
+				log().e(name,e);
+			}
+			
+		}
+	}
+
+	@Override
 	public void doDeactivate() {
 		if (serverSocket == null) return;
 		thread.stop();

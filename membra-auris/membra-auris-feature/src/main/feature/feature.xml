@@ -6,6 +6,8 @@
 		<details>${project.description}</details>
 		<feature>scr</feature>
 		<feature>jdbc</feature>
+        <feature>pax-jdbc-config</feature>
+        <feature>pax-jdbc-mysql</feature>
 		<feature>openjpa</feature>
 		<feature>jndi</feature>
 		<feature>activemq-client</feature>
@@ -20,7 +22,6 @@
 	
 		<bundle>mvn:org.jsoup/jsoup/1.8.1</bundle>
 		
-		<bundle>mvn:mysql/mysql-connector-java/5.1.18</bundle>
 		<bundle>mvn:org.apache.commons/commons-jexl/2.1.1</bundle>
 		<bundle><![CDATA[wrap:mvn:org.w3c.css/sac/1.3/$Bundle-SymbolicName=sac&Bundle-Version=1.3&Export-Package=org.w3c.css.sac;version="1.3",!*]]></bundle>
 

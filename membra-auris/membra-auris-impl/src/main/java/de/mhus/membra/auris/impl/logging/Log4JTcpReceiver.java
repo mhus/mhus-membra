@@ -62,9 +62,21 @@ public class Log4JTcpReceiver extends AurisConnector implements Runnable {
 			serverSocket = serverSocketFactory.createServerSocket(port);
 			thread = new MThreadDaemon(this);
 			thread.start();
-
 		} catch (IOException e) {
 			log().e(name,e);
+		}
+	}
+
+	@Override
+	public void doUpdate(boolean portChanged) {
+		if (portChanged) {
+			try {
+				serverSocket.close();
+				ServerSocketFactory serverSocketFactory = ServerSocketFactory.getDefault();
+				serverSocket = serverSocketFactory.createServerSocket(port);
+			} catch (IOException e) {
+				log().e(name,e);
+			}
 		}
 	}
 

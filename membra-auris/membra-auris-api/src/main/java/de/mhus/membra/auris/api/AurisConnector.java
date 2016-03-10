@@ -21,12 +21,22 @@ public abstract class AurisConnector extends MLog {
 		port = config.getInt("port", 4560);
 		doActivate();
 	}
+	public void doUpdateInternal(LogConnectorConf def) {
+		this.def = def;
+		this.config = def.getProperties();
+		name = def.getName();
+		int newPort = config.getInt("port", 4560);
+		boolean portChanged = port != newPort;
+		port = newPort;
+		doUpdate(portChanged);
+	}
 	
 	public String getName() {
 		return name;
 	}
 
 	public abstract void doActivate();
+	public abstract void doUpdate(boolean portChanged);
 	public abstract void doDeactivate();
 
 	public abstract boolean isActive();

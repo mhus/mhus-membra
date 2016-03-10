@@ -8,7 +8,10 @@
         <feature>jdbc</feature>
         <feature>jndi</feature>
         <feature>openjpa</feature>
+        <feature>pax-jdbc-config</feature>
+        <feature>pax-jdbc-mysql</feature>
         <feature>scr</feature>
         <feature>webconsole</feature>
+        <bundle>mvn:mysql/mysql-connector-java/5.1.18</bundle>
     </feature>
 </features>

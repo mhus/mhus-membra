@@ -42,6 +42,20 @@ public abstract class TcpReceiver extends AurisConnector implements Runnable {
 	}
 
 	@Override
+	public void doUpdate(boolean portChanged) {
+		if (portChanged) {
+			ServerSocketFactory serverSocketFactory = ServerSocketFactory.getDefault();
+			try {
+				serverSocket.close();
+				serverSocket = serverSocketFactory.createServerSocket(port);
+			} catch (IOException e) {
+				log().e(name,e);
+			}
+
+		}
+	}
+
+	@Override
 	public void doDeactivate() {
 		if (thread == null) return;
 		thread = null;

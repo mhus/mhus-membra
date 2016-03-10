@@ -1,6 +1,7 @@
 package de.mhus.membra.auris.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -308,26 +309,50 @@ public class AurisImpl extends MLog implements AurisApi {
 	
 	public void updateConnectors() {
 		synchronized (connectors) {
-			for (AurisConnector connector : connectors.values()) {
-				connector.doDeactivate();
-			}
-			connectors.clear();
+			
+			HashSet<String> current = new HashSet<>(connectors.keySet());
+			
 			try {
 				for (LogConnectorConf def : dbService.getManager().getAll(LogConnectorConf.class) ) {
 					if (!def.isEnabled()) continue;
-					try {
-						String clazz = def.getProperties().getString("class","");
-						if (MString.isEmpty(clazz)) {
-							log().d("class not set",def);
-							continue;
+					
+					AurisConnector i = connectors.get(def.getName());
+					if (i == null) {
+						log().d("create",def);
+						try {
+							String clazz = def.getProperties().getString("class","");
+							if (MString.isEmpty(clazz)) {
+								log().d("class not set",def);
+								continue;
+							}
+							Class<?> c = Class.forName(clazz);
+							i = (AurisConnector)c.newInstance();
+							i.doActivateInternal(def);
+							connectors.put(def.getName(),i);
+						} catch (Throwable t) {
+							log().e(def,t);
 						}
-						Class<?> c = Class.forName(clazz);
-						AurisConnector i = (AurisConnector)c.newInstance();
-						i.doActivateInternal(def);
-						connectors.put(def.getName(),i);
-					} catch (Throwable t) {
-						log().e(def,t);
+					} else {
+						log().d("update",def);
+						try {
+							i.doUpdateInternal(def);
+						} catch (Throwable t) {
+							log().e(def,t);
+						}
+						current.remove(def.getName());
 					}
+				}
+				
+				for (String name : current) {
+					log().d("remove",name);
+					try {
+						AurisConnector connector = connectors.get(name);
+						if (connector != null)
+							connector.doDeactivate();
+					} catch (Throwable t) {
+						log().e(name,t);
+					}
+					connectors.remove(name);
 				}
 			} catch (Throwable t) {
 				log().e(t);
