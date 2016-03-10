@@ -4,230 +4,76 @@
   <artifactId>distribution-auris</artifactId>
     <packaging>karaf-assembly</packaging>
   <parent>
-	  	<groupId>de.mhus.sop</groupId>
+	  	<groupId>de.mhus.membra</groupId>
         <artifactId>tools</artifactId>
         <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  	<description>Mike Hummel Service Oriented Platform</description>
-    
-    
+  	<description>MHUS Log Server</description>
+
 	<dependencies>
         <dependency>
-        <!-- scope is compile so all features (there is only one) are installed into startup.properties and the feature repo itself is not added in etc/org.apache.karaf.features.cfg file -->
-            <groupId>org.apache.karaf.features</groupId>
-            <artifactId>framework</artifactId>
-            <version>3.0.3</version>
-            <type>kar</type>
-        </dependency>
+	      <groupId>org.apache.karaf.features</groupId>
+	      <artifactId>framework</artifactId>
+	      <version>${karaf.version}</version>
+	      <type>kar</type>
+	    </dependency>
+	
+	    <dependency>
+	      <groupId>org.apache.karaf.features</groupId>
+	      <artifactId>standard</artifactId>
+	      <classifier>features</classifier>
+	      <version>${karaf.version}</version>
+	      <type>xml</type>
+	      <scope>runtime</scope>
+	    </dependency>
+	
+	    <dependency>
+	      <groupId>org.apache.karaf.features</groupId>
+	      <artifactId>enterprise</artifactId>
+	      <classifier>features</classifier>
+	      <version>${karaf.version}</version>
+	      <type>xml</type>
+	      <scope>runtime</scope>
+	    </dependency>
+
 		<dependency>
-        <!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
-            <groupId>org.apache.karaf.features</groupId>
-            <artifactId>standard</artifactId>
-            <classifier>features</classifier>
-            <version>3.0.3</version>
-            <type>xml</type>
-            <scope>runtime</scope>
-        </dependency>
-		<dependency>
-        <!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
-            <groupId>de.mhus.sop</groupId>
-            <artifactId>nimbus-features</artifactId>
-            <classifier>features</classifier>
-            <version>${project.version}</version>
-            <type>xml</type>
-            <scope>runtime</scope>
-        </dependency>
-		<dependency>
-        <!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-karaf</artifactId>
-            <classifier>features</classifier>
-            <version>5.12.1</version>
-            <type>xml</type>
-            <scope>runtime</scope>
-        </dependency>
-		<dependency>
-        <!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
             <groupId>org.apache.karaf.features</groupId>
             <artifactId>spring</artifactId>
+	        <version>${karaf.version}</version>
             <classifier>features</classifier>
-            <type>xml</type>
-            <version>3.0.3</version>
-            <scope>runtime</scope>
-        </dependency>
-		<dependency>
-        <!-- scope is runtime so the feature repo is listed in etc/org.apache.karaf.features.cfg file, and features will installed into the system directory if specify in the plugin configuration -->
-            <groupId>org.apache.cxf.karaf</groupId>
-            <artifactId>apache-cxf</artifactId>
-            <classifier>features</classifier>
-            <version>2.7.11</version>
             <type>xml</type>
             <scope>runtime</scope>
         </dependency>
         
         
-	<dependency>
-	 	  <groupId>org.codehaus.jackson</groupId>
-		  <artifactId>jackson-core-lgpl</artifactId>
-		  <version>1.7.2</version>
-            <scope>runtime</scope>
-	</dependency>
-	<dependency>
-	 	  <groupId>org.codehaus.jackson</groupId>
-		  <artifactId>jackson-mapper-lgpl</artifactId>
-		  <version>1.7.2</version>
-            <scope>runtime</scope>
-	</dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-annotations</artifactId>
-    	<version>${mhulib.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-core</artifactId>
-    	<version>${mhulib.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-karaf</artifactId>
-    	<version>${mhulib.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-persistence</artifactId>
-    	<version>${mhulib.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-jms</artifactId>
-    	<version>${mhulib.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-logging</artifactId>
-    	<version>${mhulib.version}</version>
-    	<exclusions>
-    		<exclusion>
-    			<artifactId>log4j</artifactId>
-    			<groupId>log4j</groupId>
-    		</exclusion>
-    	</exclusions>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.lib</groupId>
-    	<artifactId>mhu-lib-karaf</artifactId>
-    	<version>${mhulib.version}</version>
-    	<exclusions>
-    		<exclusion>
-    			<artifactId>log4j</artifactId>
-    			<groupId>log4j</groupId>
-    		</exclusion>
-    	</exclusions>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.sop</groupId>
-    	<artifactId>cortex-api</artifactId>
-    	<version>${project.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.sop</groupId>
-    	<artifactId>sop-mfw-api</artifactId>
-    	<version>${project.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.sop</groupId>
-    	<artifactId>auris-api</artifactId>
-    	<version>${project.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.sop</groupId>
-    	<artifactId>auris-impl</artifactId>
-    	<version>${project.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    <dependency>
-    	<groupId>de.mhus.sop</groupId>
-    	<artifactId>cortex-api</artifactId>
-    	<version>${project.version}</version>
-            <scope>runtime</scope>
-    </dependency>
-    
-    <dependency>
-	    <groupId>org.osgi</groupId>
-	  <artifactId>org.osgi.core</artifactId>
-	  <version>5.0.0</version>
-            <scope>runtime</scope>
-  </dependency>
-  
-  
         <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-            <version>${osgi.version}</version>
+            <groupId>org.ops4j.pax.jdbc</groupId>
+            <artifactId>pax-jdbc-features</artifactId>
+            <version>0.7.0</version>
+            <classifier>features</classifier>
+            <type>xml</type>
             <scope>runtime</scope>
         </dependency>
 		<dependency>
-            <groupId>biz.aQute</groupId>
-            <artifactId>bndlib</artifactId>
-            <version>${bndlib.version}</version>
+		    <groupId>org.apache.activemq</groupId>
+		    <artifactId>activemq-karaf</artifactId>
+		    <version>5.12.1</version>
+            <classifier>features</classifier>
+            <type>xml</type>
             <scope>runtime</scope>
-        </dependency>
+		</dependency>
         <dependency>
-            <groupId>org.apache.karaf.shell</groupId>
-            <artifactId>org.apache.karaf.shell.console</artifactId>
-            <version>${karaf.version}</version>
+        	<groupId>de.mhus.membra</groupId>
+        	<artifactId>membra-auris-features</artifactId>
+         	<version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-        	<groupId>commons-dbcp</groupId>
-        	<artifactId>commons-dbcp</artifactId>
-        	<version>1.4</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-        	<groupId>commons-pool</groupId>
-        	<artifactId>commons-pool</artifactId>
-        	<version>1.6</version>
-            <scope>runtime</scope>
-        </dependency>
-  
-       <dependency>
-           <groupId>org.apache.felix</groupId>
-           <artifactId>org.apache.felix.metatype</artifactId>
-           <version>${felix.metatype.version}</version>
-            <scope>runtime</scope>
-       </dependency>
-   	<dependency>
-   		<groupId>de.mhus.osgi</groupId>
-   		<artifactId>mailosgi</artifactId>
-   		<version>${osgitools.version}</version>
-   		<type>bundle</type>
-            <scope>runtime</scope>
-   	</dependency>
-    <dependency>
-    	<groupId>junit</groupId>
-    	<artifactId>junit</artifactId>
-    	<version>4.7</version>
-    	<type>jar</type>
-            <scope>runtime</scope>
-    </dependency>
-   	
-    </dependencies>    
-      
-    
-	<build>
+    </dependencies>
+
+    <build>
         <!-- if you want to include resources in the distribution -->
         <resources>
             <resource>
@@ -261,25 +107,34 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- karaf-maven-plugin will call both assembly and archive goals -->
             <plugin>
                 <groupId>org.apache.karaf.tooling</groupId>
                 <artifactId>karaf-maven-plugin</artifactId>
+                <version>4.0.0</version>
                 <extensions>true</extensions>
                 <configuration>
                     <!-- no startupFeatures -->
                     <bootFeatures>
-                        <feature>standard</feature>
+                        <feature>jaas</feature>
+                        <feature>shell</feature>
+                        <feature>ssh</feature>
                         <feature>management</feature>
-                        <!-- 
-                        <feature>auris</feature>
-                         -->
+                        <feature>bundle</feature>
+                        <feature>config</feature>
+                        <feature>deployer</feature>
+                        <feature>diagnostic</feature>
+                        <feature>instance</feature>
+                        <feature>kar</feature>
+                        <feature>log</feature>
+                        <feature>package</feature>
+                        <feature>service</feature>
+                        <feature>system</feature>
+                        <feature>feature</feature>
+                        <feature>aries-blueprint</feature>
+                        <feature>shell-compat</feature>
+                        <feature>wrap</feature>
+                        <bootFeature>auris</bootFeature>
                     </bootFeatures>
-                    <!-- no installedFeatures -->
-					<installedFeatures>
-                        <feature>activemq/5.12.1</feature>
-                        <feature>cxf/2.7.11</feature>
-                    </installedFeatures>                    
                 </configuration>
             </plugin>
         </plugins>
@@ -302,7 +157,7 @@
         									karaf-maven-plugin
         								</artifactId>
         								<versionRange>
-        									[4.0.3,)
+        									[4.0.0,)
         								</versionRange>
         								<goals>
         									<goal>assembly</goal>
@@ -318,6 +173,5 @@
         		</plugin>
         	</plugins>
         </pluginManagement>
-	</build>    
-    
-    </project>
+    </build>
+</project>

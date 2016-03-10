@@ -3,11 +3,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.mhus.sop</groupId>
-    <artifactId>mhus-sop</artifactId>
+    <groupId>de.mhus.membra</groupId>
+    <artifactId>membra</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
-  <name>mhus-sop</name>
+  <name>mhus-membra</name>
   <description>Mike Hummel Service Oriented Platform</description>
   <url>http://www.mhus.de</url>
 
@@ -19,8 +19,8 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/mhus/mhus-sop/</url>
-    <connection>scm:git:https://github.com/mhus/mhus-sop/</connection>
+    <url>https://github.com/mhus/mhus-membra/</url>
+    <connection>scm:git:https://github.com/mhus/mhus-membra/</connection>
   </scm>
   <developers>
     <developer>
@@ -47,6 +47,9 @@
 	    
 	    <felix.plugin.version>3.0.1</felix.plugin.version>
         <maven.version>2.0.9</maven.version>
+	    
+	    <dependency.jetty.version>8.1.14.v20131031</dependency.jetty.version>
+		<pax.version>3.1.0</pax.version>
 	    
       </properties>
 
@@ -85,12 +88,7 @@
   </build>
 
     <modules>
-      <module>sop</module>
-      <module>cortex</module>
-      <module>oculus</module>
-      <module>auris</module>
-      <module>nimbus</module>
-      <module>tools</module>
+      <module>membra-auris</module>
     </modules>
 
   <repositories>
