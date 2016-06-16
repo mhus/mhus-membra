@@ -47,7 +47,7 @@ public class ConnectorCmd implements Action {
 			}
 		} else
 		if (cmd.equals("set")) {
-			DbManager manager = api.getManager();
+			DbManager manager = api.getConfManager();
 			LogConnectorConf def = manager.getObjectByQualification(Db.query(LogConnectorConf.class).eq("name", parameters[0]));
 			if (def == null) {
 				def = manager.inject(new LogConnectorConf());
@@ -62,7 +62,7 @@ public class ConnectorCmd implements Action {
 			api.updateConnectors();
 		} else
 		if (cmd.equals("delete")) {
-			DbManager manager = api.getManager();
+			DbManager manager = api.getConfManager();
 			LogConnectorConf def = manager.getObjectByQualification(Db.query(LogConnectorConf.class).eq("name", parameters[0]));
 			if (def != null) {
 				def.delete();

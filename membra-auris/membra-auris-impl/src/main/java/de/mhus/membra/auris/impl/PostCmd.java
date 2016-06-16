@@ -66,7 +66,7 @@ public class PostCmd implements Action {
 			}
 		} else
 		if (cmd.equals("set")) {
-			DbManager manager = api.getManager();
+			DbManager manager = api.getConfManager();
 			LogPostProcessorConf def = manager.getObjectByQualification(Db.query(LogPostProcessorConf.class).eq("name", parameters[0]));
 			if (def == null) {
 				def = manager.inject(new LogPostProcessorConf());
@@ -97,7 +97,7 @@ public class PostCmd implements Action {
 			api.updatePostProcessors();
 		} else
 		if (cmd.equals("delete")) {
-			DbManager manager = api.getManager();
+			DbManager manager = api.getConfManager();
 			LogPostProcessorConf def = manager.getObjectByQualification(Db.query(LogPostProcessorConf.class).eq("name", parameters[0]));
 			if (def != null) {
 				def.delete();

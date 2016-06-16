@@ -12,6 +12,5 @@
         <feature>pax-jdbc-mysql</feature>
         <feature>scr</feature>
         <feature>webconsole</feature>
-        <bundle>mvn:mysql/mysql-connector-java/5.1.18</bundle>
     </feature>
 </features>

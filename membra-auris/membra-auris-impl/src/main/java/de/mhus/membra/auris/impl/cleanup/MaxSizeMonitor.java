@@ -26,7 +26,7 @@ public class MaxSizeMonitor extends MLog {
 	public boolean needSlim() {
 		
 		try {
-			DbConnection con = Sop.getApi(AurisApi.class).getManager().getPool().getConnection();
+			DbConnection con = Sop.getApi(AurisApi.class).getDataManager().getPool().getConnection();
 			DbStatement sth = con.createStatement(
 					"SELECT table_name AS \"Table\", "+
 					"round(((data_length + index_length) / 1024 / 1024), 2) size "+

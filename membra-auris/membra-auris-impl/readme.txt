@@ -15,16 +15,16 @@ bundle:persistentwatch add auris-api
 bundle:persistentwatch add auris-impl
 
 
-auris:connector set simple class=de.mhus.sop.auris.impl.logging.SimpleTcpReceiver
-auris:connector set log4j class=de.mhus.sop.auris.impl.logging.Log4JTcpReceiver port=4561
-auris:connector set jl class=de.mhus.sop.auris.impl.logging.JavaLoggerTcpReceiver port=4562
+auris:connector set simple class=de.mhus.membra.auris.impl.logging.SimpleTcpReceiver
+auris:connector set log4j class=de.mhus.membra.auris.impl.logging.Log4JTcpReceiver port=4561
+auris:connector set jl class=de.mhus.membra.auris.impl.logging.JavaLoggerTcpReceiver port=4562
 
 
-auris:pre set hostmap class=de.mhus.sop.auris.impl.pre.HostMapping host_/127.0.0.1=localhost
-auris:pre set ignore class=de.mhus.sop.auris.impl.pre.Ignore "condition=FrameworkEvent.*"
-auris:pre set tracemark class=de.mhus.sop.auris.impl.pre.MhuTraceMark
+auris:pre set hostmap class=de.mhus.membra.auris.impl.pre.HostMapping host_/127.0.0.1=localhost
+auris:pre set ignore class=de.mhus.membra.auris.impl.pre.Ignore "condition=FrameworkEvent.*"
+auris:pre set tracemark class=de.mhus.membra.auris.impl.pre.MhuTraceMark
 
-auris:post set oom class=de.mhus.sop.auris.impl.post.OutOfMemoryMail to=mike@mhus.de subject=OutOfMemory
+auris:post set oom class=de.mhus.membra.auris.impl.post.OutOfMemoryMail to=mike@mhus.de subject=OutOfMemory
 
 auris:post console on FORMATED_DATE,SOURCE_HOST,LEVEL,MESSAGE0
 

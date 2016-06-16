@@ -35,8 +35,10 @@ public interface AurisApi extends SApi {
 	
 	void updatePostProcessors() throws MException;
 	
-	DbManager getManager();
+	DbManager getConfManager();
 
+	DbManager getDataManager();
+	
 	public AurisConnector getConnector(String name);
 	
 	public String[] getConnectorNames();

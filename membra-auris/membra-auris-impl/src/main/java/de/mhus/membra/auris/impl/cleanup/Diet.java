@@ -18,7 +18,7 @@ public class Diet extends MLog {
 			long min = 0;
 			long max = System.currentTimeMillis();
 			
-			DbConnection con = Sop.getApi(AurisApi.class).getManager().getPool().getConnection();
+			DbConnection con = Sop.getApi(AurisApi.class).getDataManager().getPool().getConnection();
 			{
 				DbStatement sth = con.createStatement(
 						"select min(created_) AS min, max(created_) AS max FROM sop_LogEntry_");

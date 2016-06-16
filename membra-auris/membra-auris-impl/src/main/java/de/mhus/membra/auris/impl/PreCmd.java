@@ -49,7 +49,7 @@ public class PreCmd implements Action {
 			}
 		} else
 		if (cmd.equals("set")) {
-			DbManager manager = api.getManager();
+			DbManager manager = api.getConfManager();
 			LogPreProcessorConf def = manager.getObjectByQualification(Db.query(LogPreProcessorConf.class).eq("name", parameters[0]));
 			if (def == null) {
 				def = manager.inject(new LogPreProcessorConf());
@@ -80,7 +80,7 @@ public class PreCmd implements Action {
 			api.updatePreProcessors();
 		} else
 		if (cmd.equals("delete")) {
-			DbManager manager = api.getManager();
+			DbManager manager = api.getConfManager();
 			LogPreProcessorConf def = manager.getObjectByQualification(Db.query(LogPreProcessorConf.class).eq("name", parameters[0]));
 			if (def != null) {
 				def.delete();

@@ -19,20 +19,20 @@ import aQute.bnd.annotation.component.Deactivate;
 
 
 @Component(provide=DbManagerService.class,name="AurisDb",immediate=true)
-public class AurisDbService extends DbManagerServiceImpl {
+public class AurisConfDbService extends DbManagerServiceImpl {
 
-	private final CfgString dataSourceName = new CfgString(this, "dataSource", "db_auris");
+	private final CfgString dataSourceName = new CfgString(this, "dataSourceConf", "db_auris");
 	
 	@Activate
 	public void doActivate(ComponentContext ctx) {
 		log().i("AurisDbService activate");
-		AurisImpl.setDbService(this);
+		AurisImpl.setDbConf(this);
 	}
 	
 	@Deactivate
 	public void doDeactivate(ComponentContext context) {
 		log().i("AurisDbService deactivate");
-		AurisImpl.setDbService(null);
+		AurisImpl.setDbConf(null);
 	}
 
 	@Override
@@ -53,7 +53,6 @@ public class AurisDbService extends DbManagerServiceImpl {
 		
 		@Override
 		public void findObjectTypes(List<Class<? extends Persistable>> list) {
-			list.add(LogEntry.class);
 			list.add(LogConnectorConf.class);
 			list.add(LogPreProcessorConf.class);
 			list.add(LogPostProcessorConf.class);

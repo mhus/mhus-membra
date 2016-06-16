@@ -50,7 +50,9 @@ import de.mhus.lib.karaf.MServiceTracker;
 @Component(immediate=true)
 public class AurisImpl extends MLog implements AurisApi {
 	
-	private static AurisDbService dbService;
+	private static AurisConfDbService dbConf;
+
+	private static AurisDataDbService dbData;
 	
 	private HashMap<String,AurisConnector> connectors = new HashMap<>();
 	private LinkedList<ProcessorAction> preProcessors = new LinkedList<>();
@@ -104,8 +106,12 @@ public class AurisImpl extends MLog implements AurisApi {
 		
 	}
 	
-	public static void setDbService(AurisDbService aurisDbService) {
-		dbService = aurisDbService;
+	public static void setDbConf(AurisConfDbService aurisDbService) {
+		dbConf = aurisDbService;
+	}
+	
+	public static void setDbData(AurisDataDbService aurisDbService) {
+		dbData = aurisDbService;
 	}
 	
 	@Reference(service=TimerFactory.class)
@@ -136,9 +142,9 @@ public class AurisImpl extends MLog implements AurisApi {
 	}
 	@Override
 	public void fireMessage(Map<String, String> parts) {
-		if (dbService == null) return;
+		if (dbConf == null) return;
 		log().d("received msg",parts);
-		LogEntry entry = dbService.getManager().inject(new LogEntry());
+		LogEntry entry = dbConf.getManager().inject(new LogEntry());
 		
 		entry.setFullMessage(parts.get(AurisConst.MSG));
 		entry.setSourceConnector(parts.get(AurisConst.CONNECTOR));
@@ -313,7 +319,7 @@ public class AurisImpl extends MLog implements AurisApi {
 			HashSet<String> current = new HashSet<>(connectors.keySet());
 			
 			try {
-				for (LogConnectorConf def : dbService.getManager().getAll(LogConnectorConf.class) ) {
+				for (LogConnectorConf def : dbConf.getManager().getAll(LogConnectorConf.class) ) {
 					if (!def.isEnabled()) continue;
 					
 					AurisConnector i = connectors.get(def.getName());
@@ -362,10 +368,15 @@ public class AurisImpl extends MLog implements AurisApi {
 	}
 
 	@Override
-	public DbManager getManager() {
-		return dbService.getManager();
+	public DbManager getConfManager() {
+		return dbConf.getManager();
 	}
 
+	@Override
+	public DbManager getDataManager() {
+		return dbData.getManager();
+	}
+	
 	@Override
 	public void updatePreProcessors() throws MException {
 		synchronized (preProcessors) {
@@ -376,7 +387,7 @@ public class AurisImpl extends MLog implements AurisApi {
 
 			preProcessors.clear();
 			
-			for (LogPreProcessorConf def : getManager().getByQualification(Db.query(LogPreProcessorConf.class).desc("sort").eq("enabled", true) ) ) {
+			for (LogPreProcessorConf def : getConfManager().getByQualification(Db.query(LogPreProcessorConf.class).desc("sort").eq("enabled", true) ) ) {
 				try {
 					String clazz = def.getProperties().getString("class","");
 					if (MString.isEmpty(clazz)) {
@@ -404,7 +415,7 @@ public class AurisImpl extends MLog implements AurisApi {
 
 			postProcessors.clear();
 			
-			for (LogPostProcessorConf def : getManager().getByQualification(Db.query(LogPostProcessorConf.class).desc("sort").eq("enabled", true) ) ) {
+			for (LogPostProcessorConf def : getConfManager().getByQualification(Db.query(LogPostProcessorConf.class).desc("sort").eq("enabled", true) ) ) {
 				try {
 					String clazz = def.getProperties().getString("class","");
 					if (MString.isEmpty(clazz)) {
